@@ -1,12 +1,12 @@
 package com.team.mini.dao;
 
 import com.team.mini.utils.Common;
-import com.team.mini.vo.MemberVO;
+import com.team.mini.vo.TestMemberVO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemberDAO {
+public class TestMemberDAO {
     private Connection conn = null;
     private Statement stmt = null;
     private ResultSet rs = null;
@@ -60,8 +60,8 @@ public class MemberDAO {
     }
 
     // 회원정보 조회
-    public List<MemberVO> memberSelect(String getName) {
-        List<MemberVO> list = new ArrayList<>();
+    public List<TestMemberVO> memberSelect(String getName) {
+        List<TestMemberVO> list = new ArrayList<>();
         String sql = null;
         System.out.println("NAME : " + getName);
         try {
@@ -78,7 +78,7 @@ public class MemberDAO {
                 String email = rs.getString("EMAIL");
                 Date join = rs.getDate("JOIN");
 
-                MemberVO vo = new MemberVO();
+                TestMemberVO vo = new TestMemberVO();
                 vo.setId(id);
                 vo.setPwd(pwd);
                 vo.setName(name);
@@ -96,7 +96,7 @@ public class MemberDAO {
     }
 
     // 회원 가입
-    public boolean memberRegister(MemberVO member) {
+    public boolean memberRegister(TestMemberVO member) {
         int result = 0;
         String sql = "INSERT INTO T_MEMBER(ID, PWD, NAME, EMAIL, JOIN) VALUES(?, ?, ?, ?, SYSDATE)";
         try {

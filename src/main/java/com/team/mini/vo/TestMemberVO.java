@@ -7,7 +7,7 @@ import java.sql.Date;
 
 @Getter
 @Setter
-public class MemberVO {
+public class TestMemberVO {
     private String id;
     private String pwd;
     private String name;

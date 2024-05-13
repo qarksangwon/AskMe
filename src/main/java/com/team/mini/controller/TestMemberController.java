@@ -1,7 +1,7 @@
 package com.team.mini.controller;
 
-import com.team.mini.dao.MemberDAO;
-import com.team.mini.vo.MemberVO;
+import com.team.mini.dao.TestMemberDAO;
+import com.team.mini.vo.TestMemberVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,14 +11,14 @@ import java.util.Map;
 @CrossOrigin(origins ="http://localhost:3000" )
 @RestController
 @RequestMapping("/users")
-public class MemberController {
-    MemberDAO dao = new MemberDAO();
+public class TestMemberController {
+    TestMemberDAO dao = new TestMemberDAO();
 
     //GET 회원 조회
     @GetMapping("/member")
-    public ResponseEntity<List<MemberVO>> memberList(@RequestParam String name){
+    public ResponseEntity<List<TestMemberVO>> memberList(@RequestParam String name){
         System.out.println("입력Name : " + name);
-        List<MemberVO> list = dao.memberSelect(name);
+        List<TestMemberVO> list = dao.memberSelect(name);
         return ResponseEntity.ok(list);
     }
 
@@ -42,7 +42,7 @@ public class MemberController {
     // JSON 으로 POST 요청해도 변수명과 key value의 key 이름만 맞춰주면
     // 잘 입력이 들어간다.
     @PostMapping("/new")
-    public ResponseEntity<Boolean> memberRegister(@RequestBody MemberVO member){
+    public ResponseEntity<Boolean> memberRegister(@RequestBody TestMemberVO member){
         boolean isTrue = dao.memberRegister(member);
         return ResponseEntity.ok(isTrue);
     }
