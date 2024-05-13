@@ -59,6 +59,6 @@ public class TestController {
             vo.setEmail("email"+i+"@gmail.com");
             list.add(vo);
         }
-        return new ResponseEntity(list, HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.ok(list);
     }
 }
