@@ -14,6 +14,10 @@ import java.util.Map;
 public class TestMemberController {
     TestMemberDAO dao = new TestMemberDAO();
 
+    @GetMapping("/main")
+    public String mainPage(){
+       return "hi";
+    }
     //GET 회원 조회
     @GetMapping("/member")
     public ResponseEntity<List<TestMemberVO>> memberList(@RequestParam String name){
