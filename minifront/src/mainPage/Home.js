@@ -13,18 +13,29 @@ const Logo = styled.img`
 
 const Container = styled.div`
   width: 80vw;
-  height: auto;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 10vw auto auto auto;
+  margin: 0 auto;
+`;
+
+const Body = styled.div`
+  position: absolute;
+  top: -40px;
+  width: auto;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Btn = styled.div`
   background-color: black;
-  width: 300px;
-  height: 60px;
+  width: 280px;
+  height: 80px;
   font-size: 24px;
   color: white;
   margin-top: 40px;
@@ -72,23 +83,45 @@ const BtnBack = styled.div`
   pointer-events: none;
 `;
 
+const Footer = styled.div`
+  position: absolute;
+  top: 718px;
+  display: flex;
+  flex-direction: column;
+  background-color: #ececec;
+  width: 100vw;
+  height: 200px;
+`;
+const FooterContent = styled.p`
+  margin: 20px auto auto 200px;
+`;
 const Home = () => {
   return (
-    <Container>
-      <Logo src={imgLogo} />
-      <div>
-        <Link to="/board">
-          <Btn>
-            <BtnFront>게시판</BtnFront>
-            <BtnBack>이동하기</BtnBack>
-          </Btn>
-        </Link>
-        <Btn>
-          <BtnFront>채팅방</BtnFront>
-          <BtnBack>이동하기</BtnBack>
-        </Btn>
-      </div>
-    </Container>
+    <>
+      <Container>
+        <Body>
+          <Logo src={imgLogo} />
+          <Link to="/board">
+            <Btn>
+              <BtnFront>게시판</BtnFront>
+              <BtnBack>이동하기</BtnBack>
+            </Btn>
+          </Link>
+          <Link to="/">
+            <Btn>
+              <BtnFront>채팅방</BtnFront>
+              <BtnBack>이동하기</BtnBack>
+            </Btn>
+          </Link>
+        </Body>
+        <Footer>
+          <FooterContent>이용 약관 | 개인정보 취급 방침</FooterContent>
+          <FooterContent>(주) 곰돌이사먹자</FooterContent>
+          <FooterContent>찾아오는 길 : 알아서 잘 오소</FooterContent>
+          <FooterContent>tel : 112</FooterContent>
+        </Footer>
+      </Container>
+    </>
   );
 };
 
