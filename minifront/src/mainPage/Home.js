@@ -76,7 +76,7 @@ const Home = () => {
     <Container>
       <Logo src={imgLogo} />
       <div>
-        <Link to="./boardPage/board">
+        <Link to="/board">
           <Btn>
             <BtnFront>게시판</BtnFront>
             <BtnBack>이동하기</BtnBack>
