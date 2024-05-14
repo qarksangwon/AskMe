@@ -63,6 +63,7 @@ const Btn = styled.div`
   color: white;
   border-radius: 30px;
   margin-right: 20px;
+  border: 2px solid black;
 
   &:hover {
     cursor: pointer;
@@ -70,6 +71,7 @@ const Btn = styled.div`
     color: black;
     font-weight: 300;
     transition: all 0.2s ease-in-out;
+    border: 2px solid black;
   }
 `;
 
