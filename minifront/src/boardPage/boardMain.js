@@ -38,8 +38,6 @@ const Title = styled.div`
 `;
 
 const Boardhead = styled.div`
-  padding-bottom: 10px;
-  border-bottom: 3px solid black;
   margin-top: 80px;
 
   display: flex;
@@ -68,6 +66,10 @@ const Btn = styled.div`
 
   &:hover {
     cursor: pointer;
+    background-color: white;
+    color: black;
+    font-weight: 300;
+    transition: all 0.2s ease-in-out;
   }
 `;
 
@@ -75,6 +77,10 @@ const BtnWrite = styled.div``;
 
 const BtnMyWrite = styled.div``;
 
+const TableTitle = styled.div`
+  padding-top: 10px;
+  border-top: 3px solid black;
+`;
 const Board = () => {
   return (
     <Container>
@@ -93,30 +99,37 @@ const Board = () => {
         <Exit src={exit} />
       </Boardhead>
       <table>
-        <tr>
+        <TableTitle>
           <th>NO.</th>
           <th>제목</th>
           <th>작성자</th>
           <th>작성일</th>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>게시글 1 입니다.</td>
-          <td>김준석</td>
-          <td>2022-05-18</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>게시글 2 입니다.</td>
-          <td>김준석</td>
-          <td>2022-05-18</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>게시글 3 입니다.</td>
-          <td>김준석</td>
-          <td>2022-05-18</td>
-        </tr>
+
+          <tr>
+            <td>4</td>
+            <td>코딩 좀 알려주실 분</td>
+            <td>곰돌이사먹자</td>
+            <td>2024-05-09</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>점심 메뉴 추천 바람</td>
+            <td>푸바오사육사</td>
+            <td>2024-05-09</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>끝말잇기 고수 구함</td>
+            <td>세종대왕</td>
+            <td>2024-05-04</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>가위바위보 꿀팁좀</td>
+            <td>주먹펴고일어서</td>
+            <td>2024-05-02</td>
+          </tr>
+        </TableTitle>
       </table>
     </Container>
   );
