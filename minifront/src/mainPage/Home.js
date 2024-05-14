@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import imgLogo from "../images/Logo.png";
+import { Link } from "react-router-dom";
 
 const Logo = styled.img`
   width: 150px;
@@ -75,10 +76,12 @@ const Home = () => {
     <Container>
       <Logo src={imgLogo} />
       <div>
-        <Btn>
-          <BtnFront>게시판</BtnFront>
-          <BtnBack>이동하기</BtnBack>
-        </Btn>
+        <Link to="./boardPage/board">
+          <Btn>
+            <BtnFront>게시판</BtnFront>
+            <BtnBack>이동하기</BtnBack>
+          </Btn>
+        </Link>
         <Btn>
           <BtnFront>채팅방</BtnFront>
           <BtnBack>이동하기</BtnBack>
