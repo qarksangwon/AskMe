@@ -1,7 +1,7 @@
 import Board from "./boardPage/boardMain";
 import Home from "./mainPage/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import SignUp from "./signup/SignUp";
+import SignUp from "./signupPage/SignUp";
 
 function App() {
   return (
