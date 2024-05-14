@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Logoimg from "../images/로고.png";
+import Logoimg from "../images/Logo.png";
 import "../Login/LoginIndex.css";
 
 const User = {

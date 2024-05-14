@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: "Jua-Regular";
+  font-family: "DoHyeon-Regular";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -11,7 +11,7 @@ code {
 }
 
 @font-face {
-  font-family: "Jua-Regular";
-  font-weight: normal;
-  src: url(./font/Jua-Regular.ttf);
+  font-family: "DoHyeon-Regular";
+  font-weight: lighter;
+  src: url(./font/DoHyeon-Regular.ttf);
 }
