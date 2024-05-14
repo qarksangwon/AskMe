@@ -1,5 +1,5 @@
 import "./board.css"; // 스타일 파일 import
-import logosearch from "./icon/search.png";
+import logosearch from "../images/search.png";
 
 const Board = () => {
   return (
