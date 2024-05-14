@@ -2,6 +2,7 @@ import "./board.css"; // 스타일 파일 import
 import logosearch from "../images/search.png";
 import exit from "../images/exit.png";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -9,7 +10,7 @@ const Container = styled.div`
   width: 80vw;
   margin: 10vh auto auto auto; /* 위아래는 100px, 좌우는 자동으로 중앙에 정렬됩니다. */
   padding: 120px; //그냥 여백
-  background-color: #f8f9fa;
+  background-color: #ececec;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center; /* 내용을 가운데 정렬합니다. */
@@ -30,7 +31,6 @@ const Exit = styled.img`
   height: 50px;
   cursor: pointer; /* 아이콘에 커서 포인터 추가 */
 `;
-
 const Title = styled.div`
   width: 100px;
   border-bottom: 3px solid black; /* 밑줄을 추가합니다. */
@@ -43,11 +43,12 @@ const Boardhead = styled.div`
   display: flex;
   align-items: center;
   justify-content: center; /* 중앙 정렬 */
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 `;
 
 const SearchInput = styled.input.attrs({ type: "text" })`
   width: 180px;
+  height: 20px;
   padding: 5px;
   margin-right: 10px;
   border: 3px solid black;
@@ -98,7 +99,9 @@ const Board = () => {
         <Btn>
           <BtnMyWrite>내가 쓴 글</BtnMyWrite>
         </Btn>
-        <Exit src={exit} />
+        <Link to="/">
+          <Exit src={exit} />
+        </Link>
       </Boardhead>
       <table>
         <TableTitle>
