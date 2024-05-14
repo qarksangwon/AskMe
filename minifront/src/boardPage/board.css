@@ -1,0 +1,68 @@
+.boardMain {
+  display: flex;
+  max-width: 1000px;
+  height: 500px;
+  margin: 100px auto; /* 위아래는 100px, 좌우는 자동으로 중앙에 정렬됩니다. */
+  padding: 120px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center; /* 내용을 가운데 정렬합니다. */
+  flex-direction: column;
+  align-items: center; /* 가로 방향 중앙 정렬 */
+  justify-content: center; /* 세로 방향 중앙 정렬 */
+}
+.board {
+  width: 100px;
+  height: 70px;
+  background-color: aqua;
+  border-bottom: 2px solid black; /* 밑줄을 추가합니다. */
+}
+.boardhead {
+  padding-top: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 중앙 정렬 */
+  margin-bottom: 20px;
+}
+
+.boardhead input[type="text"] {
+  width: 180px;
+  padding: 5px;
+  margin-right: 10px;
+  border: 3px solid black;
+}
+
+.search-icon {
+  width: 30px; /* 아이콘의 크기를 적절히 조절합니다 */
+  height: 30px;
+  cursor: pointer; /* 아이콘에 커서 포인터 추가 */
+  margin-right: 100px;
+}
+.write {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 중앙 정렬 */
+  width: 80px;
+  height: 30px;
+  background-color: black;
+  color: white;
+  border-radius: 30px;
+  margin-right: 20px;
+}
+
+.mywrite {
+  width: 80px;
+  height: 30px;
+  background-color: black;
+  color: white;
+  border-radius: 30px;
+}
+
+th,
+td {
+  min-width: 160px;
+  height: 10px;
+  https: //github.com/qarksangwon/AskMe.git
+;
+}
