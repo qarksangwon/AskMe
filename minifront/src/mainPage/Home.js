@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import imgLogo from "../images/Logo.png";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Logo = styled.img`
   width: 150px;
@@ -43,7 +45,7 @@ const Btn = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 30px;
-  transition: all 0.4s ease-in-out;
+  transition: all 0.5s ease-in-out;
   position: relative;
   transform-style: preserve-3d;
   border: 3px solid black;
@@ -52,7 +54,7 @@ const Btn = styled.div`
     background-color: white;
     color: black;
     transform: rotateY(180deg);
-    transition: all 0.4s ease-in-out;
+    transition: all 0.5s ease-in-out;
   }
   &:active {
     background-color: #aaaaaa;
@@ -95,10 +97,74 @@ const Footer = styled.div`
 const FooterContent = styled.p`
   margin: 20px auto auto 200px;
 `;
+
+const CircleContainer = styled.div`
+  width: 206px;
+  position: absolute;
+  display: fixed;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 20px;
+  right: 10%;
+  z-index: 2;
+`;
+const CircleBtn = styled.div`
+  width: 60px;
+  height: 60px;
+  background-color: black;
+  color: white;
+  border: 2px solid black;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: white;
+    color: black;
+  }
+`;
+
+const SubCircle = styled.div`
+  display: ${(props) => props.display};
+  justify-content: center;
+  gap: 10px;
+  opacity: ${(props) => props.opacity};
+  transition: all 0.3s ease-in;
+`;
+
 const Home = () => {
+  const [showCircles, setShowCircles] = useState(0);
+  const [displayCircles, setDisplayCircles] = useState("none");
+  const handleCircleClick = () => {
+    if (showCircles == 0) {
+      setDisplayCircles("flex");
+      setTimeout(() => {
+        setShowCircles(1);
+      }, 200);
+    } else {
+      setShowCircles(0);
+      setTimeout(() => {
+        setDisplayCircles("none");
+      }, 200);
+    }
+  };
+
   return (
     <>
       <Container>
+        <CircleContainer>
+          <SubCircle opacity={1} display="flex">
+            <CircleBtn onClick={handleCircleClick}>Click</CircleBtn>
+          </SubCircle>
+          <SubCircle opacity={showCircles} display={displayCircles}>
+            <CircleBtn>로그인</CircleBtn>
+            <CircleBtn>회원가입</CircleBtn>
+          </SubCircle>
+        </CircleContainer>
         <Body>
           <Logo src={imgLogo} />
           <Link to="/board">
