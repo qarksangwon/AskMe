@@ -46,11 +46,11 @@ const Btn = styled.div`
   transition: all 0.4s ease-in-out;
   position: relative;
   transform-style: preserve-3d;
+  border: 3px solid black;
 
   &:hover {
     background-color: white;
     color: black;
-    border: 1px solid black;
     transform: rotateY(180deg);
     transition: all 0.4s ease-in-out;
   }
