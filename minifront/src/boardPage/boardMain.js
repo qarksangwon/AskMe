@@ -1,5 +1,6 @@
 import "./board.css"; // 스타일 파일 import
 import logosearch from "../images/search.png";
+import exit from "../images/exit.png";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -24,6 +25,12 @@ const Searchlogo = styled.img`
   margin-right: 100px;
 `;
 
+const Exit = styled.img`
+  width: 50px; /* 아이콘의 크기를 적절히 조절합니다 */
+  height: 50px;
+  cursor: pointer; /* 아이콘에 커서 포인터 추가 */
+`;
+
 const Title = styled.div`
   width: 100px;
   border-bottom: 3px solid black; /* 밑줄을 추가합니다. */
@@ -31,7 +38,7 @@ const Title = styled.div`
 `;
 
 const Boardhead = styled.div`
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   border-bottom: 3px solid black;
   margin-top: 80px;
 
@@ -83,6 +90,7 @@ const Board = () => {
         <Btn>
           <BtnMyWrite>내가 쓴 글</BtnMyWrite>
         </Btn>
+        <Exit src={exit} />
       </Boardhead>
       <table>
         <tr>
