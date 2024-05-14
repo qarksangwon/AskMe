@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Logoimg from "../images/Logo.png";
-import "../Login/LoginIndex.css";
+import "./signup.css";
 
 const User = {
   email: "test@naver.com",
   pw: "test1234!",
 };
 
-function Login() {
+function SignUp() {
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
 
@@ -119,4 +119,4 @@ function Login() {
     </div>
   );
 }
-export default Login;
+export default SignUp;

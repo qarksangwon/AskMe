@@ -23,8 +23,9 @@ const Container = styled.div`
 
 const Btn = styled.div`
   background-color: black;
-  width: 200px;
-  height: 40px;
+  width: 300px;
+  height: 60px;
+  font-size: 24px;
   color: white;
   margin-top: 40px;
   display: flex;
