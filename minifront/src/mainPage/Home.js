@@ -2,7 +2,7 @@ import styled from "styled-components";
 import imgLogo from "../images/Logo.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, delay, motion } from "framer-motion";
 
 const Logo = styled.img`
   width: 150px;
@@ -98,73 +98,123 @@ const FooterContent = styled.p`
   margin: 20px auto auto 200px;
 `;
 
-const CircleContainer = styled.div`
-  width: 206px;
+const ToggleContainer = styled.div`
+  display: flex;
+  width: 200px;
+  height: 200px;
   position: absolute;
-  display: fixed;
-  flex-direction: column;
-  align-items: center;
+  top: 5%;
+  right: 5%;
   justify-content: center;
-  top: 20px;
-  right: 10%;
-  z-index: 2;
+  align-items: center;
 `;
-const CircleBtn = styled.div`
-  width: 60px;
-  height: 60px;
+
+const ToggleBtn = styled.div`
+  display: ${(props) => props.display};
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
   background-color: black;
   color: white;
   border: 2px solid black;
-  border-radius: 50%;
+  box-shadow: 0 2px 5px 3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.3s ease;
-
+  transition: all 0.2s ease-in;
   &:hover {
     background-color: white;
     color: black;
+    transition: all 0.2s ease-in;
   }
 `;
 
-const SubCircle = styled.div`
+const Box = styled(motion.div)`
+  position: absolute;
+  top: 5%;
+  right: 5%;
   display: ${(props) => props.display};
-  justify-content: center;
-  gap: 10px;
-  opacity: ${(props) => props.opacity};
-  transition: all 0.3s ease-in;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 200px;
+  width: 200px;
+  border-radius: 30px;
+  background-color: white;
+  border: 2px solid black;
+  box-shadow: 0px 2px 5px 3px rgba(0, 0, 0, 0.1);
 `;
 
+const BoxAnimation = {
+  start: { scale: 0, opacity: 0 },
+  end: {
+    scale: 1,
+    opacity: 1,
+    rotateZ: 360,
+    transition: {
+      duration: 4,
+      type: "spring",
+      stiffness: 110,
+      delayChildren: 1,
+      staggerChildren: 0.5,
+    },
+  },
+};
+
+const Inner = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  background-color: black;
+  color: white;
+  border: 2px solid black;
+  box-shadow: 0 2px 5px 3px rgba(0, 0, 0, 0.1);
+`;
+
+const InnerAnimation = {
+  start: { opacity: 0, y: 10 },
+  end: { opacity: 1, y: 0 },
+};
+
 const Home = () => {
-  const [showCircles, setShowCircles] = useState(0);
-  const [displayCircles, setDisplayCircles] = useState("none");
-  const handleCircleClick = () => {
-    if (showCircles == 0) {
-      setDisplayCircles("flex");
-      setTimeout(() => {
-        setShowCircles(1);
-      }, 200);
+  const [toggleDis, setToggleDis] = useState("none");
+  const [toggleBtn, setToggleBtn] = useState("flex");
+  const [boxKey, setBoxKey] = useState(0);
+  const toggleClick = (status) => {
+    if (status === 1) {
+      setToggleBtn("none");
+      setToggleDis("flex");
+      setBoxKey((prevKey) => prevKey + 1);
     } else {
-      setShowCircles(0);
-      setTimeout(() => {
-        setDisplayCircles("none");
-      }, 200);
+      setToggleBtn("flex");
+      setToggleDis("none");
     }
   };
 
   return (
     <>
       <Container>
-        <CircleContainer>
-          <SubCircle opacity={1} display="flex">
-            <CircleBtn onClick={handleCircleClick}>Click</CircleBtn>
-          </SubCircle>
-          <SubCircle opacity={showCircles} display={displayCircles}>
-            <CircleBtn>로그인</CircleBtn>
-            <CircleBtn>회원가입</CircleBtn>
-          </SubCircle>
-        </CircleContainer>
+        <ToggleContainer>
+          <ToggleBtn display={toggleBtn} onClick={() => toggleClick(1)}>
+            Click
+          </ToggleBtn>
+          <Box
+            key={boxKey}
+            initial="start"
+            animate="end"
+            variants={BoxAnimation}
+            display={toggleDis}
+          >
+            <Inner variants={InnerAnimation}>로그인</Inner>
+            <Inner variants={InnerAnimation}>회원가입</Inner>
+            <Inner variants={InnerAnimation} onClick={() => toggleClick(2)}>
+              닫기
+            </Inner>
+          </Box>
+        </ToggleContainer>
         <Body>
           <Logo src={imgLogo} />
           <Link to="/board">
