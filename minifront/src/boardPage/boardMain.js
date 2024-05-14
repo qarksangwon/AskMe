@@ -3,7 +3,7 @@ import logosearch from "../images/search.png";
 import exit from "../images/exit.png";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
+import { motion } from "framer-motion";
 const Container = styled.div`
   display: flex;
   height: auto;
@@ -86,57 +86,65 @@ const TableTitle = styled.div`
 `;
 const Board = () => {
   return (
-    <Container>
-      <Title>게시판</Title>
+    <motion.div
+      /* 2. 원하는 애니메이션으로 jsx를 감싸준다 */
+      initial={{ opacity: 0, x: 200 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -100 }}
+      transition={{ duration: 1.5 }}
+    >
+      <Container>
+        <Title>게시판</Title>
 
-      <Boardhead>
-        <SearchInput placeholder="검색 제목 입력" />
+        <Boardhead>
+          <SearchInput placeholder="검색 제목 입력" />
 
-        <Searchlogo src={logosearch} />
-        <Btn>
-          <BtnWrite>글 쓰기</BtnWrite>
-        </Btn>
-        <Btn>
-          <BtnMyWrite>내가 쓴 글</BtnMyWrite>
-        </Btn>
-        <Link to="/">
-          <Exit src={exit} />
-        </Link>
-      </Boardhead>
-      <table>
-        <TableTitle>
-          <th>NO.</th>
-          <th>제목</th>
-          <th>작성자</th>
-          <th>작성일</th>
+          <Searchlogo src={logosearch} />
+          <Btn>
+            <BtnWrite>글 쓰기</BtnWrite>
+          </Btn>
+          <Btn>
+            <BtnMyWrite>내가 쓴 글</BtnMyWrite>
+          </Btn>
+          <Link to="/">
+            <Exit src={exit} />
+          </Link>
+        </Boardhead>
+        <table>
+          <TableTitle>
+            <th>NO.</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
 
-          <tr>
-            <td>4</td>
-            <td>코딩 좀 알려주실 분</td>
-            <td>곰돌이사먹자</td>
-            <td>2024-05-09</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>점심 메뉴 추천 바람</td>
-            <td>푸바오사육사</td>
-            <td>2024-05-09</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>끝말잇기 고수 구함</td>
-            <td>세종대왕</td>
-            <td>2024-05-04</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>가위바위보 꿀팁좀</td>
-            <td>주먹펴고일어서</td>
-            <td>2024-05-02</td>
-          </tr>
-        </TableTitle>
-      </table>
-    </Container>
+            <tr>
+              <td>4</td>
+              <td>코딩 좀 알려주실 분</td>
+              <td>곰돌이사먹자</td>
+              <td>2024-05-09</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>점심 메뉴 추천 바람</td>
+              <td>푸바오사육사</td>
+              <td>2024-05-09</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>끝말잇기 고수 구함</td>
+              <td>세종대왕</td>
+              <td>2024-05-04</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>가위바위보 꿀팁좀</td>
+              <td>주먹펴고일어서</td>
+              <td>2024-05-02</td>
+            </tr>
+          </TableTitle>
+        </table>
+      </Container>
+    </motion.div>
   );
 };
 
