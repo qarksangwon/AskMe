@@ -85,7 +85,7 @@ const BtnBack = styled.div`
 
 const Footer = styled.div`
   position: absolute;
-  top: 718px;
+  top: 800px;
   display: flex;
   flex-direction: column;
   background-color: #ececec;
