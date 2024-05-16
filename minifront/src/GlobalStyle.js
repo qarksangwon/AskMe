@@ -21,11 +21,8 @@ const GlobalStyle = createGlobalStyle`
   menu, nav, output, ruby, section, summary,
   time, mark, audio, video{
     font-family: 'DoHyeon-Regular', sans-serif;
-  }
-
-a{
     text-decoration: none;
-}
+  }
 @font-face {
   font-family: "DoHyeon-Regular";
   font-weight: lighter;
