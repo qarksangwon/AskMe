@@ -4,6 +4,8 @@ import exit from "../images/exit.png";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import AxiosApi from "../api/AxiosApi";
 const Container = styled.div`
   display: flex;
   height: auto;
@@ -85,6 +87,20 @@ const TableTitle = styled.div`
   border-top: 3px solid black;
 `;
 const Board = () => {
+  const [boards, setBoards] = useState("");
+
+  useEffect(() => {
+    const boardList = async () => {
+      try {
+        const rsp = await AxiosApi.boardMain(); // 전체 목록 가져오기
+        setBoards(rsp.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    boardList();
+  }, []);
+
   return (
     <motion.div
       /* 2. 원하는 애니메이션으로 jsx를 감싸준다 */
@@ -111,37 +127,19 @@ const Board = () => {
           </Link>
         </Boardhead>
         <table>
-          <TableTitle>
-            <th>NO.</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>작성일</th>
-
-            <tr>
-              <td>4</td>
-              <td>코딩 좀 알려주실 분</td>
-              <td>곰돌이사먹자</td>
-              <td>2024-05-09</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>점심 메뉴 추천 바람</td>
-              <td>푸바오사육사</td>
-              <td>2024-05-09</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>끝말잇기 고수 구함</td>
-              <td>세종대왕</td>
-              <td>2024-05-04</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>가위바위보 꿀팁좀</td>
-              <td>주먹펴고일어서</td>
-              <td>2024-05-02</td>
-            </tr>
-          </TableTitle>
+          <th>NO.</th>
+          <th>제목</th>
+          <th>작성자</th>
+          <th>작성일</th>
+          {boards &&
+            boards.map((board) => (
+              <tr key={board.classNo}>
+                <td>{board.classNo}</td>
+                <td>{board.title}</td>
+                <td>{board.nickname}</td>
+                <td>{board.join}</td>
+              </tr>
+            ))}
         </table>
       </Container>
     </motion.div>

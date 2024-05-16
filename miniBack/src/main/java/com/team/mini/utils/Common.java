@@ -7,9 +7,9 @@ import java.sql.Statement;
 
 public class Common {
     // 오라클 설정 정보 (JDBC 연결)
-    final static String ORACLE_URL = "jdbc:oracle:thin:@localhost:1521:xe";
-    final static String ORACLE_ID = "SCOTT";
-    final static String ORACLE_PW = "tiger";
+    final static String ORACLE_URL = "jdbc:oracle:thin:@192.168.10.17:1521:xe";
+    final static String ORACLE_ID = "ASKME";
+    final static String ORACLE_PW = "teamone";
     final static String ORACLE_DRV = "oracle.jdbc.driver.OracleDriver";
 
     public static Connection getConnection() {
