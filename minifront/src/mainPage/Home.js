@@ -272,7 +272,9 @@ const Home = () => {
             display={toggleDis}
           >
             <Inner variants={InnerAnimation}>로그인</Inner>
-            <Inner variants={InnerAnimation}>회원가입</Inner>
+            <Link to="/signup">
+              <Inner variants={InnerAnimation}>회원가입</Inner>
+            </Link>
             <Inner variants={InnerAnimation} onClick={() => toggleClick(2)}>
               닫기
             </Inner>
