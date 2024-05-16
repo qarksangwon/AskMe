@@ -24,3 +24,4 @@ yarn-error.log*
 
 #firebaseKey
 src/api/FbConn.js
+src/api/Fb.js
