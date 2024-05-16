@@ -8,8 +8,8 @@ const Logo = styled.img`
   width: 150px;
   height: 150px;
   @media (max-width: 390px) {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
   }
 `;
 
@@ -61,6 +61,11 @@ const Btn = styled.div`
     color: white;
     transition: all 0.1s ease-in;
   }
+  @media (max-width: 390px) {
+    width: 160px;
+    height: 60px;
+    font-size: 20px;
+  }
 `;
 
 const BtnFront = styled.div`
@@ -93,9 +98,16 @@ const Footer = styled.div`
   background-color: #ececec;
   width: 100vw;
   height: 200px;
+  @media (max-width: 390px) {
+    top: 644px;
+  }
 `;
 const FooterContent = styled.p`
   margin: 20px auto auto 200px;
+  @media (max-width: 390px) {
+    margin: 20px auto auto auto;
+    text-align: center;
+  }
 `;
 
 const ToggleContainer = styled.div`
@@ -107,6 +119,11 @@ const ToggleContainer = styled.div`
   right: 5%;
   justify-content: center;
   align-items: center;
+  z-index: 2;
+  @media (max-width: 390px) {
+    width: 104px;
+    height: 104px;
+  }
 `;
 
 const ToggleBtn = styled.div`
@@ -127,6 +144,11 @@ const ToggleBtn = styled.div`
     color: black;
     transition: all 0.2s ease-in;
   }
+  @media (max-width: 390px) {
+    width: 40px;
+    height: 40px;
+    font-size: 12px;
+  }
 `;
 
 const Box = styled(motion.div)`
@@ -146,6 +168,10 @@ const Box = styled(motion.div)`
   opacity: ${(props) => props.opacity};
   transition: opacity 0.2s ease-in;
   z-index: 2;
+  @media (max-width: 390px) {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 const BoxAnimation = {
@@ -197,6 +223,11 @@ const Inner = styled(motion.div)`
     color: black;
     box-shadow: 0 2px 5px 3px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease-in;
+  }
+  @media (max-width: 390px) {
+    width: 40px;
+    height: 40px;
+    font-size: 12px;
   }
 `;
 
