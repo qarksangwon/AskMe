@@ -77,7 +77,7 @@ const BoxAnimation = {
       duration: 4,
       type: "spring",
       stiffness: 110,
-      delayChildren: 1,
+      delayChildren: 0.6,
       staggerChildren: 0.5,
     },
   },
