@@ -145,6 +145,7 @@ const Box = styled(motion.div)`
   box-shadow: 0px 2px 5px 3px rgba(0, 0, 0, 0.1);
   opacity: ${(props) => props.opacity};
   transition: opacity 0.2s ease-in;
+  z-index: 2;
 `;
 
 const BoxAnimation = {
