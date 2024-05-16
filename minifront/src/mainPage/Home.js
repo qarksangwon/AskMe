@@ -61,7 +61,7 @@ const Btn = styled.div`
     color: white;
     transition: all 0.1s ease-in;
   }
-  @media (max-width: 390px) {
+  @media (max-width: 430px) {
     width: 160px;
     height: 60px;
     font-size: 20px;
@@ -98,13 +98,13 @@ const Footer = styled.div`
   background-color: #ececec;
   width: 100vw;
   height: 200px;
-  @media (max-width: 390px) {
-    top: 644px;
+  @media (max-width: 430px) {
+    top: 732px;
   }
 `;
 const FooterContent = styled.p`
   margin: 20px auto auto 200px;
-  @media (max-width: 390px) {
+  @media (max-width: 430px) {
     margin: 20px auto auto auto;
     text-align: center;
   }
@@ -120,7 +120,7 @@ const ToggleContainer = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 2;
-  @media (max-width: 390px) {
+  @media (max-width: 430px) {
     width: 104px;
     height: 104px;
   }
@@ -144,7 +144,7 @@ const ToggleBtn = styled.div`
     color: black;
     transition: all 0.2s ease-in;
   }
-  @media (max-width: 390px) {
+  @media (max-width: 430px) {
     width: 40px;
     height: 40px;
     font-size: 12px;
@@ -168,7 +168,7 @@ const Box = styled(motion.div)`
   opacity: ${(props) => props.opacity};
   transition: opacity 0.2s ease-in;
   z-index: 2;
-  @media (max-width: 390px) {
+  @media (max-width: 430px) {
     width: 100px;
     height: 100px;
   }
@@ -224,7 +224,7 @@ const Inner = styled(motion.div)`
     box-shadow: 0 2px 5px 3px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease-in;
   }
-  @media (max-width: 390px) {
+  @media (max-width: 430px) {
     width: 40px;
     height: 40px;
     font-size: 12px;
