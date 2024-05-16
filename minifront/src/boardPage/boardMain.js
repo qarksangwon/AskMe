@@ -34,6 +34,11 @@ const Exit = styled.img`
   width: 50px; /* 아이콘의 크기를 적절히 조절합니다 */
   height: 50px;
   cursor: pointer; /* 아이콘에 커서 포인터 추가 */
+  transition: all 0.2s ease-in;
+  &:hover {
+    opacity: 0.5;
+    transition: all 0.2s ease-in;
+  }
 `;
 const Title = styled.div`
   width: 100px;
