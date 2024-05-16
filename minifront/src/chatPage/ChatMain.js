@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const Logo = styled.img`
   width: 150px;
   height: 150px;
-  @media (max-width: 390px) {
+  @media (max-width: 430px) {
     width: 100px;
     height: 100px;
   }
@@ -41,6 +41,10 @@ const BtnContainer = styled.div`
   align-items: center;
   width: 800px;
   height: 400px;
+  @media (max-width: 430px) {
+    width: 400px;
+    height: 400px;
+  }
 `;
 
 const Btn = styled.div`
@@ -61,6 +65,11 @@ const Btn = styled.div`
     background-color: white;
     color: black;
     transition: all 0.2s ease-in;
+  }
+  @media (max-width: 430px) {
+    width: 100px;
+    height: 120px;
+    font-size: 16px;
   }
 `;
 const Exit = styled.img`

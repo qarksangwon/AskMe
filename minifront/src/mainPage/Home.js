@@ -37,7 +37,7 @@ const Body = styled.div`
 const Btn = styled.div`
   background-color: black;
   width: 280px;
-  height: 80px;
+  height: 120px;
   font-size: 24px;
   color: white;
   margin-top: 40px;
