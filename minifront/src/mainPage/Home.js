@@ -2,7 +2,7 @@ import styled from "styled-components";
 import imgLogo from "../images/Logo.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { AnimatePresence, delay, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 const Logo = styled.img`
   width: 150px;
@@ -87,7 +87,7 @@ const BtnBack = styled.div`
 
 const Footer = styled.div`
   position: absolute;
-  top: 800px;
+  top: 1000px;
   display: flex;
   flex-direction: column;
   background-color: #ececec;
@@ -143,6 +143,8 @@ const Box = styled(motion.div)`
   background-color: white;
   border: 2px solid black;
   box-shadow: 0px 2px 5px 3px rgba(0, 0, 0, 0.1);
+  opacity: ${(props) => props.opacity};
+  transition: opacity 0.2s ease-in;
 `;
 
 const BoxAnimation = {
@@ -161,6 +163,20 @@ const BoxAnimation = {
   },
 };
 
+const BoxAnimation2 = {
+  start: { scale: 1, opacity: 1 },
+  end: {
+    scale: 0,
+    opacity: 0,
+    rotateZ: 0,
+    transition: {
+      duration: 10,
+      type: "spring",
+      stiffness: 70,
+    },
+  },
+};
+
 const Inner = styled(motion.div)`
   display: flex;
   justify-content: center;
@@ -172,6 +188,15 @@ const Inner = styled(motion.div)`
   color: white;
   border: 2px solid black;
   box-shadow: 0 2px 5px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in;
+  cursor: pointer;
+
+  &:hover {
+    background-color: white;
+    color: black;
+    box-shadow: 0 2px 5px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in;
+  }
 `;
 
 const InnerAnimation = {
@@ -183,14 +208,20 @@ const Home = () => {
   const [toggleDis, setToggleDis] = useState("none");
   const [toggleBtn, setToggleBtn] = useState("flex");
   const [boxKey, setBoxKey] = useState(0);
+  const [start, setStart] = useState(null);
+
   const toggleClick = (status) => {
     if (status === 1) {
+      setStart(1);
       setToggleBtn("none");
       setToggleDis("flex");
       setBoxKey((prevKey) => prevKey + 1);
     } else {
-      setToggleBtn("flex");
-      setToggleDis("none");
+      setStart(null);
+      setTimeout(() => {
+        setToggleBtn("flex");
+        setToggleDis("none");
+      }, 350);
     }
   };
 
@@ -205,7 +236,7 @@ const Home = () => {
             key={boxKey}
             initial="start"
             animate="end"
-            variants={BoxAnimation}
+            variants={start ? BoxAnimation : BoxAnimation2}
             display={toggleDis}
           >
             <Inner variants={InnerAnimation}>로그인</Inner>
