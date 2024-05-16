@@ -21,33 +21,58 @@ const Container = styled.div`
   align-items: center; /* 가로 방향 중앙 정렬 */
   justify-content: center; /* 세로 방향 중앙 정렬 */
   max-width: 430px;
+
+  table {
+    border-collapse: separate; /* 셀 사이의 경계를 분리합니다. */
+    border-spacing: 0 10px; /* 셀 사이의 간격을 조절합니다. */
+    width: 100%;
+    margin: 0px;
+  }
+  th {
+    font-size: 30px;
+    margin-top: 200px;
+  }
+  td {
+    font-size: 20px;
+    border-bottom: 3px solid black;
+    padding-bottom: 10px; /* 보더 라인과 콘텐츠 간의 간격을 조절합니다. */
+  }
 `;
 
 const Searchlogo = styled.img`
   width: 30px; /* 아이콘의 크기를 적절히 조절합니다 */
   height: 30px;
   cursor: pointer; /* 아이콘에 커서 포인터 추가 */
-  margin-right: 200px;
+  margin-right: 80px;
 `;
 
 const Exit = styled.img`
   width: 50px; /* 아이콘의 크기를 적절히 조절합니다 */
   height: 50px;
   cursor: pointer; /* 아이콘에 커서 포인터 추가 */
+  transition: all 0.2s ease-in;
+  &:hover {
+    opacity: 0.5;
+    transition: all 0.2s ease-in;
+  }
 `;
 const Title = styled.div`
   width: 100px;
   border-bottom: 3px solid black; /* 밑줄을 추가합니다. */
   font-size: 40px;
+  height: 40px;
 `;
 
-const Boardhead = styled.div`
-  margin-top: 80px;
+const ContentWrapper = styled.div`
+  margin-top: 50px; /* 버튼과 게시판 사이의 간격을 조절합니다. */
+`;
 
+const Boardhead1 = styled.div`
+  margin-top: 10px;
   display: flex;
   align-items: center;
-  justify-content: center; /* 중앙 정렬 */
   margin-bottom: 10px;
+  border-bottom: 3px solid black;
 `;
 
 const SearchInput = styled.input.attrs({ type: "text" })`
@@ -62,13 +87,15 @@ const Btn = styled.div`
   display: flex;
   align-items: center;
   justify-content: center; /* 중앙 정렬 */
+
   font-size: 18px;
-  width: 120px;
+  width: 100px;
   height: 40px;
   background-color: black;
   color: white;
   border-radius: 30px;
-  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   border: 2px solid black;
 
   &:hover {
@@ -81,29 +108,28 @@ const Btn = styled.div`
   }
 `;
 
-const Tdfont = styled.div`
-  margin-top: 0px;
+// const Tdfont = styled.div`
+//   background-color: white;
 
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 10px;
-  }
+//   table {
+//     border-collapse: separate; /* 셀 사이의 경계를 분리합니다. */
+//     border-spacing: 0 10px; /* 셀 사이의 간격을 조절합니다. */
+//     width: 100%;
+//     margin: 10px;
+//   }
 
-  td {
-    padding: 20px; /* 간격 조절을 위한 패딩 추가 */
-    border-bottom: 1px solid #cdcdcd;
-    font-size: 20px;
-    min-width: 220px;
-  }
+//   td {
+//     padding: 20px; /* 간격 조절을 위한 패딩 추가 */
+//     font-size: 20px;
+//     min-width: 140px;
+//     border-bottom: 3px solid black;
+//   }
 
-  th {
-    height: 50px;
-    border-bottom: 3px solid black;
-    font-size: 30px;
-    min-width: 220px;
-  }
-`;
+//   th {
+//     font-size: 30px;
+//     min-width: 220px;
+//   }
+// `;
 
 const BtnWrite = styled.div``;
 
@@ -159,8 +185,15 @@ const BoardM = () => {
     >
       <Container>
         <Title>게시판</Title>
-
-        <Boardhead>
+        <ContentWrapper>
+          <Btn>
+            <BtnWrite>글 쓰기</BtnWrite>
+          </Btn>
+          <Btn>
+            <BtnMyWrite>내가 쓴 글</BtnMyWrite>
+          </Btn>
+        </ContentWrapper>
+        <Boardhead1>
           <SearchInput
             placeholder="검색 제목 입력"
             value={searchTerm}
@@ -168,39 +201,25 @@ const BoardM = () => {
             onKeyPress={handleKeyPress}
           />
           <Searchlogo src={logosearch} onClick={handleSearch} />
-          <Btn>
-            <BtnWrite>글 쓰기</BtnWrite>
-          </Btn>
-          <Btn>
-            <BtnMyWrite>내가 쓴 글</BtnMyWrite>
-          </Btn>
           <Link to="/askme">
             <Exit src={exit} />
           </Link>
-        </Boardhead>
-        <Tdfont>
-          <table>
-            <thead>
+        </Boardhead1>
+
+        <table>
+          {boards &&
+            boards.map((board) => (
               <tr>
-                <th>NO.</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>작성일</th>
+                <tr key={board.classNo}>
+                  <th>{board.title}</th>
+                </tr>
+                <tr key={board.classNo}>
+                  <td>{board.nickname}</td>
+                  <td>{board.join}</td>
+                </tr>
               </tr>
-            </thead>
-            <tbody>
-              {boards &&
-                boards.map((board) => (
-                  <tr key={board.classNo}>
-                    <td>{board.classNo}</td>
-                    <td>{board.title}</td>
-                    <td>{board.nickname}</td>
-                    <td>{board.join}</td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </Tdfont>
+            ))}
+        </table>
       </Container>
     </motion.div>
   );
