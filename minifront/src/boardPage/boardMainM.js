@@ -6,12 +6,11 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import AxiosApi from "../api/AxiosApi";
-import Toggle from "../customComponent/Toggle";
 
 const Container = styled.div`
   display: flex;
   height: auto;
-  width: 90vw;
+
   margin: 10vh auto auto auto; /* 위아래는 100px, 좌우는 자동으로 중앙에 정렬됩니다. */
   padding: 120px; //그냥 여백
   background-color: #ececec;
@@ -21,6 +20,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center; /* 가로 방향 중앙 정렬 */
   justify-content: center; /* 세로 방향 중앙 정렬 */
+  max-width: 430px;
 `;
 
 const Searchlogo = styled.img`
@@ -109,7 +109,7 @@ const BtnWrite = styled.div``;
 
 const BtnMyWrite = styled.div``;
 
-const Board = () => {
+const BoardM = () => {
   const [boards, setBoards] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [originalBoards, setOriginalBoards] = useState(""); // 원본 게시물 목록을 저장할 상태 추가
@@ -159,7 +159,7 @@ const Board = () => {
     >
       <Container>
         <Title>게시판</Title>
-        <Toggle></Toggle>
+
         <Boardhead>
           <SearchInput
             placeholder="검색 제목 입력"
@@ -206,4 +206,4 @@ const Board = () => {
   );
 };
 
-export default Board;
+export default BoardM;
