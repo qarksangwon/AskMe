@@ -3,19 +3,14 @@
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 0;
+  top: 100px;
   bottom: 0;
   width: 100%;
-  max-width: 500px;
   padding: 0 20px;
 
-  left: 50%;
-  transform: translate(-50%, 0);
-
-  background-color: #f7f7f7;
+  /* background-color: #f7f7f7; */
 
   overflow: hidden;
-  display: flex;
   flex-direction: column;
 }
 
@@ -24,14 +19,132 @@
   justify-content: center;
   align-items: center;
   width: 100px;
+  height: 100px;
   background-size: cover;
 }
 
+.imgContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100px;
+}
 .titleWrap {
-  margin-top: 87px;
+  margin-top: auto;
   font-size: 26px;
   font-weight: bold;
   color: #262626;
+}
+
+.photoButton {
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 15px;
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  background-color: #000000;
+  color: white;
+  border: 2px solid black;
+  transition: all 0.3s ease-in;
+  cursor: pointer;
+}
+
+.photoButton:hover {
+  background-color: white;
+  color: #000000;
+  transition: all 0.3s ease-in;
+}
+
+@media (max-width: 430px) {
+  .page {
+    width: 100%;
+    height: auto;
+    top: 0px;
+  }
+  .titleWrap {
+    margin: 0;
+  }
+}
+
+.nicknameBox {
+  display: flex;
+  align-items: center;
+}
+
+.nickNameCheckButton {
+  margin-top: 45px;
+  margin-left: 10px;
+  font-size: 15px;
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  background-color: #000000;
+  color: white;
+  cursor: pointer;
+  border: 2px solid black;
+  transition: all 0.3s ease-in;
+}
+
+.nickNameCheckButton:hover {
+  background-color: white;
+  color: #000000;
+  transition: all 0.3s ease-in;
+}
+
+.idBox {
+  display: flex;
+  align-items: center;
+}
+
+.idCheckButton {
+  margin-top: 50px;
+  margin-left: 10px;
+  font-size: 15px;
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  background-color: #000000;
+  color: white;
+  cursor: pointer;
+  border: 2px solid black;
+  transition: all 0.3s ease-in;
+}
+
+.idCheckButton:hover {
+  background-color: white;
+  color: #000000;
+  transition: all 0.3s ease-in;
+}
+
+.pwbox {
+  margin-top: 10px;
+}
+
+.emailBox {
+  display: flex;
+
+  align-items: center;
+}
+
+.emailButton {
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 15px;
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  background-color: #000000;
+  color: white;
+  cursor: pointer;
+  border: 2px solid black;
+  transition: all 0.3s ease-in;
+}
+
+.emailButton:hover {
+  background-color: white;
+  color: #000000;
+  transition: all 0.3s ease-in;
 }
 
 .contentWrap {
@@ -40,7 +153,7 @@
 }
 
 .inputTitle {
-  font-size: 12px;
+  font-size: 20px;
   font-weight: 600;
   color: #262626;
 }
@@ -58,6 +171,7 @@
 }
 
 .input {
+  display: flex;
   width: 100%;
   outline: none;
   border: none;
@@ -68,30 +182,55 @@
 
 .input::placeholder {
   color: #dadada;
+  font-size: 11px;
+}
+
+.clearButton {
+  font-size: 15px;
+  margin-top: 20px;
+  margin-left: 100px;
+  border-radius: 10px;
+  width: 120px;
+  height: 30px;
+  background-color: #000000;
+  color: white;
+  cursor: pointer;
+  border: 2px solid black;
+  transition: all 0.3s ease-in;
+}
+
+.clearButton:hover {
+  background-color: white;
+  color: #000000;
+  transition: all 0.3s ease-in;
+}
+
+.bottomContainer {
+  width: auto;
+  height: 100px;
+  display: flex;
+  align-items: center;
 }
 
 .bottomButton {
-  width: 100%;
-  height: 48px;
-  border: none;
+  width: 130px;
+  height: 40px;
   font-weight: bold;
   border-radius: 64px;
-  background-color: #9e30f4;
+  background-color: #000000;
   color: white;
-  margin-bottom: 16px;
   cursor: pointer;
 }
+
+/* .bottomButton:hover {
+  background-color: white;
+  color: #000000;
+  transition: all 0.3s ease-in;
+} */
 
 .bottomButton:disabled {
   background-color: #dadada;
   color: white;
-}
-
-.ClearButton {
-  background-color: #dadada;
-
-  border: none;
-  cursor: pointer;
 }
 
 .errorMessageWrap {
