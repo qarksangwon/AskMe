@@ -2,6 +2,8 @@ import styled from "styled-components";
 import imgLogo from "../images/Logo.png";
 import Toggle from "../customComponent/Toggle";
 import Footer from "../customComponent/Footer";
+import exit from "../images/exit.png";
+import { Link } from "react-router-dom";
 
 const Logo = styled.img`
   width: 150px;
@@ -61,6 +63,16 @@ const Btn = styled.div`
     transition: all 0.2s ease-in;
   }
 `;
+const Exit = styled.img`
+  width: 70px; /* 아이콘의 크기를 적절히 조절합니다 */
+  height: 70px;
+  cursor: pointer; /* 아이콘에 커서 포인터 추가 */
+  transition: all 0.2s ease-in;
+  &:hover {
+    opacity: 0.5;
+    transition: all 0.2s ease-in;
+  }
+`;
 
 const ChatMain = () => {
   return (
@@ -74,6 +86,9 @@ const ChatMain = () => {
             <Btn>채팅방 삭제하기</Btn>
             <Btn>채팅방 입장하기</Btn>
           </BtnContainer>
+          <Link to="/askme">
+            <Exit src={exit} />
+          </Link>
         </Body>
         <Footer top={900} mtop={732} />
       </Container>
