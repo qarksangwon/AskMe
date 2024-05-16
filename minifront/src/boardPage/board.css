@@ -1,14 +1,24 @@
 th,
 td {
-  min-width: 180px;
+  min-width: 220px;
 }
 
 th {
   font-size: 25px;
-  height: 70px;
+  height: 50px;
+  border-bottom: 3px solid black;
+}
+
+table {
+  border-collapse: collapse;
 }
 
 td {
   font-size: 20px;
-  height: 50px;
+  height: 60px;
+  border-bottom: 1px solid #cdcdcd;
+}
+
+.td1 {
+  margin: 5px; /* 적절한 값으로 조정하세요 */
 }

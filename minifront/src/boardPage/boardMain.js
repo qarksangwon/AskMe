@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import AxiosApi from "../api/AxiosApi";
+
 const Container = styled.div`
   display: flex;
   height: auto;
@@ -25,7 +26,7 @@ const Searchlogo = styled.img`
   width: 30px; /* 아이콘의 크기를 적절히 조절합니다 */
   height: 30px;
   cursor: pointer; /* 아이콘에 커서 포인터 추가 */
-  margin-right: 100px;
+  margin-right: 200px;
 `;
 
 const Exit = styled.img`
@@ -45,7 +46,7 @@ const Boardhead = styled.div`
   display: flex;
   align-items: center;
   justify-content: center; /* 중앙 정렬 */
-  margin-bottom: 0px;
+  margin-bottom: 10px;
 `;
 
 const SearchInput = styled.input.attrs({ type: "text" })`
@@ -65,7 +66,7 @@ const Btn = styled.div`
   background-color: black;
   color: white;
   border-radius: 30px;
-  margin-right: 20px;
+  margin-right: 10px;
   border: 2px solid black;
 
   &:hover {
@@ -82,24 +83,45 @@ const BtnWrite = styled.div``;
 
 const BtnMyWrite = styled.div``;
 
-const TableTitle = styled.div`
-  padding-top: 10px;
-  border-top: 3px solid black;
-`;
 const Board = () => {
   const [boards, setBoards] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [originalBoards, setOriginalBoards] = useState(""); // 원본 게시물 목록을 저장할 상태 추가
+
+  const boardList = async () => {
+    try {
+      const rsp = await AxiosApi.boardMain(); // 전체 목록 가져오기
+      setBoards(rsp.data);
+      setOriginalBoards(rsp.data); // 원본 게시물 목록 설정
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
-    const boardList = async () => {
-      try {
-        const rsp = await AxiosApi.boardMain(); // 전체 목록 가져오기
-        setBoards(rsp.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
     boardList();
   }, []);
+
+  const handleSearch = () => {
+    if (searchTerm === "") {
+      // 검색어가 비어 있으면 전체 목록 보여주기
+      setBoards(originalBoards); // 원본 게시물 목록으로 재설정
+    } else {
+      // 검색어에 해당하는 게시물 필터링
+      const filteredBoards = originalBoards.filter((board) =>
+        board.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      // 필터링된 결과를 보여주기
+      setBoards(filteredBoards);
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      // 엔터 키가 눌렸을 때 검색 실행
+      handleSearch();
+    }
+  };
 
   return (
     <motion.div
@@ -113,9 +135,13 @@ const Board = () => {
         <Title>게시판</Title>
 
         <Boardhead>
-          <SearchInput placeholder="검색 제목 입력" />
-
-          <Searchlogo src={logosearch} />
+          <SearchInput
+            placeholder="검색 제목 입력"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={handleKeyPress}
+          />
+          <Searchlogo src={logosearch} onClick={handleSearch} />
           <Btn>
             <BtnWrite>글 쓰기</BtnWrite>
           </Btn>
@@ -126,11 +152,15 @@ const Board = () => {
             <Exit src={exit} />
           </Link>
         </Boardhead>
+
         <table>
-          <th>NO.</th>
-          <th>제목</th>
-          <th>작성자</th>
-          <th>작성일</th>
+          <tr>
+            <th>NO.</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+          </tr>
+
           {boards &&
             boards.map((board) => (
               <tr key={board.classNo}>
