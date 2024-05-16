@@ -106,7 +106,7 @@ const Board = () => {
           <Btn>
             <BtnMyWrite>내가 쓴 글</BtnMyWrite>
           </Btn>
-          <Link to="/">
+          <Link to="/askme">
             <Exit src={exit} />
           </Link>
         </Boardhead>

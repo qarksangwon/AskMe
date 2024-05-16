@@ -272,7 +272,7 @@ const Home = () => {
             display={toggleDis}
           >
             <Inner variants={InnerAnimation}>로그인</Inner>
-            <Link to="/signup">
+            <Link to="/askme/signup">
               <Inner variants={InnerAnimation}>회원가입</Inner>
             </Link>
             <Inner variants={InnerAnimation} onClick={() => toggleClick(2)}>
@@ -282,7 +282,7 @@ const Home = () => {
         </ToggleContainer>
         <Body>
           <Logo src={imgLogo} />
-          <Link to="/board">
+          <Link to="/askme/board">
             <Btn>
               <BtnFront>게시판</BtnFront>
               <BtnBack>이동하기</BtnBack>
