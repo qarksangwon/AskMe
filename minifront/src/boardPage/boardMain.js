@@ -155,59 +155,62 @@ const Board = () => {
   };
 
   return (
-    <motion.div
-      /* 2. 원하는 애니메이션으로 jsx를 감싸준다 */
-      initial={{ opacity: 0, x: 200 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -100 }}
-      transition={{ duration: 1.5 }}
-    >
-      <Container>
-        <Title>게시판</Title>
-        <Toggle></Toggle>
-        <Boardhead>
-          <SearchInput
-            placeholder="검색 제목 입력"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyPress={handleKeyPress}
-          />
-          <Searchlogo src={logosearch} onClick={handleSearch} />
-          <Btn>
-            <BtnWrite>글 쓰기</BtnWrite>
-          </Btn>
-          <Btn>
-            <BtnMyWrite>내가 쓴 글</BtnMyWrite>
-          </Btn>
-          <Link to="/askme">
-            <Exit src={exit} />
-          </Link>
-        </Boardhead>
-        <Tdfont>
-          <table>
-            <thead>
-              <tr>
-                <th>NO.</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>작성일</th>
-              </tr>
-            </thead>
-            <tbody>
-              {boards &&
-                boards.map((board) => (
-                  <tr key={board.classNo}>
-                    <td>{board.classNo}</td>
-                    <td>{board.title}</td>
-                    <td>{board.nickname}</td>
-                    <td>{board.join}</td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </Tdfont>
-      </Container>
-    </motion.div>
+    <>
+      <Toggle></Toggle>
+      <motion.div
+        /* 2. 원하는 애니메이션으로 jsx를 감싸준다 */
+        initial={{ opacity: 0, x: 200 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -100 }}
+        transition={{ duration: 1.5 }}
+      >
+        <Container>
+          <Title>게시판</Title>
+
+          <Boardhead>
+            <SearchInput
+              placeholder="검색 제목 입력"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
+            <Searchlogo src={logosearch} onClick={handleSearch} />
+            <Btn>
+              <BtnWrite>글 쓰기</BtnWrite>
+            </Btn>
+            <Btn>
+              <BtnMyWrite>내가 쓴 글</BtnMyWrite>
+            </Btn>
+            <Link to="/askme">
+              <Exit src={exit} />
+            </Link>
+          </Boardhead>
+          <Tdfont>
+            <table>
+              <thead>
+                <tr>
+                  <th>NO.</th>
+                  <th>제목</th>
+                  <th>작성자</th>
+                  <th>작성일</th>
+                </tr>
+              </thead>
+              <tbody>
+                {boards &&
+                  boards.map((board) => (
+                    <tr key={board.classNo}>
+                      <td>{board.classNo}</td>
+                      <td>{board.title}</td>
+                      <td>{board.nickname}</td>
+                      <td>{board.join}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </Tdfont>
+        </Container>
+      </motion.div>
+    </>
   );
 };
 
