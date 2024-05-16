@@ -7,7 +7,7 @@ const ToggleContainer = styled.div`
   display: flex;
   width: 200px;
   height: 200px;
-  position: absolute;
+  position: fixed;
   top: 5%;
   right: 5%;
   justify-content: center;
