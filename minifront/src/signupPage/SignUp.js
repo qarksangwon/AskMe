@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Logoimg from "../images/Logo.png";
+import Exitimg from "../images/exit.png";
 import "./signup.css";
-
-// const User = {
-//   name: "",
-//   id: "",
-//   email: "",
-//   pw: "",
-// };
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
+  let navigate = useNavigate();
+
+  const ExitClick = () => {
+    navigate("/askme");
+  };
+
   const [name, setName] = useState("");
   const [nickname, setNickName] = useState("");
   const [id, setId] = useState("");
@@ -232,9 +233,18 @@ function SignUp() {
             <div>올바른 이메일을 입력해주세요.</div>
           )}
         </div>
-        <button onClick={Clear} className="clearButton">
-          초기화
-        </button>
+        <div className="clearExit">
+          <button onClick={Clear} className="clearButton">
+            초기화
+          </button>
+          <button className="exit" onClick={ExitClick}>
+            <img
+              src={Exitimg}
+              alt="Exit"
+              style={{ width: "40px", height: "40px" }}
+            />
+          </button>
+        </div>
       </div>
 
       <div className="bottomContainer">

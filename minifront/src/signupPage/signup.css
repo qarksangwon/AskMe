@@ -203,6 +203,7 @@
   background-color: white;
   color: #000000;
   transition: all 0.3s ease-in;
+  cursor: pointer;
 }
 
 .bottomContainer {
@@ -222,12 +223,6 @@
   cursor: pointer;
 }
 
-/* .bottomButton:hover {
-  background-color: white;
-  color: #000000;
-  transition: all 0.3s ease-in;
-} */
-
 .bottomButton:disabled {
   background-color: #dadada;
   color: white;
@@ -237,4 +232,8 @@
   margin-top: 8px;
   color: #ef0000;
   font-size: 12px;
+}
+
+.exit {
+  cursor: pointer;
 }

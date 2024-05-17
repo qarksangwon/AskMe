@@ -161,7 +161,10 @@ const Toggle = () => {
         variants={start ? BoxAnimation : BoxAnimation2}
         display={toggleDis}
       >
-        <Inner variants={InnerAnimation}>로그인</Inner>
+        <Link to="/askme/login">
+          <Inner variants={InnerAnimation}>로그인</Inner>
+        </Link>
+
         <Link to="/askme/signup">
           <Inner variants={InnerAnimation}>회원가입</Inner>
         </Link>

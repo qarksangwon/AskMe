@@ -5,6 +5,7 @@ import SignUp from "./signupPage/SignUp";
 import ChatMain from "./chatPage/ChatMain";
 import GlobalStyle from "./GlobalStyle";
 import BoardM from "./boardPage/boardMainM";
+import Login from "./loginPage/Login";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/askme/boardmobile" element={<BoardM />} />
           <Route path="/askme/signup" element={<SignUp />} />
           <Route path="/askme/chat" element={<ChatMain />} />
+          <Route path="/askme/login" element={<Login />} />
         </Routes>
       </Router>
     </>

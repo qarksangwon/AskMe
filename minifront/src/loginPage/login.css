@@ -1,0 +1,130 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: white;
+}
+
+.login-imgContainer {
+  margin-bottom: 20px;
+}
+
+.login-Logoimg {
+  width: 100px;
+}
+
+.login-titleWrap {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.login-contentWrap {
+  width: 300px;
+}
+
+.login-inputTitle {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.login-inputWrap {
+  margin-bottom: 16px;
+}
+
+.login-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-errorMessageWrap {
+  color: red;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+.login-bottomContainer {
+  margin-top: 20px;
+}
+
+.login-bottomButton {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: white;
+  background-color: #000000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-bottomButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.idPwClearButton {
+  font-size: 15px;
+  margin-top: 20px;
+  margin-left: 90px;
+  border-radius: 10px;
+  width: 120px;
+  height: 30px;
+  background-color: #000000;
+  color: white;
+  cursor: pointer;
+  border: 2px solid black;
+  transition: all 0.3s ease-in;
+}
+
+.idPwClearButton:hover {
+  background-color: white;
+  color: #000000;
+  transition: all 0.3s ease-in;
+}
+
+.findBox {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.findBox .idFind {
+  background-color: #000000;
+  color: white;
+  border-radius: 10px;
+}
+.idFind:hover {
+  background-color: white;
+  color: #000000;
+  transition: all 0.3s ease-in;
+}
+
+.findBox .pwFind {
+  background-color: #000000;
+  color: white;
+  border-radius: 10px;
+  transition: all 0.3s ease-in;
+}
+
+.pwFind:hover {
+  background-color: white;
+  color: #000000;
+  transition: all 0.3s ease-in;
+}
+
+.clearExit {
+  display: flex;
+}
+
+.exit {
+  margin-top: 10px;
+  background-color: white;
+  border: none;
+}
