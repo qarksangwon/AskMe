@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import Logoimg from "../images/Logo.png";
 import Exitimg from "../images/exit.png";
 import "./login.css";
