@@ -7,12 +7,11 @@ import java.sql.Date;
 
 @Getter
 @Setter
-public class TestMemberVO {
+public class MemberVO {
     private String id;
     private String password;
     private String name;
     private String nickname;
     private String email;
     private Date join;
-
 }

@@ -1,12 +1,12 @@
 package com.team.mini.dao;
 
 import com.team.mini.utils.Common;
-import com.team.mini.vo.TestMemberVO;
+import com.team.mini.vo.MemberVO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestMemberDAO {
+public class MemberDAO {
     private Connection conn = null;
     private Statement stmt = null;
     private ResultSet rs = null;
@@ -30,12 +30,12 @@ public class TestMemberDAO {
         Common.close(conn);
         return isNotReg; // 가입 되어 있으면 false, 가입이 안되어 있으면 true
     }
-    // 로그인 체크
-    public boolean loginCheck(String id, String pwd) {
+    // 로그인
+    public boolean loginCheck(String id, String password) {
         try {
             conn = Common.getConnection();
             stmt = conn.createStatement(); // Statement 객체 얻기
-            String sql = "SELECT * FROM USERTB WHERE ID = " + "'" + id + "'";
+            String sql = "SELECT * FROM USERTB WHERE ID = '" + id + "'";
             rs = stmt.executeQuery(sql);
 
             while(rs.next()) { // 읽은 데이타가 있으면 true
@@ -43,25 +43,23 @@ public class TestMemberDAO {
                 String sqlPwd = rs.getString("PASSWORD");
                 System.out.println("ID : " + sqlId);
                 System.out.println("PASSWORD : " + sqlPwd);
-                if(id.equals(sqlId) && pwd.equals(sqlPwd)) {
-                    Common.close(rs);
-                    Common.close(stmt);
-                    Common.close(conn);
+                if(id.equals(sqlId) && password.equals(sqlPwd)) {
                     return true;
                 }
             }
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
             Common.close(rs);
             Common.close(stmt);
             Common.close(conn);
-        } catch(Exception e) {
-            e.printStackTrace();
         }
         return false;
     }
 
     // 회원정보 조회
-    public List<TestMemberVO> memberSelect(String getName) {
-        List<TestMemberVO> list = new ArrayList<>();
+    public List<MemberVO> memberSelect(String getName) {
+        List<MemberVO> list = new ArrayList<>();
         String sql = null;
         System.out.println("NAME : " + getName);
         try {
@@ -78,7 +76,7 @@ public class TestMemberDAO {
                 String email = rs.getString("EMAIL");
                 Date join = rs.getDate("JOIN");
 
-                TestMemberVO vo = new TestMemberVO();
+                MemberVO vo = new MemberVO();
                 vo.setId(id);
                 vo.setPassword(pwd);
                 vo.setName(name);
@@ -95,8 +93,48 @@ public class TestMemberDAO {
         return list;
     }
 
+    // 아이디 찾기
+    public String memberId(String name, String email) {
+        int result = 0;
+        String getId = null;
+        String sql = "SELECT ID FROM USERTB WHERE NAME = " + "'" + name + "'" + " AND " + "EMAIL = " + "'" + email + "'";
+        try {
+            conn = Common.getConnection();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            if(rs.next()) {
+                getId = rs.getString("ID");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(stmt);
+        Common.close(conn);
+        return getId;
+
+    }
+    // 비밀번호 찾기
+    public String memberPw(String name, String id, String email) {
+        int result = 0;
+        String getPw = null;
+        String sql = "SELECT PASSWORD FROM USERTB WHERE NAME = " + "'" + name + "'" + " AND " + "ID = " + "'" + id + "'" + " AND " + "EMAIL = " + "'" + email + "'";
+        try {
+            conn = Common.getConnection();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            if(rs.next()) {
+                getPw = rs.getString("PASSWORD");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(stmt);
+        Common.close(conn);
+        return getPw;
+    }
+
     // 회원 가입
-    public boolean memberRegister(TestMemberVO member) {
+    public boolean memberRegister(MemberVO member) {
         int result = 0;
         String sql = "INSERT INTO USERTB(ID, PASSWORD, NAME, NICKNAME, EMAIL) VALUES(?, ?, ?, ?, ?)";
         try {
@@ -120,6 +158,8 @@ public class TestMemberDAO {
         else return false;
     }
 
+
+    // 회원 탈퇴
     public boolean memberDelete(String id) {
         int result = 0;
         String sql = "DELETE FROM USERTB WHERE ID = ?";
