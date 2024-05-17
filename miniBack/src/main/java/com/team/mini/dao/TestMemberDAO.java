@@ -98,14 +98,15 @@ public class TestMemberDAO {
     // 회원 가입
     public boolean memberRegister(TestMemberVO member) {
         int result = 0;
-        String sql = "INSERT INTO T_MEMBER(ID, PWD, NAME, EMAIL, JOIN) VALUES(?, ?, ?, ?, SYSDATE)";
+        String sql = "INSERT INTO T_MEMBER(ID, PWD, NAME, NICKNAME, EMAIL, JOIN) VALUES(?, ?, ?, ?, ?, SYSDATE)";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, member.getId());
             pStmt.setString(2, member.getPwd());
             pStmt.setString(3, member.getName());
-            pStmt.setString(4, member.getEmail());
+            pStmt.setString(4, member.getNickname());
+            pStmt.setString(5, member.getEmail());
             result = pStmt.executeUpdate();
             System.out.println("회원 가입 DB 결과 확인 : " + result);
 

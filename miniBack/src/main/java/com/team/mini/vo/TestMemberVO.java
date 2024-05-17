@@ -11,6 +11,7 @@ public class TestMemberVO {
     private String id;
     private String pwd;
     private String name;
+    private String nickname;
     private String email;
     private Date join;
 
