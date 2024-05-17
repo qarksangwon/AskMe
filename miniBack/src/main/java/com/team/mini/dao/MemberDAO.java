@@ -18,32 +18,34 @@ public class MemberDAO {
         try {
             conn = Common.getConnection();
             stmt = conn.createStatement();
-            String sql = "SELECT * FROM USERTB WHERE ID = " + "'" + id +"'";
+            String sql = "SELECT * FROM USERTB WHERE ID = " + "'" + id + "'";
             rs = stmt.executeQuery(sql);
-            if(rs.next()) isNotReg = false;
-            else isNotReg = true;
+            if(rs.next()) {
+                isNotReg = true;
+            }
         } catch(Exception e) {
             e.printStackTrace();
+        } finally {
+            Common.close(rs);
+            Common.close(stmt);
+            Common.close(conn);
         }
-        Common.close(rs);
-        Common.close(stmt);
-        Common.close(conn);
         return isNotReg; // 가입 되어 있으면 false, 가입이 안되어 있으면 true
     }
-    // 로그인
+
+
+    // 로그인 수정중...........
     public boolean loginCheck(String id, String password) {
         try {
             conn = Common.getConnection();
             stmt = conn.createStatement(); // Statement 객체 얻기
-            String sql = "SELECT * FROM USERTB WHERE ID = '" + id + "'";
+            String sql = "SELECT * FROM USERTB WHERE ID = " + "'" + id + "'";
             rs = stmt.executeQuery(sql);
 
             while(rs.next()) { // 읽은 데이타가 있으면 true
                 String sqlId = rs.getString("ID"); // 쿼리문 수행 결과에서 ID값을 가져 옴
                 String sqlPwd = rs.getString("PASSWORD");
-                System.out.println("ID : " + sqlId);
-                System.out.println("PASSWORD : " + sqlPwd);
-                if(id.equals(sqlId) && password.equals(sqlPwd)) {
+                if(sqlId.equals(id) && sqlPwd.equals(password)) {
                     return true;
                 }
             }
@@ -93,7 +95,7 @@ public class MemberDAO {
         return list;
     }
 
-    // 아이디 찾기
+    // 아이디 찾기 테스트
     public String memberId(String name, String email) {
         int result = 0;
         String getId = null;
@@ -113,7 +115,7 @@ public class MemberDAO {
         return getId;
 
     }
-    // 비밀번호 찾기
+    // 비밀번호 찾기 테스트
     public String memberPw(String name, String id, String email) {
         int result = 0;
         String getPw = null;
