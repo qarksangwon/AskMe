@@ -23,6 +23,10 @@ public class Common {
         }
         return conn;
     }
+
+    // CORS 설정
+    public final static String CORS_ORIGIN = "http://localhost:3000";
+
     public static void close(Connection conn) {
         try {
             if(conn != null && !conn.isClosed()) {
