@@ -5,7 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
   let navigate = useNavigate();
+  let signUpNav = useNavigate();
 
+  const SignupClick = () => {
+    signUpNav("/askme/signup");
+  };
   const ExitClick = () => {
     navigate("/askme");
   };
@@ -49,7 +53,9 @@ function Login() {
         <div className="findBox">
           <button className="Find">아이디 찾기</button>
           <button className="Find">비밀번호 찾기</button>
-          <button className="Find">회원가입</button>
+          <button className="Find" onClick={SignupClick}>
+            회원가입
+          </button>
         </div>
 
         <div className="clearExit">
