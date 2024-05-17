@@ -9,7 +9,7 @@ import java.sql.Date;
 @Setter
 public class TestMemberVO {
     private String id;
-    private String pwd;
+    private String password;
     private String name;
     private String nickname;
     private String email;

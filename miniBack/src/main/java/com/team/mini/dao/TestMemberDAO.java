@@ -18,7 +18,7 @@ public class TestMemberDAO {
         try {
             conn = Common.getConnection();
             stmt = conn.createStatement();
-            String sql = "SELECT * FROM T_MEMBER WHERE ID = " + "'" + id +"'";
+            String sql = "SELECT * FROM USERTB WHERE ID = " + "'" + id +"'";
             rs = stmt.executeQuery(sql);
             if(rs.next()) isNotReg = false;
             else isNotReg = true;
@@ -35,14 +35,14 @@ public class TestMemberDAO {
         try {
             conn = Common.getConnection();
             stmt = conn.createStatement(); // Statement 객체 얻기
-            String sql = "SELECT * FROM T_MEMBER WHERE ID = " + "'" + id + "'";
+            String sql = "SELECT * FROM USERTB WHERE ID = " + "'" + id + "'";
             rs = stmt.executeQuery(sql);
 
             while(rs.next()) { // 읽은 데이타가 있으면 true
                 String sqlId = rs.getString("ID"); // 쿼리문 수행 결과에서 ID값을 가져 옴
-                String sqlPwd = rs.getString("PWD");
+                String sqlPwd = rs.getString("PASSWORD");
                 System.out.println("ID : " + sqlId);
-                System.out.println("PWD : " + sqlPwd);
+                System.out.println("PASSWORD : " + sqlPwd);
                 if(id.equals(sqlId) && pwd.equals(sqlPwd)) {
                     Common.close(rs);
                     Common.close(stmt);
@@ -67,20 +67,20 @@ public class TestMemberDAO {
         try {
             conn = Common.getConnection();
             stmt = conn.createStatement();
-            if(getName.equals("ALL")) sql = "SELECT * FROM T_MEMBER";
-            else sql = "SELECT * FROM T_MEMBER WHERE NAME = " + "'" + getName + "'";
+            if(getName.equals("ALL")) sql = "SELECT * FROM USERTB";
+            else sql = "SELECT * FROM USERTB WHERE NAME = " + "'" + getName + "'";
             rs = stmt.executeQuery(sql);
 
             while(rs.next()) {
                 String id = rs.getString("ID");
-                String pwd = rs.getString("PWD");
+                String pwd = rs.getString("PASSWORD");
                 String name = rs.getString("NAME");
                 String email = rs.getString("EMAIL");
                 Date join = rs.getDate("JOIN");
 
                 TestMemberVO vo = new TestMemberVO();
                 vo.setId(id);
-                vo.setPwd(pwd);
+                vo.setPassword(pwd);
                 vo.setName(name);
                 vo.setEmail(email);
                 vo.setJoin(join);
@@ -98,12 +98,12 @@ public class TestMemberDAO {
     // 회원 가입
     public boolean memberRegister(TestMemberVO member) {
         int result = 0;
-        String sql = "INSERT INTO T_MEMBER(ID, PWD, NAME, NICKNAME, EMAIL, JOIN) VALUES(?, ?, ?, ?, ?, SYSDATE)";
+        String sql = "INSERT INTO USERTB(ID, PASSWORD, NAME, NICKNAME, EMAIL) VALUES(?, ?, ?, ?, ?)";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, member.getId());
-            pStmt.setString(2, member.getPwd());
+            pStmt.setString(2, member.getPassword());
             pStmt.setString(3, member.getName());
             pStmt.setString(4, member.getNickname());
             pStmt.setString(5, member.getEmail());
@@ -122,7 +122,7 @@ public class TestMemberDAO {
 
     public boolean memberDelete(String id) {
         int result = 0;
-        String sql = "DELETE FROM T_MEMBER WHERE ID = ?";
+        String sql = "DELETE FROM USERTB WHERE ID = ?";
 
         try {
             conn = Common.getConnection();
