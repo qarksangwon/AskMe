@@ -22,8 +22,8 @@ public class EmailController {
     private JavaMailSender mailSender;
 
     @GetMapping("/mail")
-    public ResponseEntity<String> sendMail(@RequestParam String id) {
-        System.out.println("인증 번호 받을 email : " + id);
+    public ResponseEntity<String> sendMail(@RequestParam String email) {
+        System.out.println("인증 번호 받을 email : " + email);
 
         // 임의의 인증 번호 생성
         Random random = new Random();
@@ -34,11 +34,11 @@ public class EmailController {
 
         // 이메일에 들어갈 내용
         String htmlContent = "<div style=\"text-align: center; display:flex; flex-direction:column; justify-content:center; text-align:center;\">"
-                + "<p style=\"font-size:30px; display: block;\">Email 인증 테스트입니다.</p>"
+                + "<p style=\"font-size:30px; display: block;\">AskMe 회원가입 인증번호 입니다.</p>"
                 + "<p></p>"
-                + "<p style=\"font-size:16px; display: block;\">아래의 인증 번호를 입력해야 합니다...</p>"
+                + "<p style=\"font-size:16px; display: block;\">아래의 인증 번호를 입력해주세요.</p>"
                 + "<p></p>"
-                + "<div style=\"font-size:20px; font-style:bold; width: 1000px; height:50px; border: 1px solid #c6c6c6; display: block;\">" + tempPw + "</div>"
+                + "<div style=\"font-size:20px; font-style:bold; width: 100%; height:50px; border: 1px solid #c6c6c6; display: block;\">" + tempPw + "</div>"
                 + "</div>";
 
         // 이메일로 전송
@@ -46,8 +46,8 @@ public class EmailController {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
         try {
             helper.setFrom("1103bsj@naver.com");
-            helper.setTo(id);
-            helper.setSubject("Email 인증번호 테스트입니다.");
+            helper.setTo(email);
+            helper.setSubject("AskMe 회원가입 이메일 인증 번호");
             helper.setText(htmlContent, true);
         } catch (MessagingException e) {
             e.printStackTrace();
