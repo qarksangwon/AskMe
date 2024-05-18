@@ -103,7 +103,7 @@ const Home = () => {
               <BtnBack>이동하기</BtnBack>
             </Btn>
           </Link>
-          <Link to="/askme/chat">
+          <Link to="/askme/chatmain">
             <Btn>
               <BtnFront>채팅방</BtnFront>
               <BtnBack>이동하기</BtnBack>

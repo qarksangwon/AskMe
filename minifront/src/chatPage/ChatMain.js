@@ -26,7 +26,8 @@ const Container = styled.div`
 
 const Body = styled.div`
   position: absolute;
-  top: -40px;
+  top: 10px;
+  margin-top: 20px;
   width: auto;
   height: 80vh;
   display: flex;
@@ -48,8 +49,8 @@ const BtnContainer = styled.div`
 `;
 
 const Btn = styled.div`
-  width: 140px;
-  height: 160px;
+  width: 160px;
+  height: 180px;
   margin: 0px auto;
   background-color: black;
   color: white;
@@ -82,6 +83,9 @@ const Exit = styled.img`
     transition: all 0.2s ease-in;
   }
 `;
+const LinkDiv = styled(Link)`
+  margin: auto;
+`;
 
 const ChatMain = () => {
   return (
@@ -91,9 +95,15 @@ const ChatMain = () => {
         <Body>
           <Logo src={imgLogo} />
           <BtnContainer>
-            <Btn>채팅방 만들기</Btn>
-            <Btn>채팅방 삭제하기</Btn>
-            <Btn>채팅방 입장하기</Btn>
+            <LinkDiv to="/askme">
+              <Btn>채팅방 만들기</Btn>
+            </LinkDiv>
+            <LinkDiv to="/askme">
+              <Btn>채팅방 삭제하기</Btn>
+            </LinkDiv>
+            <LinkDiv to="/askme/chat">
+              <Btn>채팅방 입장하기</Btn>
+            </LinkDiv>
           </BtnContainer>
           <Link to="/askme">
             <Exit src={exit} />
