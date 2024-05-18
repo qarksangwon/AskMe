@@ -5,11 +5,11 @@ import styled from "styled-components";
 
 const ToggleContainer = styled.div`
   display: flex;
-  width: 200px;
-  height: 200px;
+  width: ${(props) => props.size}px;
+  height: ${(props) => props.size}px;
   position: fixed;
-  top: 5%;
-  right: 5%;
+  top: ${(props) => props.coordinate}%;
+  right: ${(props) => props.coordinate}%;
   justify-content: center;
   align-items: center;
   z-index: 2;
@@ -130,6 +130,8 @@ const InnerAnimation = {
 };
 
 const Toggle = () => {
+  const [containerSize, setContainerSize] = useState(70);
+  const [coordinate, setCoordinate] = useState(12);
   const [toggleDis, setToggleDis] = useState("none");
   const [toggleBtn, setToggleBtn] = useState("flex");
   const [boxKey, setBoxKey] = useState(0);
@@ -138,19 +140,23 @@ const Toggle = () => {
   const toggleClick = (status) => {
     if (status === 1) {
       setStart(1);
+      setContainerSize(200);
+      setCoordinate(4);
       setToggleBtn("none");
       setToggleDis("flex");
       setBoxKey((prevKey) => prevKey + 1);
     } else {
       setStart(null);
       setTimeout(() => {
+        setContainerSize(70);
+        setCoordinate(12);
         setToggleBtn("flex");
         setToggleDis("none");
       }, 350);
     }
   };
   return (
-    <ToggleContainer>
+    <ToggleContainer size={containerSize} coordinate={coordinate}>
       <ToggleBtn display={toggleBtn} onClick={() => toggleClick(1)}>
         Click
       </ToggleBtn>
