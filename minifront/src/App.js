@@ -10,6 +10,8 @@ import Chat from "./chatPage/Chat";
 import { useState } from "react";
 
 function App() {
+  // ChatMain에서 roomId를 set한뒤에
+  // roomId에 맞는 chat 내역을 보여주기 위해 부모 컴포넌트에서 설정
   const [roomId, setRoomId] = useState(["", "", "", "", ""]);
   return (
     <>

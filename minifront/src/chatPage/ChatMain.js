@@ -4,7 +4,7 @@ import Toggle from "../customComponent/Toggle";
 import Footer from "../customComponent/Footer";
 import exit from "../images/exit.png";
 import { Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 const Logo = styled.img`
   width: 150px;
@@ -76,9 +76,9 @@ const Btn = styled.div`
   }
 `;
 const Exit = styled.img`
-  width: 70px; /* 아이콘의 크기를 적절히 조절합니다 */
+  width: 70px;
   height: 70px;
-  cursor: pointer; /* 아이콘에 커서 포인터 추가 */
+  cursor: pointer;
   transition: all 0.2s ease-in;
   &:hover {
     opacity: 0.5;
@@ -136,6 +136,9 @@ const ChatMain = ({ roomId, setRoomId }) => {
   const roomRefs = useRef([]);
 
   // 방 번호 input 값 핸들링
+  // input 각 버튼에 대해 index를 지정해놓았기때문에
+  // 해당 index에 맞는 값을 가져와서 5자리 배열(부모 컴포넌트에 있음)에
+  // 각 index에 맞는 위치에 값 저장
   const handleInputRoom = (e, index) => {
     const newValue = e.target.value;
     if (newValue.length > 1) return; // 문자 1개만 입력받도록
@@ -147,12 +150,12 @@ const ChatMain = ({ roomId, setRoomId }) => {
       roomRefs.current[index + 1].focus();
     }
   };
-  useEffect(() => {
-    console.log(roomId);
-  }, [roomId]);
 
   const handleChatEntrance = () => {
-    // 마우스 올려 놨을 때
+    // 마우스 올려 놨을 때 채팅방 번호 누르도록 띄워주고
+    // 방 번호 입력해서 입장하도록.
+    // 지정한 크기만큼 input을 만들어 각 버튼에 한자리씩 넣어서
+    // 해당 값이 넘어가도록 지정
     if (chatEntrance === "채팅방 입장하기") {
       setChatEntrance(
         <EntranceContainer>
@@ -173,8 +176,10 @@ const ChatMain = ({ roomId, setRoomId }) => {
         </EntranceContainer>
       );
     }
-    // 떠날 때
+    // 마우스를 내리면 설정한 값 초기화하면서 재지정할 수 있도록
+    // (자릿수 똑같이 지정)
     else {
+      setRoomId(["", "", "", "", ""]);
       setChatEntrance("채팅방 입장하기");
     }
   };

@@ -130,6 +130,8 @@ const Message = styled.div`
 `;
 
 const Chat = ({ roomId }) => {
+  // 부모 컴포넌트에서 받은 roomId는 배열이기떄문에 문자열로 재지정
+  const roomNum = roomId.join("");
   const [btnText, setBtnText] = useState("채팅창 열기");
   const [isActive, setIsActive] = useState(false);
   const [inputMessage, setInputMessage] = useState("");
@@ -137,7 +139,7 @@ const Chat = ({ roomId }) => {
 
   const openChat = () => {
     if (btnText === "채팅창 열기") {
-      console.log(roomId);
+      console.log(roomNum);
       setBtnText("닫기");
       setIsActive(true);
     }
