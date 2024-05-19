@@ -35,7 +35,7 @@ const ChatOpenBtn = styled.div`
   align-items: center;
   border: 2px solid black;
   border-top-left-radius: 10px;
-  border-bottom-left-radius: ${(props) => (props.isActive ? "0px" : "10px")};
+  border-bottom-left-radius: ${(props) => (props.active ? "0px" : "10px")};
   cursor: pointer;
   transition: all 0.2s ease-in;
   &:hover {
@@ -55,7 +55,7 @@ const Chatroom = styled.div`
   justify-content: center;
   align-items: center;
   transform: translateX(
-    ${(props) => (props.isActive ? "0" : "calc(100% + 20px)")}
+    ${({ active }) => (active ? "0" : "calc(100% + 20px)")}
   );
   transition: all 0.5s ease-in-out;
   margin-bottom: 10px;
@@ -126,10 +126,10 @@ const Message = styled.div`
   width: fit-content;
   height: fit-content;
   border: 2px solid black;
-  border-radius: 10px;
+  border-radius: 6px;
 `;
 
-const Chat = () => {
+const Chat = ({ roomId }) => {
   const [btnText, setBtnText] = useState("채팅창 열기");
   const [isActive, setIsActive] = useState(false);
   const [inputMessage, setInputMessage] = useState("");
@@ -137,6 +137,7 @@ const Chat = () => {
 
   const openChat = () => {
     if (btnText === "채팅창 열기") {
+      console.log(roomId);
       setBtnText("닫기");
       setIsActive(true);
     }
@@ -165,11 +166,11 @@ const Chat = () => {
       <Container>
         <ChatroomContainer>
           <ChatBtnContainer>
-            <ChatOpenBtn isActive={isActive} onClick={openChat}>
+            <ChatOpenBtn acitve={isActive} onClick={openChat}>
               {btnText}
             </ChatOpenBtn>
           </ChatBtnContainer>
-          <Chatroom isActive={isActive}>
+          <Chatroom active={isActive}>
             <MessagesContainer>
               <MessageBox>
                 <p>닉네임</p>

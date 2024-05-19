@@ -4,6 +4,7 @@ import Toggle from "../customComponent/Toggle";
 import Footer from "../customComponent/Footer";
 import exit from "../images/exit.png";
 import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 
 const Logo = styled.img`
   width: 150px;
@@ -57,6 +58,7 @@ const Btn = styled.div`
   border: 3px solid black;
   border-radius: 20px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 22px;
@@ -87,7 +89,95 @@ const LinkDiv = styled(Link)`
   margin: auto;
 `;
 
-const ChatMain = () => {
+const EntranceContainer = styled.div`
+  width: 140px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const InputRoomContainer = styled.div`
+  display: flex;
+`;
+
+const InputRoom = styled.input`
+  width: 24px;
+  height: 36px;
+  text-align: center;
+  margin: auto;
+  background-color: #ececec;
+  border: 0px;
+  border-radius: 4px;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
+`;
+
+const EntranceBtn = styled.div`
+  width: 100px;
+  height: 30px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  color: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  transition: all 0.2s ease-in;
+  &:hover {
+    background-color: white;
+    color: black;
+    transition: all 0.2s ease-in;
+  }
+`;
+
+const ChatMain = ({ roomId, setRoomId }) => {
+  const [chatEntrance, setChatEntrance] = useState("채팅방 입장하기");
+  const roomRefs = useRef([]);
+
+  // 방 번호 input 값 핸들링
+  const handleInputRoom = (e, index) => {
+    const newValue = e.target.value;
+    if (newValue.length > 1) return; // 문자 1개만 입력받도록
+    const newValues = roomId;
+    newValues[index] = newValue;
+    setRoomId(newValues);
+
+    if (newValue && index < roomRefs.current.length - 1) {
+      roomRefs.current[index + 1].focus();
+    }
+  };
+  useEffect(() => {
+    console.log(roomId);
+  }, [roomId]);
+
+  const handleChatEntrance = () => {
+    // 마우스 올려 놨을 때
+    if (chatEntrance === "채팅방 입장하기") {
+      setChatEntrance(
+        <EntranceContainer>
+          <p>채팅방 번호 입력</p>
+          <InputRoomContainer>
+            {roomId.map((value, index) => (
+              <InputRoom
+                key={index}
+                onChange={(e) => handleInputRoom(e, index)}
+                ref={(el) => (roomRefs.current[index] = el)}
+                maxLength="1"
+              ></InputRoom>
+            ))}
+          </InputRoomContainer>
+          <LinkDiv to={{ pathname: "/askme/chat" }}>
+            <EntranceBtn>입장</EntranceBtn>
+          </LinkDiv>
+        </EntranceContainer>
+      );
+    }
+    // 떠날 때
+    else {
+      setChatEntrance("채팅방 입장하기");
+    }
+  };
   return (
     <>
       <Container>
@@ -101,9 +191,12 @@ const ChatMain = () => {
             <LinkDiv to="/askme">
               <Btn>채팅방 삭제하기</Btn>
             </LinkDiv>
-            <LinkDiv to="/askme/chat">
-              <Btn>채팅방 입장하기</Btn>
-            </LinkDiv>
+            <Btn
+              onMouseEnter={handleChatEntrance}
+              onMouseLeave={handleChatEntrance}
+            >
+              {chatEntrance}
+            </Btn>
           </BtnContainer>
           <Link to="/askme">
             <Exit src={exit} />
