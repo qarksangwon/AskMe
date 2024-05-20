@@ -42,19 +42,25 @@ public class MemberDAO {
             String sql = "SELECT * FROM USERTB WHERE ID = " + "'" + id + "'";
             rs = stmt.executeQuery(sql);
 
-            while(rs.next()) { // 읽은 데이타가 있으면 true
+            id = "00bsj";
+            password = "asdfasdf";
+            while (rs.next()) { // 읽을 데이타가 있으면 true
                 String sqlId = rs.getString("ID"); // 쿼리문 수행 결과에서 ID값을 가져 옴
                 String sqlPwd = rs.getString("PASSWORD");
-                if(sqlId.equals(id) && sqlPwd.equals(password)) {
+                System.out.println("ID : " + sqlId);
+                System.out.println("PASSWORD : " + sqlPwd);
+                if (id.equals(sqlId) && password.equals(sqlPwd)) {
+                    Common.close(rs);
+                    Common.close(stmt);
+                    Common.close(conn);
                     return true;
                 }
             }
-        } catch(Exception e) {
-            e.printStackTrace();
-        } finally {
             Common.close(rs);
             Common.close(stmt);
             Common.close(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }
