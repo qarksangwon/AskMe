@@ -10,7 +10,7 @@ import java.util.Map;
 
 @CrossOrigin(origins ="http://localhost:3000" )
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/askme")
 public class MemberController {
     MemberDAO dao = new MemberDAO();
 
@@ -38,22 +38,23 @@ public class MemberController {
     public ResponseEntity<Boolean> memberLogin(@RequestBody Map<String, String> loginData) {
         String id = loginData.get("id");
         String password = loginData.get("password");
-        MemberDAO dao = new MemberDAO();
         boolean result = dao.loginCheck(id, password);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
         //GET 가입 여부 확인
-        @GetMapping("/check")
-        public ResponseEntity<Boolean> memberCheck(@RequestParam String id) {
-            boolean isTrue = dao.regMemberCheck(id);
-            return ResponseEntity.ok(isTrue);
+        @GetMapping("/signup")
+        public ResponseEntity<Boolean> memberCheck(@RequestParam String check, String value) {
+        String testCheck = "nickname";
+                String testValue = "bsj";
+            boolean isTrue = dao.checkIdAndNickname(testCheck, testValue);
+            return new ResponseEntity<>(isTrue, HttpStatus.OK);
         }
 
         //POST 회원 가입
         // JSON 으로 POST 요청해도 변수명과 key value의 key 이름만 맞춰주면
         // 잘 입력이 들어간다.
-        @PostMapping("/new")
+        @PostMapping("/signup")
         public ResponseEntity<Boolean> memberRegister(@RequestBody MemberVO member) {
             boolean isTrue = dao.memberRegister(member);
             return ResponseEntity.ok(isTrue);

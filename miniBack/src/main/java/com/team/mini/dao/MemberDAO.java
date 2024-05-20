@@ -4,7 +4,9 @@ import com.team.mini.utils.Common;
 import com.team.mini.vo.MemberVO;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MemberDAO {
     private Connection conn = null;
@@ -12,29 +14,7 @@ public class MemberDAO {
     private ResultSet rs = null;
     private PreparedStatement pStmt = null;
 
-    // 회원 가입 여부 확인
-    public boolean regMemberCheck(String id) {
-        boolean isNotReg = false;
-        try {
-            conn = Common.getConnection();
-            stmt = conn.createStatement();
-            String sql = "SELECT * FROM USERTB WHERE ID = " + "'" + id + "'";
-            rs = stmt.executeQuery(sql);
-            if(rs.next()) {
-                isNotReg = true;
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-        } finally {
-            Common.close(rs);
-            Common.close(stmt);
-            Common.close(conn);
-        }
-        return isNotReg; // 가입 되어 있으면 false, 가입이 안되어 있으면 true
-    }
-
-
-    // 로그인 수정중...........
+    // 로그인
     public boolean loginCheck(String id, String password) {
         try {
             conn = Common.getConnection();
@@ -42,6 +22,7 @@ public class MemberDAO {
             String sql = "SELECT * FROM USERTB WHERE ID = " + "'" + id + "'";
             rs = stmt.executeQuery(sql);
 
+            //Test
             id = "00bsj";
             password = "asdfasdf";
             while (rs.next()) { // 읽을 데이타가 있으면 true
@@ -63,6 +44,31 @@ public class MemberDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    // 아이디 및 닉네임 중복 체크
+    public boolean checkIdAndNickname(String check, String value) {
+        boolean isTrue = false;
+
+        try {
+            conn = Common.getConnection();
+            stmt = conn.createStatement();
+            String sql;
+            if(check.equals("id")) sql = "SELECT ID, NICKNAME FROM USERTB WHERE ID = '" + value + "'";
+            else sql = "SELECT ID, NICKNAME FROM USERTB WHERE nickname = '" + value + "'";
+            rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                isTrue = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Common.close(rs);
+            Common.close(stmt);
+            Common.close(conn);
+        }
+        return isTrue;
     }
 
     // 회원정보 조회
