@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Board from "./boardPage/boardMain";
 import Home from "./mainPage/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -9,32 +7,33 @@ import GlobalStyle from "./GlobalStyle";
 import BoardM from "./boardPage/boardMainM";
 import Login from "./loginPage/Login";
 import Chat from "./chatPage/Chat";
+import { useState } from "react";
+import BoardWrite from "./boardPage/boardWrite";
+import Writesucces from "./boardPage/writeSuccess";
 
 function App() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    // 데이터베이스에서 데이터를 가져오는 API 호출
-    axios
-      .get("http://localhost:3001/api/data")
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
+  const isMobile = window.innerWidth <= 430;
+  // ChatMain에서 roomId를 set한뒤에
+  // roomId에 맞는 chat 내역을 보여주기 위해 부모 컴포넌트에서 설정
+  const [roomId, setRoomId] = useState(["", "", "", "", ""]);
   return (
     <>
       <GlobalStyle />
       <Router>
         <Routes>
           <Route path="/askme" element={<Home />} />
-          <Route path="/askme/board" element={<Board />} />
-          <Route path="/askme/boardmobile" element={<BoardM />} />
+          <Route
+            path="/askme/board"
+            element={isMobile ? <BoardM /> : <Board />}
+          />
+          <Route path="/askme/board/write" element={<BoardWrite />} />
+          <Route path="/askme/board/success" element={<Writesucces />} />
           <Route path="/askme/signup" element={<SignUp />} />
-          <Route path="/askme/chatmain" element={<ChatMain />} />
-          <Route path="/askme/chat" element={<Chat />} />
+          <Route
+            path="/askme/chatmain"
+            element={<ChatMain roomId={roomId} setRoomId={setRoomId} />}
+          />
+          <Route path="/askme/chat" element={<Chat roomId={roomId} />} />
           <Route path="/askme/login" element={<Login />} />
         </Routes>
       </Router>
