@@ -53,6 +53,15 @@ public class MemberController {
         return ResponseEntity.ok(isTrue);
     }
 
+    @PostMapping("/update")
+    public ResponseEntity<Boolean> editInfo(@RequestBody Map<String, String> regData) {
+        String getId = regData.get("id");
+        String getPwd = regData.get("password");
+        String getNickname = regData.get("nickname");
+        boolean isUpdated = dao.memberUpdate(getId, getPwd, getNickname);
+        return new ResponseEntity<>(isUpdated, HttpStatus.OK);
+    }
+
     // POST 회원 탈퇴
     @PostMapping("/del")
     public ResponseEntity<Boolean> memberDelete(@RequestBody Map<String, String> delData) {
@@ -70,16 +79,4 @@ public class MemberController {
         String getId = dao.memberId(getName, getEmail);
         return new ResponseEntity<>(getId, HttpStatus.OK);
     }
-
-    // 비밀번호 찾기
-    @PostMapping("/findPw")
-    public ResponseEntity<String> memberPw(@RequestBody Map<String, String> regData) {
-        String getId = regData.get("id");
-        String getEMail = regData.get("email");
-        String getName = regData.get("name");
-        System.out.println("아이디 : " + getId + ", 메일 : " + getEMail);
-        String getPw = dao.memberPw(getName, getId, getEMail);
-        return new ResponseEntity<>(getPw, HttpStatus.OK);
-    }
-
 }
