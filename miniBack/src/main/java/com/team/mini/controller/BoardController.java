@@ -10,6 +10,7 @@ import java.util.List;
 @CrossOrigin(origins ="http://localhost:3000" )
 @RestController
 @RequestMapping("/askme")
+
 public class BoardController {
     BoardDAO dao = new BoardDAO();
 
