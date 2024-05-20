@@ -10,6 +10,7 @@ import Chat from "./chatPage/Chat";
 import { useState } from "react";
 
 function App() {
+  const isMobile = window.innerWidth <= 430;
   // ChatMain에서 roomId를 set한뒤에
   // roomId에 맞는 chat 내역을 보여주기 위해 부모 컴포넌트에서 설정
   const [roomId, setRoomId] = useState(["", "", "", "", ""]);
@@ -19,8 +20,10 @@ function App() {
       <Router>
         <Routes>
           <Route path="/askme" element={<Home />} />
-          <Route path="/askme/board" element={<Board />} />
-          <Route path="/askme/boardmobile" element={<BoardM />} />
+          <Route
+            path="/askme/board"
+            element={isMobile ? <BoardM /> : <Board />}
+          />
           <Route path="/askme/signup" element={<SignUp />} />
           <Route
             path="/askme/chatmain"
