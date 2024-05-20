@@ -3,22 +3,23 @@ import Toggle from "../customComponent/Toggle";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import AxiosApi from "../api/AxiosApi";
 
 const Container = styled.div`
   display: flex;
   height: auto;
   width: 90vw;
-  margin: 10vh auto auto auto; /* 위아래는 100px, 좌우는 자동으로 중앙에 정렬됩니다. */
+  margin: 10vh auto auto auto;
   background-color: white;
-  text-align: center; /* 내용을 가운데 정렬합니다. */
+  text-align: center;
   flex-direction: column;
-  align-items: center; /* 가로 방향 중앙 정렬 */
-  justify-content: center; /* 세로 방향 중앙 정렬 */
+  align-items: center;
+  justify-content: center;
 `;
 
 const Title = styled.div`
   width: 110px;
-  border-bottom: 3px solid black; /* 밑줄을 추가합니다. */
+  border-bottom: 3px solid black;
   font-size: 40px;
   margin-bottom: 20px;
 
@@ -41,6 +42,7 @@ const TitleName = styled.input.attrs({ type: "text" })`
   font-family: "DoHyeon-Regular", sans-serif;
 
   @media (max-width: 430px) {
+    display: flex;
     width: 350px;
     height: 50px;
     font-size: 20px;
@@ -61,11 +63,13 @@ const Content = styled.textarea`
   font-family: "DoHyeon-Regular", sans-serif;
 
   @media (max-width: 430px) {
+    display: flex;
     width: 350px;
     height: 300px;
     font-size: 20px;
   }
 `;
+
 const BtnKing = styled.div`
   display: flex;
   margin-top: 20px;
@@ -74,10 +78,10 @@ const BtnKing = styled.div`
 const Btn = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center; /* 중앙 정렬 */
-  font-size: 25px;
-  width: 140px;
-  height: 50px;
+  justify-content: center;
+  font-size: 35px;
+  width: 200px;
+  height: 60px;
   background-color: black;
   color: white;
   border-radius: 30px;
@@ -92,26 +96,66 @@ const Btn = styled.div`
     transition: all 0.2s ease-in-out;
     border: 2px solid black;
   }
+
   @media (max-width: 430px) {
     width: 110px;
     height: 30px;
     font-size: 20px;
   }
 `;
+
 const StyledLink = styled(Link)`
-  color: inherit; /* 부모 요소의 색상을 상속받습니다. */
+  color: inherit;
 `;
 
 const BoardWrite = () => {
-  // 입력한 제목과 내용 상태를 관리합니다.
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  // 엔터 키가 눌렸을 때 줄 바꿈을 처리하는 함수입니다.
+  const calculateByteLength = (str) => {
+    let byteLength = 0;
+    for (let i = 0; i < str.length; i++) {
+      byteLength += str.charCodeAt(i) > 127 ? 3 : 1;
+    }
+    return byteLength;
+  };
+
+  const handleTitleChange = (event) => {
+    const value = event.target.value;
+    if (calculateByteLength(value) <= 50) {
+      setTitle(value);
+    }
+  };
+
+  const handleContentChange = (event) => {
+    const value = event.target.value;
+    if (calculateByteLength(value) <= 300) {
+      setContent(value);
+    }
+  };
+
   const handleKeyDown = (event, setter) => {
     if (event.key === "Enter") {
-      event.preventDefault(); // 기본 동작 방지
-      setter((prev) => prev + "\n"); // 현재 값에 줄 바꿈 문자 추가
+      event.preventDefault();
+      setter((prev) => {
+        const newValue = prev + "\n";
+        return calculateByteLength(newValue) <= (setter === setTitle ? 50 : 300)
+          ? newValue
+          : prev;
+      });
+    }
+  };
+
+  const handlePost = async () => {
+    try {
+      // 등록 요청 보내기
+      await AxiosApi.boardWrite({ title, content }); // AxiosApi 사용하여 요청 보내기
+      setIsSuccess(true); // 성공 시 isSuccess 상태를 true로 설정
+      window.location.href = "/askme/board/success";
+    } catch (error) {
+      // 등록 실패 시 처리
+      alert("글 등록에 실패했습니다.", error);
     }
   };
 
@@ -126,19 +170,22 @@ const BoardWrite = () => {
       >
         <Container>
           <Title>글 쓰기</Title>
-          {/* 제목 입력란 */}
-          <TitleName placeholder="제목을 입력하세요" />
-          {/* 내용 입력란 */}
+          <TitleName
+            placeholder="제목을 입력하세요"
+            onChange={handleTitleChange}
+            value={title}
+            onKeyDown={(e) => handleKeyDown(e, setTitle)}
+          />
           <Content
             placeholder="내용을 입력하세요"
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={handleContentChange}
             onKeyDown={(e) => handleKeyDown(e, setContent)}
           />
           <BtnKing>
-            <Btn>등록 </Btn>
+            <Btn onClick={handlePost}>등록</Btn>
             <Btn>
-              <StyledLink to="/askme/board"> 돌아가기</StyledLink>
+              <StyledLink to="/askme/board">돌아가기</StyledLink>
             </Btn>
           </BtnKing>
         </Container>

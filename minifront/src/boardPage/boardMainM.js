@@ -82,6 +82,7 @@ const SearchInput = styled.input.attrs({ type: "text" })`
   padding: 5px;
   margin-right: 10px;
   border: 3px solid black;
+  font-family: "DoHyeon-Regular", sans-serif;
 `;
 
 const Btn = styled.div`

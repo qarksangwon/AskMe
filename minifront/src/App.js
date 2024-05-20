@@ -9,6 +9,7 @@ import Login from "./loginPage/Login";
 import Chat from "./chatPage/Chat";
 import { useState } from "react";
 import BoardWrite from "./boardPage/boardWrite";
+import Writesucces from "./boardPage/writeSuccess";
 
 function App() {
   const isMobile = window.innerWidth <= 430;
@@ -26,6 +27,7 @@ function App() {
             element={isMobile ? <BoardM /> : <Board />}
           />
           <Route path="/askme/board/write" element={<BoardWrite />} />
+          <Route path="/askme/board/success" element={<Writesucces />} />
           <Route path="/askme/signup" element={<SignUp />} />
           <Route
             path="/askme/chatmain"

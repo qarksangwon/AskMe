@@ -22,4 +22,10 @@ public class BoardController {
         System.out.println(list);
         return ResponseEntity.ok(list);
     }
+
+    @PostMapping("/board/write")
+    public ResponseEntity<Boolean> boardRegister(@RequestBody BoardVO board) {
+        boolean isTrue = dao.boardRegister(board);
+        return ResponseEntity.ok(isTrue);
+    }
 }
