@@ -10,8 +10,13 @@ const AxiosApi = {
     return await axios.post(Askme_Domain + "/askme/board/write", data);
   },
 
-  chatContent: async (roomId) => {
-    return await axios.get(Askme_Domain + "/askme/chat", { roomId });
+  checkExist: async (arrayRoomId) => {
+    const roomId = arrayRoomId.join("");
+    return await axios.get(Askme_Domain + "/askme/chatmain", {
+      params: {
+        roomId: roomId,
+      },
+    });
   },
 };
 
