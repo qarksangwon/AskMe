@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Board from "./boardPage/boardMain";
 import Home from "./mainPage/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -9,6 +11,19 @@ import Login from "./loginPage/Login";
 import Chat from "./chatPage/Chat";
 
 function App() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    // 데이터베이스에서 데이터를 가져오는 API 호출
+    axios
+      .get("http://localhost:3001/api/data")
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
   return (
     <>
       <GlobalStyle />

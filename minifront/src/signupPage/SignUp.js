@@ -3,6 +3,7 @@ import Logoimg from "../images/Logo.png";
 import Exitimg from "../images/exit.png";
 import "./signup.css";
 import { useNavigate } from "react-router-dom";
+import ImageUploader from "../firebase/ImageUploader";
 
 function SignUp() {
   let navigate = useNavigate();
@@ -16,6 +17,7 @@ function SignUp() {
   const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
+  const [url, setUrl] = useState("");
 
   const [nameValid, setNameValid] = useState(false);
   const [nicknameValid, setNickNameValid] = useState(false);
@@ -92,6 +94,7 @@ function SignUp() {
       setPwValid(false);
     }
   };
+
   // 확인버튼
   const onClickConfirmButton = () => {
     alert("회원가입에 성공했습니다");
@@ -109,19 +112,9 @@ function SignUp() {
       <br />
 
       {/* ----------- 사진등록 */}
-      {/* <FileUploadContainer>
-        <h2>사진 업로드</h2>
-        <FileUploadForm>
-          <FileInput type="file" accept="image/jpg, image/jpeg, image/png" ref={fileInputRef} onchange={uploadProfile} />
-          <FileUploadButton type="button" 
-          onClick={handleClickFileInput}>
-            사진 업로드
-         </FileUploadButton>
-        </FileUploadForm>
-        <ShowFileImage/>
-      </FileUploadContainer> */}
       <div>
-        <button className="photoButton">사진 등록</button>
+        <ImageUploader setUrl={setUrl} />
+        {url && <img src={url} alt="uploaded" />}
       </div>
 
       {/* ------------이름 */}
@@ -185,7 +178,7 @@ function SignUp() {
               )}
             </div>
           </div>
-          <button onClick={setName} className="idCheckButton">
+          <button onClick={setId} className="idCheckButton">
             중복 확인
           </button>
         </div>
@@ -224,7 +217,7 @@ function SignUp() {
             />
           </div>
 
-          <button onClick={setName} className="emailButton">
+          <button onClick={setEmail} className="emailButton">
             이메일 인증
           </button>
         </div>

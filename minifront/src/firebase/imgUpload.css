@@ -1,0 +1,35 @@
+.fileupload {
+  display: inline-block;
+  margin: 20px;
+}
+
+.fileselect {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.preview-container {
+  margin-bottom: 10px;
+}
+
+.preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+
+.upload {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #000000;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.upload:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}

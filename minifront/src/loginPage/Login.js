@@ -1,12 +1,27 @@
+import { setUserId } from "firebase/analytics";
 import Logoimg from "../images/Logo.png";
 import Exitimg from "../images/exit.png";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
+import AxiosApi from "../api/AxiosApi";
 
 function Login() {
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
+
+  const handleIdChange = (e) => {
+    setId(e.target.value);
+  };
+
+  const handlePwChange = (e) => {
+    setPw(e.target.value);
+  };
+
   let navigate = useNavigate();
   let signUpNav = useNavigate();
 
+  const idRef = useRef(null);
   const SignupClick = () => {
     signUpNav("/askme/signup");
   };
@@ -14,9 +29,18 @@ function Login() {
     navigate("/askme");
   };
 
-  const onClickLoginButton = () => {
+  const onClickLoginButton = async () => {
+    try {
+      const rsp = await AxiosApi.LoginMain(id, pw);
+    } catch (e) {
+      console.log(e);
+    }
+    const userId = idRef.current.value;
+
+    localStorage.setItem("userId", userId);
     alert("로그인에 성공했습니다");
-    // 이후 필요한 로그인 로직 추가
+
+    navigate("/askme");
   };
 
   return (
@@ -33,7 +57,14 @@ function Login() {
         <div className="login-idBox">
           <div className="login-inputTitle">아이디</div>
           <div className="login-inputWrap">
-            <input className="login-input" type="text" placeholder="아이디" />
+            <input
+              className="login-input"
+              type="text"
+              placeholder="아이디"
+              ref={idRef}
+              onChange={handleIdChange}
+              value={id} // 레퍼런스 연결
+            />
           </div>
         </div>
 
@@ -45,6 +76,8 @@ function Login() {
               className="login-input"
               type="password"
               placeholder="비밀번호"
+              onChange={handlePwChange}
+              value={pw}
             />
           </div>
         </div>

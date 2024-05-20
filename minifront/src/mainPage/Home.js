@@ -91,6 +91,10 @@ const BtnBack = styled.div`
 `;
 
 const Home = () => {
+  const id = localStorage.getItem("userId");
+  const test = () => {
+    console.log(id);
+  };
   return (
     <>
       <Container>
@@ -109,6 +113,7 @@ const Home = () => {
               <BtnBack>이동하기</BtnBack>
             </Btn>
           </Link>
+          <button onClick={test}>123</button>
         </Body>
         <Footer top={1000} mtop={732} />
       </Container>
