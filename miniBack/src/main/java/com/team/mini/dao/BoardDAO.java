@@ -3,6 +3,7 @@ package com.team.mini.dao;
 import com.team.mini.vo.BoardVO;
 
 import com.team.mini.utils.Common;
+
 import java.sql.Connection;
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class BoardDAO {
         try {
             conn = Common.getConnection(); // 데이터베이스 연결
             stmt = conn.createStatement(); // Statement 객체 생성
-            String sql = "SELECT * FROM BOARDTB ORDER BY classno DESC";
+            String sql = "SELECT * FROM BOARDTB ORDER BY CLASSNO DESC";
             rs = stmt.executeQuery(sql); // 쿼리 실행
 
             // 결과 집합을 반복하며 BoardVo 객체로 변환 후 리스트에 추가
@@ -29,7 +30,7 @@ public class BoardDAO {
                 String content = rs.getString("CONTENT");
                 String nickname = rs.getString("NICKNAME");
                 String profile = rs.getString("PROFILE");
-                String userid = rs.getString("USERID");
+                String userid = rs.getString("ID");
                 Date join = rs.getDate("WRITEDATE");
 
                 BoardVO vo = new BoardVO();

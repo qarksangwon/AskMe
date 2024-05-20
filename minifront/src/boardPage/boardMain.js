@@ -1,4 +1,3 @@
-import "./board.css"; // 스타일 파일 import
 import logosearch from "../images/search.png";
 import exit from "../images/exit.png";
 import styled from "styled-components";
@@ -21,6 +20,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center; /* 가로 방향 중앙 정렬 */
   justify-content: center; /* 세로 방향 중앙 정렬 */
+  font-family: "DoHyeon-Regular", sans-serif;
 `;
 
 const Searchlogo = styled.img`
@@ -175,9 +175,11 @@ const Board = () => {
               onKeyPress={handleKeyPress}
             />
             <Searchlogo src={logosearch} onClick={handleSearch} />
-            <Btn>
-              <BtnWrite>글 쓰기</BtnWrite>
-            </Btn>
+            <Link to="/askme/board/write">
+              <Btn>
+                <BtnWrite>글 쓰기</BtnWrite>
+              </Btn>
+            </Link>
             <Btn>
               <BtnMyWrite>내가 쓴 글</BtnMyWrite>
             </Btn>

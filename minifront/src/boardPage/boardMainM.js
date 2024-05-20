@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import AxiosApi from "../api/AxiosApi";
+import Toggle from "../customComponent/Toggle";
 
 const Container = styled.div`
   display: flex;
@@ -176,52 +177,57 @@ const BoardM = () => {
   };
 
   return (
-    <motion.div
-      /* 2. 원하는 애니메이션으로 jsx를 감싸준다 */
-      initial={{ opacity: 0, x: 200 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -100 }}
-      transition={{ duration: 1.5 }}
-    >
-      <Container>
-        <Title>게시판</Title>
-        <ContentWrapper>
-          <Btn>
-            <BtnWrite>글 쓰기</BtnWrite>
-          </Btn>
-          <Btn>
-            <BtnMyWrite>내가 쓴 글</BtnMyWrite>
-          </Btn>
-        </ContentWrapper>
-        <Boardhead1>
-          <SearchInput
-            placeholder="검색 제목 입력"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyPress={handleKeyPress}
-          />
-          <Searchlogo src={logosearch} onClick={handleSearch} />
-          <Link to="/askme">
-            <Exit src={exit} />
-          </Link>
-        </Boardhead1>
+    <>
+      <Toggle></Toggle>
+      <motion.div
+        /* 2. 원하는 애니메이션으로 jsx를 감싸준다 */
+        initial={{ opacity: 0, x: 200 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -100 }}
+        transition={{ duration: 1.5 }}
+      >
+        <Container>
+          <Title>게시판</Title>
+          <ContentWrapper>
+            <Link to="/askme/board/write">
+              <Btn>
+                <BtnWrite>글 쓰기</BtnWrite>
+              </Btn>
+            </Link>
+            <Btn>
+              <BtnMyWrite>내가 쓴 글</BtnMyWrite>
+            </Btn>
+          </ContentWrapper>
+          <Boardhead1>
+            <SearchInput
+              placeholder="검색 제목 입력"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
+            <Searchlogo src={logosearch} onClick={handleSearch} />
+            <Link to="/askme">
+              <Exit src={exit} />
+            </Link>
+          </Boardhead1>
 
-        <table>
-          {boards &&
-            boards.map((board) => (
-              <tr>
-                <tr key={board.classNo}>
-                  <th>{board.title}</th>
-                </tr>
-                <tr key={board.classNo}>
-                  <td>{board.nickname}</td>
-                  <td>{board.join}</td>
-                </tr>
-              </tr>
-            ))}
-        </table>
-      </Container>
-    </motion.div>
+          <table>
+            {boards &&
+              boards.map((board) => (
+                <>
+                  <tr key={board.classNo}>
+                    <th>{board.title}</th>
+                  </tr>
+                  <tr key={`${board.classNo}_info`}>
+                    <td>{board.nickname}</td>
+                    <td>{board.join}</td>
+                  </tr>
+                </>
+              ))}
+          </table>
+        </Container>
+      </motion.div>
+    </>
   );
 };
 
