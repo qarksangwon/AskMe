@@ -4,7 +4,7 @@ import Toggle from "../customComponent/Toggle";
 import Footer from "../customComponent/Footer";
 import exit from "../images/exit.png";
 import { Link } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AxiosApi from "../api/AxiosApi";
 
 const Logo = styled.img`
@@ -138,39 +138,68 @@ const EntranceBtn = styled.button`
 const ChatMain = ({ roomId, setRoomId }) => {
   const [chatEntrance, setChatEntrance] = useState("채팅방 입장하기");
   const [chatMake, setChatMake] = useState("채팅방 만들기");
+  const [isRoom, setIsRoom] = useState();
+  const [inOrMake, setInOrMake] = useState(0);
   const roomRefs = useRef([]);
   const linkRef = useRef(null);
 
   const chatExist = async () => {
     try {
-      const rst = await AxiosApi.checkExist(roomId); // 전체 목록 가져오기
-      return rst;
+      for (const element of roomId)
+        if (element === "") {
+          alert("모두 입력해 주세요");
+          return;
+        }
+      const response = await AxiosApi.checkExist(roomId); // 전체 목록 가져오기
+      setIsRoom(response.data);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const onClickIn = () => {
-    console.log(roomId);
-    console.log(chatExist());
-    if (chatExist()) {
-      linkRef.current.click();
-    }
-    // if (linkRef.current) {
-    //   linkRef.current.click();
-    // }
+  const onClickIn = (val) => {
+    chatExist();
+    // 매개변수 1 -> 채팅방 만들기 -> inOrMake 1은 만들기
+    // 매개변수 2 -> 채팅방 입장하기 -> inOrMake 2는 입장하기
+    if (val === 1) setInOrMake(1);
+    else setInOrMake(2);
   };
+
+  // 비동기로 해당 방이 존재하는지 체크하기 때문에
+  // useEffect로 isRoom이 set 됐을 때 로직을 구현해야함.
+  //
+  useEffect(() => {
+    // 채팅방 만들 때 isRoom 이 true면 못 만들게 알람
+    // 입장할 때 isRoom 이 false면 못 입장하게 알람
+    console.log("isroom : ", isRoom);
+    console.log(inOrMake);
+
+    if (inOrMake === 1) {
+      if (isRoom) alert("이미 있는 채팅방 입니다.");
+      else if (!isRoom) linkRef.current.click();
+    }
+    if (inOrMake === 2) {
+      if (!isRoom) alert("없는 채팅방 입니다.");
+      else linkRef.current.click();
+    }
+  }, [isRoom]);
+
   // 방 번호 input 값 핸들링
   // input 각 버튼에 대해 index를 지정해놓았기때문에
   // 해당 index에 맞는 값을 가져와서 5자리 배열(부모 컴포넌트에 있음)에
   // 각 index에 맞는 위치에 값 저장
   const handleInputRoom = (e, index) => {
     const newValue = e.target.value;
+    const regex = /^[0-9a-z]$/;
+    // 영어 소문자와 0~9까지만 입력 가능한 정규식 적용
+    if (!regex.test(newValue)) {
+      roomRefs.current[index].value = "";
+      return;
+    }
     if (newValue.length > 1) return; // 문자 1개만 입력받도록
     const newValues = roomId;
     newValues[index] = newValue;
     setRoomId(newValues);
-    console.log(roomId);
     if (newValue && index < roomRefs.current.length - 1) {
       roomRefs.current[index + 1].focus();
     }
@@ -194,7 +223,10 @@ const ChatMain = ({ roomId, setRoomId }) => {
               ></InputRoom>
             ))}
           </InputRoomContainer>
-          <EntranceBtn onClick={onClickIn}>생성하기</EntranceBtn>
+          <EntranceBtn onClick={() => onClickIn(1)}>생성하기</EntranceBtn>
+          <div style={{ color: "red", marginTop: "8px", fontSize: "14px" }}>
+            영어 소문자 / 숫자 입력
+          </div>
         </EntranceContainer>
       );
     }
@@ -203,6 +235,8 @@ const ChatMain = ({ roomId, setRoomId }) => {
     else {
       setRoomId(["", "", "", "", ""]);
       setChatMake("채팅방 만들기");
+      setIsRoom();
+      setInOrMake(0);
     }
   };
 
@@ -225,7 +259,10 @@ const ChatMain = ({ roomId, setRoomId }) => {
               ></InputRoom>
             ))}
           </InputRoomContainer>
-          <EntranceBtn onClick={onClickIn}>입장</EntranceBtn>
+          <EntranceBtn onClick={() => onClickIn(2)}>입장</EntranceBtn>
+          <div style={{ color: "red", marginTop: "8px", fontSize: "14px" }}>
+            영어 소문자 / 숫자 입력
+          </div>
         </EntranceContainer>
       );
     }
@@ -234,6 +271,8 @@ const ChatMain = ({ roomId, setRoomId }) => {
     else {
       setRoomId(["", "", "", "", ""]);
       setChatEntrance("채팅방 입장하기");
+      setIsRoom();
+      setInOrMake(0);
     }
   };
   return (

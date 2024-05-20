@@ -174,6 +174,11 @@ const Toggle = () => {
         <Link to="/askme/signup">
           <Inner variants={InnerAnimation}>회원가입</Inner>
         </Link>
+        <Link to="/askme/login">
+          <Inner variants={InnerAnimation} style={{ fontSize: "14px" }}>
+            ID/PW 찾기
+          </Inner>
+        </Link>
         <Inner variants={InnerAnimation} onClick={() => toggleClick(2)}>
           닫기
         </Inner>
