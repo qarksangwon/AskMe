@@ -32,15 +32,17 @@ function Login() {
   const onClickLoginButton = async () => {
     try {
       const rsp = await AxiosApi.LoginMain(id, pw);
+      if (rsp.success) {
+        localStorage.setItem("userId", id);
+        alert("로그인에 성공했습니다");
+        navigate("/askme");
+      } else {
+        alert(rsp.message || "로그인에 실패했습니다");
+      }
     } catch (e) {
       console.log(e);
+      alert("로그인 중 오류가 발생했습니다");
     }
-    const userId = idRef.current.value;
-
-    localStorage.setItem("userId", userId);
-    alert("로그인에 성공했습니다");
-
-    navigate("/askme");
   };
 
   return (
