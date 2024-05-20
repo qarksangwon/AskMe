@@ -5,6 +5,7 @@ import Footer from "../customComponent/Footer";
 import exit from "../images/exit.png";
 import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
+import AxiosApi from "../api/AxiosApi";
 
 const Logo = styled.img`
   width: 150px;
@@ -139,8 +140,22 @@ const ChatMain = ({ roomId, setRoomId }) => {
   const [chatMake, setChatMake] = useState("채팅방 만들기");
   const roomRefs = useRef([]);
   const linkRef = useRef(null);
+
+  const chatExist = async () => {
+    try {
+      const rst = await AxiosApi.checkExist(roomId); // 전체 목록 가져오기
+      return rst;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const onClickIn = () => {
     console.log(roomId);
+    console.log(chatExist());
+    if (chatExist()) {
+      linkRef.current.click();
+    }
     // if (linkRef.current) {
     //   linkRef.current.click();
     // }

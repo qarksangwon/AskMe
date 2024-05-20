@@ -127,25 +127,6 @@ public class MemberDAO {
         return getId;
 
     }
-    // 비밀번호 찾기 테스트
-    public String memberPw(String name, String id, String email) {
-        int result = 0;
-        String getPw = null;
-        String sql = "SELECT PASSWORD FROM USERTB WHERE NAME = " + "'" + name + "'" + " AND " + "ID = " + "'" + id + "'" + " AND " + "EMAIL = " + "'" + email + "'";
-        try {
-            conn = Common.getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(sql);
-            if(rs.next()) {
-                getPw = rs.getString("PASSWORD");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Common.close(stmt);
-        Common.close(conn);
-        return getPw;
-    }
 
     // 회원 가입
     public boolean memberRegister(MemberVO member) {
@@ -172,6 +153,27 @@ public class MemberDAO {
         else return false;
     }
 
+    // 회원 정보 수정
+    public boolean memberUpdate(String id, String password, String nickname) {
+        int result = 0;
+        String sql = "UPDATE USERTB SET PASSWORD = ?, NICKNAME = ? WHERE ID = ?";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, password);
+            pStmt.setString(2, nickname);
+            pStmt.setString(3, id);
+            result = pStmt.executeUpdate();
+            System.out.println("회원정보 수정 결과 확인 : " + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(rs);
+        Common.close(pStmt);
+        Common.close(conn);
+        if (result >= 1) return true;
+        else return false;
+    }
 
     // 회원 탈퇴
     public boolean memberDelete(String id) {
@@ -191,5 +193,4 @@ public class MemberDAO {
         if(result == 1) return true;
         else return false;
     }
-
 }

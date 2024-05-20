@@ -32,4 +32,22 @@ public class ChatDAO {
         }
         return isTrue; // 해당 RoomID가 있다면 true, 없다면 false
     }
+
+    public boolean makeRoom(String roomId, String userId){
+        boolean isTrue = false;
+        String q = "INSERT INTO CHATROOM VALUES(?,?)";
+        try{
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(q);
+            pStmt.setString(1,roomId);
+            pStmt.setString(2, userId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return isTrue;
+    }
 }
