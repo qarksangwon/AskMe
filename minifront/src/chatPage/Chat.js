@@ -35,7 +35,7 @@ const ChatOpenBtn = styled.div`
   align-items: center;
   border: 2px solid black;
   border-top-left-radius: 10px;
-  border-bottom-left-radius: ${(props) => (props.active ? "0px" : "10px")};
+  border-bottom-left-radius: ${(props) => props.active};
   cursor: pointer;
   transition: all 0.2s ease-in;
   &:hover {
@@ -54,9 +54,7 @@ const Chatroom = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transform: translateX(
-    ${({ active }) => (active ? "0" : "calc(100% + 20px)")}
-  );
+  transform: translateX(${(props) => props.active});
   transition: all 0.5s ease-in-out;
   margin-bottom: 10px;
 `;
@@ -133,7 +131,7 @@ const Chat = ({ roomId }) => {
   // 부모 컴포넌트에서 받은 roomId는 배열이기떄문에 문자열로 재지정
   const roomNum = roomId.join("");
   const [btnText, setBtnText] = useState("채팅창 열기");
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
   const [inputMessage, setInputMessage] = useState("");
   const [errorMsg, setErrorMsg] = useState(false);
 
@@ -141,13 +139,13 @@ const Chat = ({ roomId }) => {
     if (btnText === "채팅창 열기") {
       console.log(roomNum);
       setBtnText("닫기");
-      setIsActive(true);
+      setIsActive(false);
     }
     if (btnText === "닫기") {
       setInputMessage("");
       setErrorMsg(false);
       setBtnText("채팅창 열기");
-      setIsActive(false);
+      setIsActive(true);
     }
   };
 
@@ -168,11 +166,11 @@ const Chat = ({ roomId }) => {
       <Container>
         <ChatroomContainer>
           <ChatBtnContainer>
-            <ChatOpenBtn acitve={isActive} onClick={openChat}>
+            <ChatOpenBtn active={isActive ? "10px" : "0px"} onClick={openChat}>
               {btnText}
             </ChatOpenBtn>
           </ChatBtnContainer>
-          <Chatroom active={isActive}>
+          <Chatroom active={isActive ? "calc(100% + 20px)" : "0"}>
             <MessagesContainer>
               <MessageBox>
                 <p>닉네임</p>
