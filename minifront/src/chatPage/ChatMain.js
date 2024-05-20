@@ -62,7 +62,6 @@ const Btn = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 22px;
-  cursor: pointer;
   transition: all 0.2s ease-in;
   &:hover {
     background-color: white;
@@ -95,10 +94,12 @@ const EntranceContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 `;
 
 const InputRoomContainer = styled.div`
   display: flex;
+  width: 100%;
 `;
 
 const InputRoom = styled.input`
@@ -112,10 +113,11 @@ const InputRoom = styled.input`
   box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
-const EntranceBtn = styled.div`
+const EntranceBtn = styled.button`
   width: 100px;
   height: 30px;
   margin-top: 10px;
+  font-size: 18px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,6 +126,7 @@ const EntranceBtn = styled.div`
   border: 2px solid black;
   border-radius: 10px;
   transition: all 0.2s ease-in;
+  cursor: pointer;
   &:hover {
     background-color: white;
     color: black;
@@ -133,8 +136,15 @@ const EntranceBtn = styled.div`
 
 const ChatMain = ({ roomId, setRoomId }) => {
   const [chatEntrance, setChatEntrance] = useState("채팅방 입장하기");
+  const [chatMake, setChatMake] = useState("채팅방 만들기");
   const roomRefs = useRef([]);
-
+  const linkRef = useRef(null);
+  const onClickIn = () => {
+    console.log(roomId);
+    // if (linkRef.current) {
+    //   linkRef.current.click();
+    // }
+  };
   // 방 번호 input 값 핸들링
   // input 각 버튼에 대해 index를 지정해놓았기때문에
   // 해당 index에 맞는 값을 가져와서 5자리 배열(부모 컴포넌트에 있음)에
@@ -145,9 +155,39 @@ const ChatMain = ({ roomId, setRoomId }) => {
     const newValues = roomId;
     newValues[index] = newValue;
     setRoomId(newValues);
-
+    console.log(roomId);
     if (newValue && index < roomRefs.current.length - 1) {
       roomRefs.current[index + 1].focus();
+    }
+  };
+  const handleChatMake = () => {
+    // 마우스 올려 놨을 때 채팅방 번호 누르도록 띄워주고
+    // 방 번호 입력해서 입장하도록.
+    // 지정한 크기만큼 input을 만들어 각 버튼에 한자리씩 넣어서
+    // 해당 값이 넘어가도록 지정
+    if (chatMake === "채팅방 만들기") {
+      setChatMake(
+        <EntranceContainer>
+          <p>채팅방 번호 입력</p>
+          <InputRoomContainer>
+            {roomId.map((value, index) => (
+              <InputRoom
+                key={index}
+                onChange={(e) => handleInputRoom(e, index)}
+                ref={(el) => (roomRefs.current[index] = el)}
+                maxLength="1"
+              ></InputRoom>
+            ))}
+          </InputRoomContainer>
+          <EntranceBtn onClick={onClickIn}>생성하기</EntranceBtn>
+        </EntranceContainer>
+      );
+    }
+    // 마우스를 내리면 설정한 값 초기화하면서 재지정할 수 있도록
+    // (자릿수 똑같이 지정)
+    else {
+      setRoomId(["", "", "", "", ""]);
+      setChatMake("채팅방 만들기");
     }
   };
 
@@ -170,9 +210,7 @@ const ChatMain = ({ roomId, setRoomId }) => {
               ></InputRoom>
             ))}
           </InputRoomContainer>
-          <LinkDiv to={{ pathname: "/askme/chat" }}>
-            <EntranceBtn>입장</EntranceBtn>
-          </LinkDiv>
+          <EntranceBtn onClick={onClickIn}>입장</EntranceBtn>
         </EntranceContainer>
       );
     }
@@ -185,14 +223,17 @@ const ChatMain = ({ roomId, setRoomId }) => {
   };
   return (
     <>
+      <Link to="/askme/chat" ref={linkRef} style={{ display: "none" }}>
+        Hidden Link
+      </Link>
       <Container>
         <Toggle />
         <Body>
           <Logo src={imgLogo} />
           <BtnContainer>
-            <LinkDiv to="/askme">
-              <Btn>채팅방 만들기</Btn>
-            </LinkDiv>
+            <Btn onMouseEnter={handleChatMake} onMouseLeave={handleChatMake}>
+              {chatMake}
+            </Btn>
             <LinkDiv to="/askme">
               <Btn>채팅방 삭제하기</Btn>
             </LinkDiv>
