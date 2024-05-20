@@ -29,7 +29,7 @@ public class MemberController {
         return "hi";
     }
 
-    // 회원 가입 이메일 전송
+    // GET 회원 가입 이메일 전송
     @GetMapping("/email")
     public ResponseEntity<String> sendMail(@RequestParam String email) {
         System.out.println("인증 번호 받을 email : " + email);
@@ -62,7 +62,7 @@ public class MemberController {
         return new ResponseEntity<>(tempPw,HttpStatus.OK);
     }
 
-    //GET 회원 조회
+    // GET 회원 조회
     @GetMapping("/member")
     public ResponseEntity<List<MemberVO>> memberList(@RequestParam String name) {
         System.out.println("입력Name : " + name);
@@ -70,7 +70,7 @@ public class MemberController {
         return ResponseEntity.ok(list);
     }
 
-    //POST 로그인
+    // POST 로그인
     @PostMapping("/login")
     public ResponseEntity<Boolean> memberLogin(@RequestBody Map<String, String> loginData) {
         String id = loginData.get("id");
@@ -79,7 +79,7 @@ public class MemberController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    //GET 아이디 및 닉네임 중복 체크
+    // GET 아이디 및 닉네임 중복 체크
     @GetMapping("/signup")
     public ResponseEntity<Boolean> memberCheck(@RequestParam String check, String value) {
 //        String testCheck = "nickname";
@@ -88,13 +88,14 @@ public class MemberController {
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 
-    //POST 회원 가입
+    // POST 회원 가입
     @PostMapping("/signup")
     public ResponseEntity<Boolean> memberRegister(@RequestBody MemberVO member) {
         boolean isTrue = dao.memberRegister(member);
         return ResponseEntity.ok(isTrue);
     }
 
+    // POST 회원정보 수정
     @PostMapping("/update")
     public ResponseEntity<Boolean> editInfo(@RequestBody Map<String, String> regData) {
         String getId = regData.get("id");
@@ -112,7 +113,7 @@ public class MemberController {
         return ResponseEntity.ok(isTrue);
     }
 
-    // 아이디 찾기
+    // 아이디 찾기 test...
     @PostMapping("/findId")
     public ResponseEntity<String> memberId(@RequestBody Map<String, String> regData) {
         String getName = regData.get("name");
