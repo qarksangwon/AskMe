@@ -118,18 +118,46 @@ public class MemberController {
         return ResponseEntity.ok(isTrue);
     }
 
-    // 아이디 찾기 test...
-    @PostMapping("/findid")
-    public ResponseEntity<String> memberId(@RequestBody Map<String, String> regData) {
-        String getName = regData.get("name");
-        String getEmail = regData.get("email");
-        System.out.println("이름 : " + getName + ", 메일 : " + getEmail);
-        String getId = dao.memberId(getName, getEmail);
-        sendMail(getEmail);
-        return new ResponseEntity<>(getId, HttpStatus.OK);
+    // POST 아이디 찾기
+    // 이름과 이메일이 일치하면 이메일 전송
+    @PostMapping("/requestId")
+    public ResponseEntity<String> requestId(@RequestParam String name, @RequestParam String email) {
+        if (dao.isNameAndEmailMatch(name, email)) {
+            String verificationCode = sendVerificationEmail(email);
+            verificationCodes.put(email, verificationCode);
+            return new ResponseEntity<>("Verification email sent", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Invalid name or email", HttpStatus.BAD_REQUEST);
+        }
+    }
+    // 이메일 인증 번호와 사용자가 입력한 코드 일치하는지 확인
+    @PostMapping("/verifyId")
+    public ResponseEntity<String> VerifyCodeId(@RequestParam String email, @RequestParam String code) {
+        String savedCode = verificationCodes.get(email);
+        if (savedCode != null && savedCode.equals(code)) {
+            return new ResponseEntity<>("Verification successful", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Invalid verification code", HttpStatus.BAD_REQUEST);
+        }
+    }
+    // 코드가 일치하면 사용자의 아이디 출력
+    @PostMapping("/getId")
+    public ResponseEntity<String> getId(@RequestParam String name, @RequestParam String email, @RequestParam String code) {
+        String savedCode = verificationCodes.get(email);
+        if (savedCode != null && savedCode.equals(code)) {
+            String userId = dao.getUserIdByNameAndEmail(name, email);
+            if (userId != null) {
+                verificationCodes.remove(email);
+                return new ResponseEntity<>("Your ID is: " + userId, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+            }
+        } else {
+            return new ResponseEntity<>("Invalid verification code", HttpStatus.BAD_REQUEST);
+        }
     }
 
-    // 비밀번호 찾기
+    // POST 비밀번호 찾기
     // 아이디와 이메일이 일치하면 이메일을 전송
     @PostMapping("/requestPw")
     public ResponseEntity<String> requestPwdReset(@RequestParam String id, @RequestParam String email) {
@@ -143,7 +171,7 @@ public class MemberController {
     }
     // 이메일 인증 번호와 사용자가 입력한 코드 일치하는지 확인
     @PostMapping("/verifyPw")
-    public ResponseEntity<String> verifyCode(@RequestParam String email, @RequestParam String code) {
+    public ResponseEntity<String> verifyCodePw(@RequestParam String email, @RequestParam String code) {
         String savedCode = verificationCodes.get(email);
         if (savedCode != null && savedCode.equals(code)) {
             return new ResponseEntity<>("Verification successful", HttpStatus.OK);
@@ -166,7 +194,8 @@ public class MemberController {
             return new ResponseEntity<>("Invalid verification code", HttpStatus.BAD_REQUEST);
         }
     }
-    // 비밀번호 인증번호 전송
+
+    // 아이디, 비밀번호 찾기 이메일 인증번호 전송
     private String sendVerificationEmail(String email) {
         Random random = new Random();
         int min = 111111;
@@ -174,7 +203,7 @@ public class MemberController {
         String verificationCode = String.valueOf(random.nextInt(max - min + 1) + min);
 
         String htmlContent = "<div style=\"text-align: center; display:flex; flex-direction:column; justify-content:center; text-align:center;\">"
-                + "<p style=\"font-size:30px; display: block;\">AskMe 비밀번호 재설정 인증번호 입니다.</p>"
+                + "<p style=\"font-size:30px; display: block;\">AskMe 이메일 인증번호 입니다.</p>"
                 + "<p></p>"
                 + "<p style=\"font-size:16px; display: block;\">아래의 인증 번호를 입력해주세요.</p>"
                 + "<p></p>"
@@ -186,13 +215,12 @@ public class MemberController {
         try {
             helper.setFrom("1103bsj@naver.com");
             helper.setTo(email);
-            helper.setSubject("AskMe 비밀번호 재설정 인증 번호");
+            helper.setSubject("AskMe 이메일 인증 번호");
             helper.setText(htmlContent, true);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
         mailSender.send(mimeMessage);
-
         return verificationCode;
     }
 }
