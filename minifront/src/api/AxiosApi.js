@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const Askme_Domain = "http://localhost:8111";
 
 const AxiosApi = {
@@ -12,7 +13,13 @@ const AxiosApi = {
   },
 
   boardWrite: async (data) => {
-    return await axios.post(Askme_Domain + "/askme/board/write", data);
+    const userInfo = {
+      Id: localStorage.getItem("userId"), // 여기에 사용자의 id를 넣어주세요. 예를 들면 localStorage.getItem("userId")를 사용하여 사용자의 id를 가져올 수 있습니다.
+      nickname: "bsj", // 여기에 사용자의 닉네임을 넣어주세요.
+      ...data,
+    };
+
+    return await axios.post(Askme_Domain + "/askme/board/write", userInfo);
   },
 
   checkExist: async (arrayRoomId) => {

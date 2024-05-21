@@ -161,6 +161,15 @@ const BoardWrite = () => {
 
   const handlePost = async () => {
     try {
+      if (title.length < 2) {
+        alert("제목은 최소 2글자 이상이어야 합니다.");
+        return;
+      }
+      if (content.length < 2) {
+        alert("내용은 최소 2글자 이상이어야 합니다.");
+        return;
+      }
+
       // 등록 요청 보내기
       await AxiosApi.boardWrite({ title, content }); // AxiosApi 사용하여 요청 보내기
       setIsSuccess(true); // 성공 시 isSuccess 상태를 true로 설정
@@ -183,13 +192,13 @@ const BoardWrite = () => {
         <Container>
           <Title>글 쓰기</Title>
           <TitleName
-            placeholder="제목을 입력하세요"
+            placeholder="제목을 입력하세요 (2글자 이상)"
             onChange={handleTitleChange}
             value={title}
             onKeyDown={(e) => handleKeyDown(e, setTitle)}
           />
           <Content
-            placeholder="내용을 입력하세요"
+            placeholder="내용을 입력하세요 (2글자 이상)"
             value={content}
             onChange={handleContentChange}
             onKeyDown={(e) => handleKeyDown(e, setContent)}

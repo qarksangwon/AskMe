@@ -55,7 +55,7 @@ public class BoardDAO {
 
     public boolean boardRegister(BoardVO board) {
         int result = 0;
-        String sqlInsert = "INSERT INTO BOARDTB(CLASSNO, TITLE, CONTENT, NICKNAME, WRITEDATE) VALUES(?, ?, ?, ?, SYSDATE)";
+        String sqlInsert = "INSERT INTO BOARDTB(CLASSNO, TITLE, CONTENT, NICKNAME, WRITEDATE,ID) VALUES(?, ?, ?, ?, SYSDATE,?)";
         String sqlSelectMax = "SELECT MAX(CLASSNO) AS MAX_CLASSNO FROM BOARDTB"; // 최대 CLASSNO 조회 쿼리
 
         try {
@@ -79,8 +79,8 @@ public class BoardDAO {
             pStmt.setInt(1, board.getClassNo());
             pStmt.setString(2, board.getTitle());
             pStmt.setString(3, board.getContent());
-            board.setNickname("김기주");
             pStmt.setString(4, board.getNickname());
+            pStmt.setString(5, board.getID());
 
 
             result = pStmt.executeUpdate();

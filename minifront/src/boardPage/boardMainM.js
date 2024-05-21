@@ -9,6 +9,8 @@ import AxiosApi from "../api/AxiosApi";
 import Toggle from "../customComponent/Toggle";
 import Footer from "../customComponent/Footer";
 import Pagination from "react-js-pagination";
+import BoardModal from "./boardModal";
+
 const Container = styled.div`
   display: flex;
   height: auto;
@@ -135,9 +137,8 @@ const PageStyle = styled.div`
 
   .pagination li.active a {
     border: 2px solid black;
-    padding-left: 8px;
-    padding-right: 8px;
-    font-weight: bold;
+    padding-left: 5px;
+    padding-right: 5px;
     color: black;
   }
 `;
@@ -175,8 +176,19 @@ const BoardM = () => {
   const [originalBoards, setOriginalBoards] = useState([]);
   const [page, setPage] = useState(1);
   const [totalItemsCount, setTotalItemsCount] = useState(0);
+  const [selectedBoard, setSelectedBoard] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const itemsPerPage = 4;
+
+  const openModal = (board) => {
+    setSelectedBoard(board);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -208,8 +220,10 @@ const BoardM = () => {
       setBoards(originalBoards.slice(0, itemsPerPage));
       setTotalItemsCount(originalBoards.length);
     } else {
-      const filteredBoards = originalBoards.filter((board) =>
-        board.title.toLowerCase().includes(searchTerm.toLowerCase())
+      const filteredBoards = originalBoards.filter(
+        (board) =>
+          board.title &&
+          board.title.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setBoards(filteredBoards.slice(0, itemsPerPage));
       setTotalItemsCount(filteredBoards.length);
@@ -262,10 +276,13 @@ const BoardM = () => {
             {boards &&
               boards.map((board) => (
                 <>
-                  <tr key={board.classNo}>
+                  <tr key={board.classNo} onClick={() => openModal(board)}>
                     <th>{board.title}</th>
                   </tr>
-                  <tr key={`${board.classNo}_info`}>
+                  <tr
+                    key={`${board.classNo}_info`}
+                    onClick={() => openModal(board)}
+                  >
                     <td>{board.nickname}</td>
                     <td>{board.join}</td>
                   </tr>
@@ -284,6 +301,9 @@ const BoardM = () => {
             onChange={handlePageChange}
           />
         </PageStyle>
+        {isModalOpen && (
+          <BoardModal board={selectedBoard} onClose={closeModal} />
+        )}
       </motion.div>
       <Footer top={1000} mtop={800} />
     </>

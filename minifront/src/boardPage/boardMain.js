@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import AxiosApi from "../api/AxiosApi";
 import Toggle from "../customComponent/Toggle";
 import Pagination from "react-js-pagination";
+import BoardModal from "./boardModal";
 
 const Container = styled.div`
   display: flex;
@@ -14,9 +15,9 @@ const Container = styled.div`
   width: 90vw;
   margin: 10vh auto auto auto;
   padding: 120px;
-  background-color: #ececec;
+  background-color: white;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
   text-align: center;
   flex-direction: column;
   align-items: center;
@@ -99,6 +100,11 @@ const Tdfont = styled.div`
     margin: 10px;
   }
 
+  tbody tr:hover {
+    background-color: #ececec;
+    cursor: pointer;
+  }
+
   td {
     padding: 20px;
     border-bottom: 1px solid #cdcdcd;
@@ -140,9 +146,8 @@ const PageStyle = styled.div`
 
   .pagination li.active a {
     border: 2px solid black;
-    padding-left: 8px;
-    padding-right: 8px;
-    font-weight: bold;
+    padding-left: 5px;
+    padding-right: 5px;
     color: black;
   }
 `;
@@ -157,6 +162,17 @@ const Board = () => {
   const [originalBoards, setOriginalBoards] = useState([]);
   const [page, setPage] = useState(1);
   const [totalItemsCount, setTotalItemsCount] = useState(0);
+  const [selectedBoard, setSelectedBoard] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (board) => {
+    setSelectedBoard(board);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const itemsPerPage = 4;
 
@@ -190,8 +206,10 @@ const Board = () => {
       setBoards(originalBoards.slice(0, itemsPerPage));
       setTotalItemsCount(originalBoards.length);
     } else {
-      const filteredBoards = originalBoards.filter((board) =>
-        board.title.toLowerCase().includes(searchTerm.toLowerCase())
+      const filteredBoards = originalBoards.filter(
+        (board) =>
+          board.title &&
+          board.title.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setBoards(filteredBoards.slice(0, itemsPerPage));
       setTotalItemsCount(filteredBoards.length);
@@ -249,7 +267,7 @@ const Board = () => {
               <tbody>
                 {boards &&
                   boards.map((board) => (
-                    <tr key={board.classNo}>
+                    <tr key={board.classNo} onClick={() => openModal(board)}>
                       <td>{board.classNo}</td>
                       <td>{board.title}</td>
                       <td>{board.nickname}</td>
@@ -265,12 +283,16 @@ const Board = () => {
             activePage={page}
             itemsCountPerPage={itemsPerPage}
             totalItemsCount={totalItemsCount}
-            pageRangeDisplayed={10}
+            pageRangeDisplayed={100}
             prevPageText={"‹"}
             nextPageText={"›"}
             onChange={handlePageChange}
           />
         </PageStyle>
+
+        {isModalOpen && (
+          <BoardModal board={selectedBoard} onClose={closeModal} />
+        )}
       </motion.div>
     </>
   );
