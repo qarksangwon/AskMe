@@ -245,7 +245,6 @@ public class MemberDAO {
     public boolean memberDelete(String id) {
         int result = 0;
         String sql = "DELETE FROM USERTB WHERE ID = ?";
-
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
@@ -254,9 +253,15 @@ public class MemberDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Common.close(pStmt);
-        Common.close(conn);
+        finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
         if(result == 1) return true;
         else return false;
     }
+
+
+
 }
