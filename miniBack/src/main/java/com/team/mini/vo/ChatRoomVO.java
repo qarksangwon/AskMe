@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ChatRoomVO {
-    private String RoomId;
-    private String ID;
+    private String roomId;
+    private String id;
 }

@@ -25,7 +25,6 @@ const Container = styled.div`
 
 const Body = styled.div`
   position: absolute;
-  top: -40px;
   width: auto;
   height: 80vh;
   display: flex;
@@ -37,7 +36,7 @@ const Body = styled.div`
 const Btn = styled.div`
   background-color: black;
   width: 280px;
-  height: 120px;
+  height: 160px;
   font-size: 24px;
   color: white;
   margin-top: 40px;
