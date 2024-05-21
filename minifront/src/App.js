@@ -10,6 +10,7 @@ import Chat from "./chatPage/Chat";
 import { useState } from "react";
 import BoardWrite from "./boardPage/boardWrite";
 import Writesucces from "./boardPage/writeSuccess";
+import MyPage from "./myPage/MyPage";
 
 function App() {
   const isMobile = window.innerWidth <= 430;
@@ -35,6 +36,7 @@ function App() {
           />
           <Route path="/askme/chat" element={<Chat roomId={roomId} />} />
           <Route path="/askme/login" element={<Login />} />
+          <Route path="/askme/mypage" element={<MyPage />} />
         </Routes>
       </Router>
     </>
