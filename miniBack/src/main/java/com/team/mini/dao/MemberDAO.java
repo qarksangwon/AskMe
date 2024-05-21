@@ -103,29 +103,54 @@ public class MemberDAO {
         return list;
     }
 
-    // 아이디 찾기 테스트
-    public String memberId(String name, String email) {
-        int result = 0;
-        String getId = null;
-        String sql = "SELECT ID FROM USERTB WHERE NAME = " + "'" + name + "'" + " AND " + "EMAIL = " + "'" + email + "'";
+    // 아이디 찾기
+    // 이름과 이메일 정보가 맞으면 이메일을 발송하고 인증코드 입력값이 일치하면 사용자 아이디 출력
+    public boolean isNameAndEmailMatch(String name, String email) {
+        boolean isMatch = false;
         try {
             conn = Common.getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(sql);
-            if(rs.next()) {
-                getId = rs.getString("ID");
+            String sql = "SELECT COUNT(*) FROM USERTB WHERE NAME = ? AND EMAIL = ?";
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, name);
+            pStmt.setString(2, email);
+            rs = pStmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                isMatch = true;
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
         }
-        Common.close(stmt);
-        Common.close(conn);
-        return getId;
-
+        return isMatch;
+    }
+    // 사용자 아이디 출력
+    public String getUserIdByNameAndEmail(String name, String email) {
+        String userId = null;
+        try {
+            conn = Common.getConnection();
+            String sql = "SELECT ID FROM USERTB WHERE NAME = ? AND EMAIL = ?";
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, name);
+            pStmt.setString(2, email);
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                userId = rs.getString("ID");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return userId;
     }
 
     // 비밀번호 찾기 테스트
-    // 아이디와 이메일이 일치하면 이메일을 발송하고 인증코드를 입력하면 비밀번호를 수정 가능
+    // 아이디와 이메일 정보가 맞으면 이메일을 발송하고 인증코드를 입력하면 비밀번호를 수정 가능
     public boolean isIdAndEmailMatch(String id, String email) {
         boolean isMatch = false;
         try {
@@ -147,6 +172,7 @@ public class MemberDAO {
         }
         return isMatch;
     }
+    // 비밀번호 재설정
     public boolean updatePassword(String id, String newPassword) {
         boolean isUpdated = false;
         try {
@@ -167,7 +193,6 @@ public class MemberDAO {
         }
         return isUpdated;
     }
-
 
     // 회원 가입
     public boolean memberRegister(MemberVO member) {
