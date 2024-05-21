@@ -10,8 +10,12 @@ import Chat from "./chatPage/Chat";
 import { useState } from "react";
 import BoardWrite from "./boardPage/boardWrite";
 import Writesucces from "./boardPage/writeSuccess";
+<<<<<<< HEAD
 import FindId from "./findPage/findId";
 import FindPw from "./findPage/findPw";
+=======
+import MyPage from "./myPage/MyPage";
+>>>>>>> fcf84a6de40a4068145eaec3cfa2fcbd13ce16a4
 
 function App() {
   const isMobile = window.innerWidth <= 430;
@@ -37,8 +41,12 @@ function App() {
           />
           <Route path="/askme/chat" element={<Chat roomId={roomId} />} />
           <Route path="/askme/login" element={<Login />} />
+<<<<<<< HEAD
           <Route path="/askme/findid" element={<FindId />} />
           <Route path="/askme/findpw" element={<FindPw />} />
+=======
+          <Route path="/askme/mypage" element={<MyPage />} />
+>>>>>>> fcf84a6de40a4068145eaec3cfa2fcbd13ce16a4
         </Routes>
       </Router>
     </>

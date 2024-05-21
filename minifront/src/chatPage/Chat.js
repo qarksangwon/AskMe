@@ -5,7 +5,6 @@ import { useState } from "react";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: #ececec;
 `;
 const ChatroomContainer = styled.div`
   position: fixed;
