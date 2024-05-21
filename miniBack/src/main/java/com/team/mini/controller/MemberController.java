@@ -126,10 +126,9 @@ public class MemberController {
         return new ResponseEntity<>(getId, HttpStatus.OK);
     }
 
-    // 비밀번호 찾기 test...
-
+    // 비밀번호 찾기
     // 아이디와 이메일이 일치하면 이메일을 전송
-    @PostMapping("/request")
+    @PostMapping("/requestPw")
     public ResponseEntity<String> requestPwdReset(@RequestParam String id, @RequestParam String email) {
         if (dao.isIdAndEmailMatch(id, email)) {
             String verificationCode = sendVerificationEmail(email);
@@ -140,7 +139,7 @@ public class MemberController {
         }
     }
     // 이메일 인증 번호와 사용자가 입력한 코드 일치하는지 확인
-    @PostMapping("/verify")
+    @PostMapping("/verifyPw")
     public ResponseEntity<String> verifyCode(@RequestParam String email, @RequestParam String code) {
         String savedCode = verificationCodes.get(email);
         if (savedCode != null && savedCode.equals(code)) {
@@ -150,7 +149,7 @@ public class MemberController {
         }
     }
     // 코드가 일치 하면 비밀번호 재설정
-    @PostMapping("/reset")
+    @PostMapping("/resetPw")
     public ResponseEntity<String> resetPassword(@RequestParam String id, @RequestParam String email, @RequestParam String code, @RequestParam String newPassword) {
         String savedCode = verificationCodes.get(email);
         if (savedCode != null && savedCode.equals(code)) {
@@ -164,6 +163,7 @@ public class MemberController {
             return new ResponseEntity<>("Invalid verification code", HttpStatus.BAD_REQUEST);
         }
     }
+    // 비밀번호 인증번호 전송
     private String sendVerificationEmail(String email) {
         Random random = new Random();
         int min = 111111;
@@ -171,7 +171,7 @@ public class MemberController {
         String verificationCode = String.valueOf(random.nextInt(max - min + 1) + min);
 
         String htmlContent = "<div style=\"text-align: center; display:flex; flex-direction:column; justify-content:center; text-align:center;\">"
-                + "<p style=\"font-size:30px; display: block;\">AskMe 인증번호 입니다.</p>"
+                + "<p style=\"font-size:30px; display: block;\">AskMe 비밀번호 재설정 인증번호 입니다.</p>"
                 + "<p></p>"
                 + "<p style=\"font-size:16px; display: block;\">아래의 인증 번호를 입력해주세요.</p>"
                 + "<p></p>"
@@ -183,7 +183,7 @@ public class MemberController {
         try {
             helper.setFrom("1103bsj@naver.com");
             helper.setTo(email);
-            helper.setSubject("AskMe 이메일 인증 번호");
+            helper.setSubject("AskMe 비밀번호 재설정 인증 번호");
             helper.setText(htmlContent, true);
         } catch (MessagingException e) {
             e.printStackTrace();

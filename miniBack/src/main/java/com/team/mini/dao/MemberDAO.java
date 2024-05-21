@@ -151,6 +151,7 @@ public class MemberDAO {
         }
         return isMatch;
     }
+    // 비밀번호 재설정
     public boolean updatePassword(String id, String newPassword) {
         boolean isUpdated = false;
         try {
