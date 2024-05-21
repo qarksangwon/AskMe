@@ -73,16 +73,27 @@ public class MemberController {
         List<MemberVO> list = dao.memberSelect(name);
         return ResponseEntity.ok(list);
     }
-
     // POST 로그인
     @PostMapping("/login")
-    public ResponseEntity<Boolean> memberLogin(@RequestBody Map<String, String> loginData) {
+    public ResponseEntity<Map<String, Object>> memberLogin(@RequestBody Map<String, String> loginData) {
         String id = loginData.get("id");
         String password = loginData.get("password");
         System.out.println(id + " " + password);
+
         boolean result = dao.loginCheck(id, password);
         System.out.println(result);
-        return ResponseEntity.ok(result);
+
+        Map<String, Object> response = new HashMap<>();
+        if (result) {
+            MemberVO member = dao.getMemberById(id); // 로그인 성공 시 사용자 정보 가져오기
+            response.put("success", true);
+            response.put("userId", member.getId());
+            response.put("nickname", member.getNickname()); // 닉네임 포함
+        } else {
+            response.put("success", false);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
     // GET 아이디 및 닉네임 중복 체크

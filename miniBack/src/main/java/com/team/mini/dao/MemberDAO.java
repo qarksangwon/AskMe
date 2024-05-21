@@ -262,6 +262,31 @@ public class MemberDAO {
         else return false;
     }
 
-
+    // 사용자 정보를 ID로 검색하는 메서드 추가
+    public MemberVO getMemberById(String id) {
+        MemberVO member = null;
+        String sql = "SELECT * FROM USERTB WHERE ID = ?";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, id);
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                member = new MemberVO();
+                member.setId(rs.getString("ID"));
+                member.setPassword(rs.getString("PASSWORD"));
+                member.setName(rs.getString("NAME"));
+                member.setNickname(rs.getString("NICKNAME"));
+                member.setEmail(rs.getString("EMAIL"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return member;
+    }
 
 }

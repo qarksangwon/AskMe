@@ -9,7 +9,8 @@ import AxiosApi from "../api/AxiosApi";
 function Login() {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
-  const [isLogin, setIsLogin] = useState();
+  const [isLogin, setIsLogin] = useState(false);
+  const [nickname, setNickname] = useState("");
 
   const handleIdChange = (e) => {
     setId(e.target.value);
@@ -31,27 +32,33 @@ function Login() {
   };
 
   useEffect(() => {
-    if (isLogin !== undefined) {
-      if (isLogin) {
-        localStorage.setItem("userId", id);
-
-        alert("로그인에 성공했습니다");
-        console.log(id);
-
-        navigate("/askme");
-      } else {
-        alert("로그인에 실패했습니다");
-      }
+    if (isLogin) {
+      localStorage.setItem("userId", id);
+      localStorage.setItem("userNickname", nickname);
+      alert("로그인에 성공했습니다");
+      console.log(id);
+      console.log(nickname);
+      navigate("/askme");
     }
   }, [isLogin]);
 
   const onClickLoginButton = async () => {
     try {
       const rsp = await AxiosApi.LoginMain(id, pw);
-      setIsLogin(rsp.data);
+      if (rsp.data.success) {
+        setNickname(rsp.data.nickname);
+        setIsLogin(true);
+      } else {
+        alert("로그인에 실패했습니다");
+        setIsLogin(false);
+        setId("");
+        setPw("");
+      }
     } catch (e) {
       console.log(e);
       alert("로그인 중 오류가 발생했습니다");
+      setId("");
+      setPw("");
     }
   };
 
