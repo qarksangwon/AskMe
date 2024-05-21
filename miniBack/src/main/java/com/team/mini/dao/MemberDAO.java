@@ -128,6 +128,51 @@ public class MemberDAO {
 
     }
 
+    // 비밀번호 찾기 테스트
+    // 아이디와 이메일이 일치하면 이메일을 발송하고 인증코드를 입력하면 비밀번호를 수정 가능
+    public boolean isIdAndEmailMatch(String id, String email) {
+        boolean isMatch = false;
+        try {
+            conn = Common.getConnection();
+            String sql = "SELECT COUNT(*) FROM USERTB WHERE ID = ? AND EMAIL = ?";
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, id);
+            pStmt.setString(2, email);
+            rs = pStmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                isMatch = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return isMatch;
+    }
+    public boolean updatePassword(String id, String newPassword) {
+        boolean isUpdated = false;
+        try {
+            conn = Common.getConnection();
+            String sql = "UPDATE USERTB SET PASSWORD = ? WHERE ID = ?";
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, newPassword);
+            pStmt.setString(2, id);
+            int rows = pStmt.executeUpdate();
+            if (rows > 0) {
+                isUpdated = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return isUpdated;
+    }
+
+
     // 회원 가입
     public boolean memberRegister(MemberVO member) {
         int result = 0;
