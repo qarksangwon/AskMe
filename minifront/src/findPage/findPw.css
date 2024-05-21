@@ -1,4 +1,4 @@
-.findidpage {
+.findpwpage {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,7 +10,7 @@
   flex-direction: column;
 }
 
-.findidLogoimg {
+.findpwLogoimg {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,26 +19,26 @@
   background-size: cover;
 }
 
-.findidTitleWrap {
+.findpwTitleWrap {
   font-size: 30px;
   font-weight: bold;
   color: #262626;
   margin-bottom: 100px;
 }
 
-.findidInputTitle {
+.findpwInputTitle {
   font-size: 20px;
   font-weight: 600;
   color: #262626;
-  margin-right: 235px;
+  margin-right: 125px;
 }
 
-.findidEmailBox {
+.findpwEmailBox {
   display: flex;
   align-items: center;
 }
 
-.findidInputWrap {
+.findpwInputWrap {
   display: flex;
   border-radius: 8px;
   padding: 16px;
@@ -47,7 +47,7 @@
   border: 1px solid #e2e0e0;
 }
 
-.findidInput {
+.findpwInput {
   display: flex;
   width: 100%;
   outline: none;
@@ -57,7 +57,7 @@
   font-weight: 400;
 }
 
-.findidEmailButton {
+.findpwEmailButton {
   margin-top: 10px;
   margin-left: 10px;
   font-size: 15px;
@@ -71,17 +71,17 @@
   transition: all 0.3s ease-in;
 }
 
-.findidEmailButton:hover {
+.findpwEmailButton:hover {
   background-color: white;
   color: #000000;
   transition: all 0.3s ease-in;
 }
 
-.findId {
+.findPw {
   display: flex;
 }
 
-.findIdButton {
+.findPwButton {
   font-size: 15px;
   margin-top: 20px;
   margin-left: 50px;
@@ -95,7 +95,7 @@
   transition: all 0.3s ease-in;
 }
 
-.findIdButton:hover {
+.findPwButton:hover {
   background-color: white;
   color: #000000;
   transition: all 0.3s ease-in;
