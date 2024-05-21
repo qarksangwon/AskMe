@@ -7,16 +7,16 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import AxiosApi from "../api/AxiosApi";
 import Toggle from "../customComponent/Toggle";
-
+import Footer from "../customComponent/Footer";
+import Pagination from "react-js-pagination";
 const Container = styled.div`
   display: flex;
   height: auto;
 
   margin: 10vh auto auto auto; /* 위아래는 100px, 좌우는 자동으로 중앙에 정렬됩니다. */
-  padding: 120px; //그냥 여백
-  background-color: #ececec;
+  padding: 0px; //그냥 여백
+
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center; /* 내용을 가운데 정렬합니다. */
   flex-direction: column;
   align-items: center; /* 가로 방향 중앙 정렬 */
@@ -28,10 +28,10 @@ const Container = styled.div`
     border-spacing: 0 10px; /* 셀 사이의 간격을 조절합니다. */
     width: 100%;
     margin: 0px;
+    border-top: 3px solid black;
   }
   th {
     font-size: 30px;
-    margin-top: 200px;
   }
   td {
     font-size: 20px;
@@ -72,8 +72,7 @@ const Boardhead1 = styled.div`
   margin-top: 10px;
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
-  border-bottom: 3px solid black;
+  margin-bottom: 20px;
 `;
 
 const SearchInput = styled.input.attrs({ type: "text" })`
@@ -110,6 +109,39 @@ const Btn = styled.div`
   }
 `;
 
+const PageStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px 0;
+
+  .pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+  }
+
+  .pagination li {
+    margin: 0 10px;
+    cursor: pointer;
+    font-size: 30px;
+  }
+
+  .pagination li a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .pagination li.active a {
+    border: 2px solid black;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-weight: bold;
+    color: black;
+  }
+`;
+
 // const Tdfont = styled.div`
 //   background-color: white;
 
@@ -138,15 +170,24 @@ const BtnWrite = styled.div``;
 const BtnMyWrite = styled.div``;
 
 const BoardM = () => {
-  const [boards, setBoards] = useState("");
+  const [boards, setBoards] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [originalBoards, setOriginalBoards] = useState(""); // 원본 게시물 목록을 저장할 상태 추가
+  const [originalBoards, setOriginalBoards] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalItemsCount, setTotalItemsCount] = useState(0);
+
+  const itemsPerPage = 4;
+
+  const handlePageChange = (page) => {
+    setPage(page);
+  };
 
   const boardList = async () => {
     try {
-      const rsp = await AxiosApi.boardMain(); // 전체 목록 가져오기
-      setBoards(rsp.data);
-      setOriginalBoards(rsp.data); // 원본 게시물 목록 설정
+      const rsp = await AxiosApi.boardMain();
+      setOriginalBoards(rsp.data);
+      setTotalItemsCount(rsp.data.length);
+      setBoards(rsp.data.slice(0, itemsPerPage)); // 처음 로드 시 첫 페이지 데이터로 설정
     } catch (e) {
       console.log(e);
     }
@@ -156,17 +197,22 @@ const BoardM = () => {
     boardList();
   }, []);
 
+  useEffect(() => {
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setBoards(originalBoards.slice(startIndex, endIndex));
+  }, [page, originalBoards]);
+
   const handleSearch = () => {
     if (searchTerm === "") {
-      // 검색어가 비어 있으면 전체 목록 보여주기
-      setBoards(originalBoards); // 원본 게시물 목록으로 재설정
+      setBoards(originalBoards.slice(0, itemsPerPage));
+      setTotalItemsCount(originalBoards.length);
     } else {
-      // 검색어에 해당하는 게시물 필터링
       const filteredBoards = originalBoards.filter((board) =>
         board.title.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      // 필터링된 결과를 보여주기
-      setBoards(filteredBoards);
+      setBoards(filteredBoards.slice(0, itemsPerPage));
+      setTotalItemsCount(filteredBoards.length);
     }
   };
 
@@ -227,7 +273,19 @@ const BoardM = () => {
               ))}
           </table>
         </Container>
+        <PageStyle>
+          <Pagination
+            activePage={page}
+            itemsCountPerPage={itemsPerPage}
+            totalItemsCount={totalItemsCount}
+            pageRangeDisplayed={10}
+            prevPageText={"‹"}
+            nextPageText={"›"}
+            onChange={handlePageChange}
+          />
+        </PageStyle>
       </motion.div>
+      <Footer top={1000} mtop={800} />
     </>
   );
 };
