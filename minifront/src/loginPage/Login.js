@@ -3,12 +3,13 @@ import Logoimg from "../images/Logo.png";
 import Exitimg from "../images/exit.png";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AxiosApi from "../api/AxiosApi";
 
 function Login() {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+  const [isLogin, setIsLogin] = useState();
 
   const handleIdChange = (e) => {
     setId(e.target.value);
@@ -29,16 +30,22 @@ function Login() {
     navigate("/askme");
   };
 
-  const onClickLoginButton = async () => {
-    try {
-      const rsp = await AxiosApi.LoginMain(id, pw);
-      if (rsp.success) {
+  useEffect(() => {
+    if (isLogin !== undefined) {
+      if (isLogin) {
         localStorage.setItem("userId", id);
         alert("로그인에 성공했습니다");
         navigate("/askme");
       } else {
-        alert(rsp.message || "로그인에 실패했습니다");
+        alert("로그인에 실패했습니다");
       }
+    }
+  }, [isLogin]);
+
+  const onClickLoginButton = async () => {
+    try {
+      const rsp = await AxiosApi.LoginMain(id, pw);
+      setIsLogin(rsp.data);
     } catch (e) {
       console.log(e);
       alert("로그인 중 오류가 발생했습니다");

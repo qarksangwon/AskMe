@@ -25,7 +25,6 @@ const Container = styled.div`
 
 const Body = styled.div`
   position: absolute;
-  top: -40px;
   width: auto;
   height: 80vh;
   display: flex;
@@ -37,7 +36,7 @@ const Body = styled.div`
 const Btn = styled.div`
   background-color: black;
   width: 280px;
-  height: 120px;
+  height: 160px;
   font-size: 24px;
   color: white;
   margin-top: 40px;
@@ -91,10 +90,6 @@ const BtnBack = styled.div`
 `;
 
 const Home = () => {
-  const id = localStorage.getItem("userId");
-  const test = () => {
-    console.log(id);
-  };
   return (
     <>
       <Container>
@@ -113,7 +108,6 @@ const Home = () => {
               <BtnBack>이동하기</BtnBack>
             </Btn>
           </Link>
-          <button onClick={test}>123</button>
         </Body>
         <Footer top={1000} mtop={732} />
       </Container>

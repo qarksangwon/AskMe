@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
+import Footer from "../customComponent/Footer";
 
 const Container = styled.div`
   display: flex;
@@ -21,7 +22,7 @@ const Title = styled.div`
   width: 110px;
   border-bottom: 3px solid black;
   font-size: 40px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 
   @media (max-width: 430px) {
     width: 100px;
@@ -38,7 +39,9 @@ const TitleName = styled.input.attrs({ type: "text" })`
   padding: 20px;
   background-color: #ececec;
   font-size: 30px;
+  margin-top: 30px;
   margin-bottom: 30px;
+
   font-family: "DoHyeon-Regular", sans-serif;
 
   @media (max-width: 430px) {
@@ -46,6 +49,7 @@ const TitleName = styled.input.attrs({ type: "text" })`
     width: 350px;
     height: 50px;
     font-size: 20px;
+    margin-top: 60px;
   }
 `;
 
@@ -106,6 +110,14 @@ const Btn = styled.div`
 
 const StyledLink = styled(Link)`
   color: inherit;
+`;
+
+const FooterWrapper = styled.div`
+  display: none;
+
+  @media (max-width: 430px) {
+    display: block;
+  }
 `;
 
 const BoardWrite = () => {
@@ -189,6 +201,9 @@ const BoardWrite = () => {
             </Btn>
           </BtnKing>
         </Container>
+        <FooterWrapper>
+          <Footer mtop={750} />
+        </FooterWrapper>
       </motion.div>
     </>
   );

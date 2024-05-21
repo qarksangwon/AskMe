@@ -139,10 +139,27 @@ const ChatMain = ({ roomId, setRoomId }) => {
   const [chatEntrance, setChatEntrance] = useState("채팅방 입장하기");
   const [chatMake, setChatMake] = useState("채팅방 만들기");
   const [isRoom, setIsRoom] = useState();
+  const [isMyRoom, setIsMyRoom] = useState();
   const [inOrMake, setInOrMake] = useState(0);
+  const [isDel, setIsDel] = useState();
   const roomRefs = useRef([]);
   const linkRef = useRef(null);
 
+  //자기 채팅방 삭제하는 핸들러
+  const handleChatDelete = async () => {
+    try {
+      const response = await AxiosApi.deleteChatRoom();
+      setIsDel(response.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const confirmDeleteChatRoom = () => {
+    if (window.confirm("채팅방을 삭제하시겠습니까?")) {
+      handleChatDelete(); // 확인 버튼을 누르면 삭제 함수를 호출합니다.
+    }
+  };
   const chatExist = async () => {
     try {
       for (const element of roomId)
@@ -152,6 +169,16 @@ const ChatMain = ({ roomId, setRoomId }) => {
         }
       const response = await AxiosApi.checkExist(roomId); // 전체 목록 가져오기
       setIsRoom(response.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // 실제로 방 만들기
+  const insertChatRoom = async () => {
+    try {
+      const response = await AxiosApi.insertChatRoom(roomId);
+      setIsMyRoom(response.data);
     } catch (e) {
       console.log(e);
     }
@@ -176,13 +203,38 @@ const ChatMain = ({ roomId, setRoomId }) => {
 
     if (inOrMake === 1) {
       if (isRoom) alert("이미 있는 채팅방 입니다.");
-      else if (!isRoom) linkRef.current.click();
+      else if (!isRoom) {
+        insertChatRoom();
+        console.log("isMyRoom : ", isMyRoom);
+      }
     }
     if (inOrMake === 2) {
       if (!isRoom) alert("없는 채팅방 입니다.");
       else linkRef.current.click();
     }
   }, [isRoom]);
+
+  useEffect(() => {
+    if (isMyRoom !== undefined) {
+      if (isMyRoom === 0) {
+        alert("이미 방 가지고 있음");
+      } else {
+        linkRef.current.click();
+      }
+    }
+  }, [isMyRoom]);
+
+  useEffect(() => {
+    if (isDel !== undefined) {
+      if (isDel > 0) {
+        alert("삭제 완료");
+        setIsDel();
+      } else {
+        alert("만든 방이 없습니다.");
+        setIsDel();
+      }
+    }
+  }, [isDel]);
 
   // 방 번호 input 값 핸들링
   // input 각 버튼에 대해 index를 지정해놓았기때문에
@@ -237,6 +289,7 @@ const ChatMain = ({ roomId, setRoomId }) => {
       setChatMake("채팅방 만들기");
       setIsRoom();
       setInOrMake(0);
+      setIsMyRoom();
     }
   };
 
@@ -273,6 +326,7 @@ const ChatMain = ({ roomId, setRoomId }) => {
       setChatEntrance("채팅방 입장하기");
       setIsRoom();
       setInOrMake(0);
+      setIsMyRoom();
     }
   };
   return (
@@ -288,9 +342,13 @@ const ChatMain = ({ roomId, setRoomId }) => {
             <Btn onMouseEnter={handleChatMake} onMouseLeave={handleChatMake}>
               {chatMake}
             </Btn>
-            <LinkDiv to="/askme">
-              <Btn>채팅방 삭제하기</Btn>
-            </LinkDiv>
+            <Btn
+              onClick={confirmDeleteChatRoom}
+              onMouseEnter={isDel && setIsDel()}
+              onMouseLeave={isDel && setIsDel()}
+            >
+              채팅방 삭제하기
+            </Btn>
             <Btn
               onMouseEnter={handleChatEntrance}
               onMouseLeave={handleChatEntrance}

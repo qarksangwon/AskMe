@@ -15,16 +15,25 @@ public class ChatController {
     //GET 채팅방 여부 조회, true - 있음, false 없음
     @GetMapping("/chatmain")
     public ResponseEntity<Boolean> existRoom(@RequestParam String roomId) {
-        System.out.println(roomId);
-        boolean isTrue = cDao.checkRoom(roomId);
+        System.out.println(roomId+"--------");
+        boolean isTrue = cDao.checkRoom("roomId",roomId);
         System.out.println(isTrue);
         return ResponseEntity.ok(isTrue);
     }
 
-    @PostMapping("/chatRoomMake")
-    public ResponseEntity<Boolean> makeRoom(@RequestParam ChatRoomVO vo){
-        System.out.println(vo.getRoomId() + vo.getID());
-        boolean isTrue = cDao.makeRoom(vo.getRoomId(),vo.getID());
+    @PostMapping("/chatmain")
+    public ResponseEntity<Integer> makeRoom(@RequestBody ChatRoomVO vo){
+        System.out.println(vo.getRoomId() + vo.getId()+"--------");
+        int isTrue = cDao.makeRoom(vo.getRoomId(),vo.getId());
+        System.out.println(isTrue);
+        return ResponseEntity.ok(isTrue);
+        // 리턴값 1 이상이면 잘 들어감, 0이면 안들어감
+    }
+
+    @GetMapping("/chatdelete")
+    public ResponseEntity<Integer> delRoom(@RequestParam String id){
+        System.out.println("del id : " + id);
+        int isTrue = cDao.delRoom(id);
         System.out.println(isTrue);
         return ResponseEntity.ok(isTrue);
     }

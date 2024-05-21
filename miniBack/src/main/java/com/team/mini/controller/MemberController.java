@@ -3,6 +3,7 @@ package com.team.mini.controller;
 import com.team.mini.dao.MemberDAO;
 import com.team.mini.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -77,8 +78,10 @@ public class MemberController {
     public ResponseEntity<Boolean> memberLogin(@RequestBody Map<String, String> loginData) {
         String id = loginData.get("id");
         String password = loginData.get("password");
+        System.out.println(id + " " + password);
         boolean result = dao.loginCheck(id, password);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        System.out.println(result);
+        return ResponseEntity.ok(result);
     }
 
     // GET 아이디 및 닉네임 중복 체크
