@@ -20,16 +20,12 @@ public class MemberDAO {
             conn = Common.getConnection();
             stmt = conn.createStatement(); // Statement 객체 얻기
             String sql = "SELECT * FROM USERTB WHERE ID = " + "'" + id + "'";
+
             rs = stmt.executeQuery(sql);
 
-            //Test
-            id = "00bsj";
-            password = "asdfasdf";
             while (rs.next()) { // 읽을 데이타가 있으면 true
                 String sqlId = rs.getString("ID"); // 쿼리문 수행 결과에서 ID값을 가져 옴
                 String sqlPwd = rs.getString("PASSWORD");
-                System.out.println("ID : " + sqlId);
-                System.out.println("PASSWORD : " + sqlPwd);
                 if (id.equals(sqlId) && password.equals(sqlPwd)) {
                     Common.close(rs);
                     Common.close(stmt);

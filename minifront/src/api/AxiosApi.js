@@ -2,8 +2,9 @@ import axios from "axios";
 const Askme_Domain = "http://localhost:8111";
 
 const AxiosApi = {
-  LoginMain: async () => {
-    return await axios.get(Askme_Domain + "/users/login");
+  LoginMain: async (id, pwd) => {
+    const loginData = { id: id, password: pwd };
+    return await axios.post(Askme_Domain + "/askme/login", loginData);
   },
 
   boardMain: async () => {
