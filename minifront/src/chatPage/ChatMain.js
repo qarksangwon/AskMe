@@ -85,9 +85,6 @@ const Exit = styled.img`
     transition: all 0.2s ease-in;
   }
 `;
-const LinkDiv = styled(Link)`
-  margin: auto;
-`;
 
 const EntranceContainer = styled.div`
   width: 140px;
@@ -148,6 +145,7 @@ const ChatMain = ({ roomId, setRoomId }) => {
   //자기 채팅방 삭제하는 핸들러
   const handleChatDelete = async () => {
     try {
+      setIsDel(3);
       const response = await AxiosApi.deleteChatRoom();
       setIsDel(response.data);
     } catch (e) {
@@ -226,13 +224,7 @@ const ChatMain = ({ roomId, setRoomId }) => {
 
   useEffect(() => {
     if (isDel !== undefined) {
-      if (isDel > 0) {
-        alert("삭제 완료");
-        setIsDel();
-      } else {
-        alert("만든 방이 없습니다.");
-        setIsDel();
-      }
+      if (isDel === 0) alert("만든 방이 없습니다.");
     }
   }, [isDel]);
 
@@ -342,13 +334,7 @@ const ChatMain = ({ roomId, setRoomId }) => {
             <Btn onMouseEnter={handleChatMake} onMouseLeave={handleChatMake}>
               {chatMake}
             </Btn>
-            <Btn
-              onClick={confirmDeleteChatRoom}
-              onMouseEnter={isDel && setIsDel()}
-              onMouseLeave={isDel && setIsDel()}
-            >
-              채팅방 삭제하기
-            </Btn>
+            <Btn onClick={confirmDeleteChatRoom}>채팅방 삭제하기</Btn>
             <Btn
               onMouseEnter={handleChatEntrance}
               onMouseLeave={handleChatEntrance}
