@@ -34,7 +34,10 @@ function Login() {
     if (isLogin !== undefined) {
       if (isLogin) {
         localStorage.setItem("userId", id);
+
         alert("로그인에 성공했습니다");
+        console.log(id);
+
         navigate("/askme");
       } else {
         alert("로그인에 실패했습니다");

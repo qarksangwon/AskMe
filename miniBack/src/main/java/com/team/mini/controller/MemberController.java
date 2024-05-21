@@ -22,6 +22,7 @@ import java.util.Random;
 @RequestMapping("/askme")
 public class MemberController {
     MemberDAO dao = new MemberDAO();
+
     @Autowired
     // JavaMailSender 타입으로 변수 생성
     private JavaMailSender mailSender;
@@ -111,10 +112,11 @@ public class MemberController {
     }
 
     // POST 회원 탈퇴
-    @PostMapping("/del")
-    public ResponseEntity<Boolean> memberDelete(@RequestBody Map<String, String> delData) {
-        String getId = delData.get("id");
-        boolean isTrue = dao.memberDelete(getId);
+    @PostMapping("/userdel/del")
+    public ResponseEntity<Boolean> memberDelete(@RequestBody MemberVO vo) {
+        System.out.println(vo.getId());
+        boolean isTrue = dao.memberDelete(vo.getId());
+        System.out.println(isTrue);
         return ResponseEntity.ok(isTrue);
     }
 

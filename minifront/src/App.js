@@ -10,6 +10,8 @@ import Chat from "./chatPage/Chat";
 import { useState } from "react";
 import BoardWrite from "./boardPage/boardWrite";
 import Writesucces from "./boardPage/writeSuccess";
+import FindId from "./findPage/findId";
+import FindPw from "./findPage/findPw";
 import MyPage from "./myPage/MyPage";
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
           />
           <Route path="/askme/chat" element={<Chat roomId={roomId} />} />
           <Route path="/askme/login" element={<Login />} />
+          <Route path="/askme/findid" element={<FindId />} />
+          <Route path="/askme/findpw" element={<FindPw />} />
           <Route path="/askme/mypage" element={<MyPage />} />
         </Routes>
       </Router>

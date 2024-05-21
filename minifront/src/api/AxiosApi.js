@@ -8,6 +8,14 @@ const AxiosApi = {
     return await axios.post(Askme_Domain + "/askme/login", loginData);
   },
 
+  userDel: async (id) => {
+    const delId = {
+      id: id,
+    };
+    console.log(delId);
+    return await axios.post(Askme_Domain + "/askme/userdel/del", delId);
+  },
+
   boardMain: async () => {
     return await axios.get(Askme_Domain + "/askme/board");
   },
