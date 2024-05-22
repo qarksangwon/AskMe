@@ -34,6 +34,7 @@ public class MemberController {
     private Map<String, String> verificationCodes = new HashMap<>();
 
     private String currentEmail = "";
+
     @GetMapping("/main")
     public String mainPage() {
         return "hi";
@@ -70,7 +71,7 @@ public class MemberController {
             e.printStackTrace();
         }
         mailSender.send(mimeMessage);
-        return new ResponseEntity<>(tempPw,HttpStatus.OK);
+        return new ResponseEntity<>(tempPw, HttpStatus.OK);
     }
 
     // GET 회원 조회
@@ -80,6 +81,7 @@ public class MemberController {
         List<MemberVO> list = dao.memberSelect(name);
         return ResponseEntity.ok(list);
     }
+
     // POST 로그인
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> memberLogin(@RequestBody Map<String, String> loginData) {
@@ -150,6 +152,7 @@ public class MemberController {
             return new ResponseEntity<>("Invalid name or email", HttpStatus.BAD_REQUEST);
         }
     }
+
     // 이메일 인증 번호와 사용자가 입력한 코드 일치하는지 확인
     @PostMapping("/verifyId")
     public ResponseEntity<Boolean> VerifyCodeId(@RequestParam String email, @RequestParam String code) {
@@ -162,6 +165,7 @@ public class MemberController {
             return ResponseEntity.ok(false);
         }
     }
+
     // 코드가 일치하면 사용자의 아이디 출력
     @PostMapping("/getId")
     public ResponseEntity<String> getId(@RequestParam String name, @RequestParam String email, @RequestParam String code) {
@@ -191,6 +195,7 @@ public class MemberController {
             return new ResponseEntity<>("Invalid ID or email", HttpStatus.BAD_REQUEST);
         }
     }
+
     // 이메일 인증 번호와 사용자가 입력한 코드 일치하는지 확인
     @PostMapping("/verifyPw")
     public ResponseEntity<String> verifyCodePw(@RequestParam String email, @RequestParam String code) {
@@ -201,6 +206,7 @@ public class MemberController {
             return new ResponseEntity<>("Invalid verification code", HttpStatus.BAD_REQUEST);
         }
     }
+
     // 코드가 일치 하면 비밀번호 재설정
     @PostMapping("/resetPw")
     public ResponseEntity<String> resetPassword(@RequestParam String id, @RequestParam String email, @RequestParam String code, @RequestParam String newPassword) {
@@ -256,5 +262,6 @@ public class MemberController {
                     .allowCredentials(true);
         }
     }
+
 
 }

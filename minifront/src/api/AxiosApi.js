@@ -1,4 +1,5 @@
 import axios from "axios";
+import SignUp from "./../signupPage/SignUp";
 
 const Askme_Domain = "http://localhost:8111";
 
@@ -76,6 +77,12 @@ const AxiosApi = {
     });
   },
 
+  checkId: async (id) => {
+    return await axios.get(Askme_Domain + "/askme/signup", {
+      params: { check: "id", value: id },
+    });
+  },
+
   sendVerificationEmail: async (email) => {
     return await axios.post(Askme_Domain + "/askme/email", null, {
       params: { email },
@@ -86,6 +93,9 @@ const AxiosApi = {
     return await axios.post(Askme_Domain + "/askme/verifyId", null, {
       params: { email, code },
     });
+  },
+  signup: async (userData) => {
+    return await axios.post(Askme_Domain + "/askme/signup", userData);
   },
 };
 

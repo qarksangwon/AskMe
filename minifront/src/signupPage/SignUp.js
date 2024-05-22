@@ -30,6 +30,9 @@ function SignUp() {
   const [nicknameMessage, setNickNameMessage] = useState("");
   const [nicknameCheck, setNickNameCheck] = useState(false);
 
+  const [idMessage, setIdMessage] = useState("");
+  const [idCheck, setIdCheck] = useState(false);
+
   const [emailVerify, setEmailVerify] = useState(false);
   const [verifyCode, setVerifyCode] = useState("");
   const [timer, setTimer] = useState(180);
@@ -82,11 +85,12 @@ function SignUp() {
 
   const handleNickName = (e) => {
     setNickName(e.target.value);
-    const regex = /^[가-힣]{2,8}$/;
+    const regex = /^[가-힣]{2,5}$/;
     if (regex.test(e.target.value)) {
       setNickNameValid(true);
     } else {
       setNickNameValid(false);
+      setNickNameMessage("");
     }
   };
 
@@ -97,6 +101,7 @@ function SignUp() {
       setIdValid(true);
     } else {
       setIdValid(false);
+      setIdMessage("");
     }
   };
 
@@ -137,6 +142,21 @@ function SignUp() {
     }
   };
 
+  const handleIdCheck = async () => {
+    try {
+      const response = await AxiosApi.checkId(id);
+      if (response.data) {
+        setIdMessage("이미 사용중인 아이디 입니다.");
+      } else {
+        setIdMessage("사용 가능한 아이디 입니다.");
+        setIdCheck(true);
+      }
+    } catch (error) {
+      console.error(error);
+      setIdMessage("아이디 확인 중 오류가 발생했습니다.");
+    }
+  };
+
   const handleEmailVerify = async () => {
     try {
       const response = await AxiosApi.sendVerificationEmail(email);
@@ -171,10 +191,21 @@ function SignUp() {
   };
 
   // 확인버튼
-  const onClickConfirmButton = () => {
-    alert("회원가입에 성공했습니다");
-
-    // 이후 로그인페이지로 넘어가게 하기
+  const onClickConfirmButton = async () => {
+    if (notAllow) return;
+    const userData = { id, password: pw, name, nickname, email };
+    try {
+      const response = await AxiosApi.signup(userData);
+      if (response.data) {
+        alert("회원가입에 성공했습니다");
+        navigate("/askme/login");
+      } else {
+        alert("회원가입에 실패했습니다");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("회원가입 중 오류가 발생했습니다");
+    }
   };
 
   return (
@@ -257,11 +288,14 @@ function SignUp() {
               {!idValid && id.length > 0 && (
                 <div>올바른 아이디를 입력해주세요.</div>
               )}
+              {idMessage && <div>{idMessage}</div>}
             </div>
           </div>
-          <button onClick={setId} className="idCheckButton">
-            중복 확인
-          </button>
+          {!idCheck && (
+            <button onClick={handleIdCheck} className="idCheckButton">
+              중복 확인
+            </button>
+          )}
         </div>
 
         {/* ---------- 비밀번호 */}
