@@ -8,7 +8,7 @@ import AxiosApi from "../api/AxiosApi";
 import Toggle from "../customComponent/Toggle";
 import Pagination from "react-js-pagination";
 import BoardModal from "./boardModal";
-import { PacmanLoader } from "react-spinners";
+import { ScaleLoader } from "react-spinners";
 
 const Container = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const Searchlogo = styled.img`
   width: 30px;
   height: 30px;
   cursor: pointer;
-  margin-right: 200px;
+  margin-right: 100px;
 `;
 
 const Exit = styled.img`
@@ -157,6 +157,7 @@ const PageStyle = styled.div`
 
 const Loading = styled.div`
   display: flex;
+  width: 150px;
 `;
 
 const BtnWrite = styled.div``;
@@ -248,9 +249,13 @@ const Board = () => {
         setTotalItemsCount(filteredBoards.length);
       }
       setLoading(false); // 검색이 완료되면 로딩 상태 비활성화
-    }, 2000); // 2초로 설정
+    }, 700); // 2초로 설정
   };
-
+  const delStorage = () => {
+    localStorage.setItem("userId", "");
+    localStorage.setItem("userNickname", "");
+    window.location.reload();
+  };
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       handleSearch();
@@ -260,8 +265,10 @@ const Board = () => {
   const MyWrite = () => {
     // 현재 로그인된 사용자의 아이디와 게시글 작성자의 아이디를 비교하여 필터링
     const myBoards = originalBoards.filter(
-      (board) => board.id === localStorage.getItem("id")
+      (board) => board.nickname === localStorage.getItem("userNickname")
     );
+    console.log(1234);
+    console.log(localStorage.getItem("userNickname"));
     setBoards(myBoards); // 필터링된 게시글로 상태(State) 업데이트
     setTotalItemsCount(myBoards.length); // 총 아이템 수 업데이트
   };
@@ -292,8 +299,10 @@ const Board = () => {
                 setLoading(true);
               }}
             />
-
-            <Link to={isLoggedIn ? "/askme/board/write" : "/login"}>
+            <Loading>
+              {loading && <ScaleLoader width={5} color="black" />}
+            </Loading>
+            <Link to={isLoggedIn ? "/askme/board/write" : "/askme/login"}>
               <Btn>
                 <BtnWrite
                   loggedIn={isLoggedIn}
@@ -310,7 +319,7 @@ const Board = () => {
               <Exit src={exit} />
             </Link>
           </Boardhead>
-          <Loading>{loading && <PacmanLoader />}</Loading>
+
           <Tdfont>
             <table>
               <thead>
@@ -346,7 +355,7 @@ const Board = () => {
             onChange={handlePageChange}
           />
         </PageStyle>
-
+        <button onClick={delStorage}>11</button>
         {isModalOpen && (
           <BoardModal board={selectedBoard} onClose={closeModal} />
         )}
