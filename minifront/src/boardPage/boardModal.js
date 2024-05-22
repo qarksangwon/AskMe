@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import { motion } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
+import AxiosApi from "../api/AxiosApi";
 
 const ModalWrapper = styled.div`
   display: flex;
@@ -60,7 +61,7 @@ const Btn = styled.div`
   color: white;
   border-radius: 30px;
   border: 2px solid black;
-  margin-right: 10px;
+  margin-left: 20px;
 
   &:hover {
     cursor: pointer;
@@ -118,7 +119,42 @@ const ModalBack = styled.div`
   background: rgba(0, 0, 0, 0.6);
 `;
 
+const IsMyPost = styled.div`
+  display: ${(props) => (props.isMyPost ? "block" : "none")};
+`;
+const IsMyPost2 = styled.div`
+  display: ${(props) => (props.isMyPost ? "block" : "none")};
+`;
+
 const BoardModal = ({ board, onClose }) => {
+  const isMyPost = localStorage.getItem("userNickname") === board.nickname;
+  const isMyPost2 = localStorage.getItem("userNickname") !== board.nickname;
+  console.log(`클래스넘버${board.classNo}`);
+  const [isDel, setIsDel] = useState(false);
+
+  const handleBoardDelete = async () => {
+    try {
+      await AxiosApi.boardDelete(board.classNo);
+      setIsDel(true);
+      // 성공적으로 삭제되었음을 나타내기 위한 추가 로직이 필요할 수 있습니다.
+    } catch (e) {
+      console.log(e);
+      // 에러 처리를 위한 추가 로직이 필요할 수 있습니다.
+    }
+  };
+
+  const confirmDeleteBoard = () => {
+    if (window.confirm("글을 삭제하시겠습니까?")) {
+      handleBoardDelete(); // 확인 버튼을 누르면 삭제 함수를 호출합니다.
+    }
+  };
+
+  useEffect(() => {
+    if (isDel) {
+      window.location.reload();
+    }
+  }, [isDel]);
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 0 }}
@@ -131,16 +167,19 @@ const BoardModal = ({ board, onClose }) => {
             <h1>{board.title}</h1>
           </TitleBox>
           <NicknameBox>
-            <p>
-              {board.nickname}({board.id})
-            </p>
+            <p>{board.nickname}</p>
           </NicknameBox>
           <ContentBox>
             <p>{board.content}</p>
           </ContentBox>
           <ButtonWrapper>
-            <Btn>대화하기</Btn>
-            <Btn className="close" onClick={onClose}>
+            <IsMyPost isMyPost={isMyPost} onClick={confirmDeleteBoard}>
+              {isMyPost && <Btn>삭제하기</Btn>}
+            </IsMyPost>
+            <IsMyPost2 isMyPost={isMyPost2}>
+              {isMyPost2 && <Btn>채팅 입장</Btn>}
+            </IsMyPost2>
+            <Btn onClick={onClose} className="close">
               닫기
             </Btn>
           </ButtonWrapper>

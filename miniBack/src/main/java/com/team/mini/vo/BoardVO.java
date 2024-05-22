@@ -14,5 +14,6 @@ public class BoardVO {
     private String content;
     private String nickname;
     private Date join;
-    private String ID;
+    private String id;
+    private String profile;
 }

@@ -26,6 +26,7 @@ public class MemberDAO {
             while (rs.next()) { // 읽을 데이타가 있으면 true
                 String sqlId = rs.getString("ID"); // 쿼리문 수행 결과에서 ID값을 가져 옴
                 String sqlPwd = rs.getString("PASSWORD");
+                System.out.println("id : " + sqlId + " / pw : " + sqlPwd);
                 if (id.equals(sqlId) && password.equals(sqlPwd)) {
                     Common.close(rs);
                     Common.close(stmt);

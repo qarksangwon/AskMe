@@ -137,9 +137,11 @@ const PageStyle = styled.div`
 
   .pagination li.active a {
     border: 2px solid black;
+    border-radius: 4px;
     padding-left: 5px;
     padding-right: 5px;
-    color: black;
+    color: white;
+    background-color: black;
   }
 `;
 
@@ -237,6 +239,15 @@ const BoardM = () => {
     }
   };
 
+  const MyWrite = () => {
+    // 현재 로그인된 사용자의 아이디와 게시글 작성자의 아이디를 비교하여 필터링
+    const myBoards = originalBoards.filter(
+      (board) => board.id === localStorage.getItem("id")
+    );
+    setBoards(myBoards); // 필터링된 게시글로 상태(State) 업데이트
+    setTotalItemsCount(myBoards.length); // 총 아이템 수 업데이트
+  };
+
   return (
     <>
       <Toggle></Toggle>
@@ -256,7 +267,7 @@ const BoardM = () => {
               </Btn>
             </Link>
             <Btn>
-              <BtnMyWrite>내가 쓴 글</BtnMyWrite>
+              <BtnMyWrite onClick={MyWrite}>내가 쓴 글</BtnMyWrite>
             </Btn>
           </ContentWrapper>
           <Boardhead1>

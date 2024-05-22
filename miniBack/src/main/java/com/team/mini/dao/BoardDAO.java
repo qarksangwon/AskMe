@@ -4,12 +4,13 @@ import com.team.mini.vo.BoardVO;
 
 import com.team.mini.utils.Common;
 import com.team.mini.vo.MemberVO;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@Repository
 public class BoardDAO {
     private Connection conn = null;
     private Statement stmt = null;
@@ -31,7 +32,7 @@ public class BoardDAO {
                 String content = rs.getString("CONTENT");
                 String nickname = rs.getString("NICKNAME");
                 String profile = rs.getString("PROFILE");
-                String userid = rs.getString("ID");
+                String id = rs.getString("ID");
                 Date join = rs.getDate("WRITEDATE");
 
                 BoardVO vo = new BoardVO();
@@ -40,6 +41,7 @@ public class BoardDAO {
                 vo.setContent(content);
                 vo.setNickname(nickname);
                 vo.setJoin(join);
+                vo.setId(id);
                 list.add(vo);
 
             }
@@ -80,7 +82,7 @@ public class BoardDAO {
             pStmt.setString(2, board.getTitle());
             pStmt.setString(3, board.getContent());
             pStmt.setString(4, board.getNickname());
-            pStmt.setString(5, board.getID());
+            pStmt.setString(5, board.getId());
 
 
             result = pStmt.executeUpdate();
@@ -96,4 +98,69 @@ public class BoardDAO {
 
         return result == 1;
     }
+
+    public boolean delboard(int classNo){
+        int result = 0;
+        String q = "DELETE FROM BOARDTB WHERE CLASSNO = ?";
+        try{
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(q);
+            pStmt.setInt(1,classNo);
+            result = pStmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return result==1;
+    }
+
+
+
+
+
 }
+
+
+
+
+//    public List<BoardVO> selectBoardsByUserId(String userId) {
+//        List<BoardVO> list = new ArrayList<>();
+//        String query = "SELECT * FROM BOARDTB WHERE ID = ? ORDER BY CLASSNO DESC";
+//
+//        try {
+//            conn = Common.getConnection();
+//            pStmt = conn.prepareStatement(query);
+//            pStmt.setString(1, userId);
+//
+//            rs = pStmt.executeQuery();
+//
+//            while (rs.next()) {
+//                int classno = rs.getInt("CLASSNO");
+//                String title = rs.getString("TITLE");
+//                String content = rs.getString("CONTENT");
+//                String nickname = rs.getString("NICKNAME");
+//                String profile = rs.getString("PROFILE");
+//                Date join = rs.getDate("WRITEDATE");
+//
+//                BoardVO vo = new BoardVO();
+//                vo.setClassNo(classno);
+//                vo.setTitle(title);
+//                vo.setContent(content);
+//                vo.setNickname(nickname);
+//                vo.setJoin(join);
+//                list.add(vo);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            Common.close(rs);
+//            Common.close(pStmt);
+//            Common.close(conn);
+//        }
+//
+//        return list;
+//    }
+//}
