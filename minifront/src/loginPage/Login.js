@@ -22,6 +22,16 @@ function Login() {
 
   let navigate = useNavigate();
   let signUpNav = useNavigate();
+  let findIdNav = useNavigate();
+  let findPwNav = useNavigate();
+
+  const findIdClick = () => {
+    findIdNav("/askme/findid");
+  };
+
+  const findPwClick = () => {
+    findPwNav("/askme/findpw");
+  };
 
   const idRef = useRef(null);
   const SignupClick = () => {
@@ -103,8 +113,12 @@ function Login() {
 
         {/* 아이디 비번찾기 */}
         <div className="findBox">
-          <button className="Find">아이디 찾기</button>
-          <button className="Find">비밀번호 찾기</button>
+          <button className="Find" onClick={findIdClick}>
+            아이디 찾기
+          </button>
+          <button className="Find" onClick={findPwClick}>
+            비밀번호 찾기
+          </button>
           <button className="Find" onClick={SignupClick}>
             회원가입
           </button>
