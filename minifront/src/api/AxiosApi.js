@@ -87,6 +87,12 @@ const AxiosApi = {
     });
   },
 
+  checkEmail: async (email) => {
+    return await axios.get(Askme_Domain + "/askme/checkEmail", {
+      params: { email },
+    });
+  },
+
   sendVerificationEmail: async (email) => {
     return await axios.post(Askme_Domain + "/askme/email", null, {
       params: { email },

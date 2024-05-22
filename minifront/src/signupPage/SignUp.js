@@ -9,6 +9,16 @@ import AxiosApi from "../api/AxiosApi";
 function SignUp() {
   let navigate = useNavigate();
 
+  const ClearClick = () => {
+    setName("");
+    setNickName("");
+    setId("");
+    setEmail("");
+    setPw("");
+    setNotAllow(true);
+    window.location.reload(); // 페이지 새로고침
+  };
+
   const ExitClick = () => {
     navigate("/askme");
   };
@@ -32,20 +42,13 @@ function SignUp() {
 
   const [idMessage, setIdMessage] = useState("");
   const [idCheck, setIdCheck] = useState(false);
+  const [emailMessage, setEmailMessage] = useState("");
 
   const [emailVerify, setEmailVerify] = useState(false);
   const [verifyCode, setVerifyCode] = useState("");
   const [timer, setTimer] = useState(180);
   const [isVerified, setIsVerified] = useState(false);
-
-  const Clear = () => {
-    setName("");
-    setNickName("");
-    setId("");
-    setEmail("");
-    setPw("");
-    setNotAllow(true);
-  };
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -56,12 +59,19 @@ function SignUp() {
   };
 
   useEffect(() => {
-    if (nameValid && nicknameValid && idValid && emailValid && pwValid) {
+    if (
+      nameValid &&
+      nicknameValid &&
+      idValid &&
+      emailValid &&
+      pwValid &&
+      isEmailVerified
+    ) {
       setNotAllow(false);
       return;
     }
     setNotAllow(true);
-  }, [nameValid, nicknameValid, idValid, emailValid, pwValid]);
+  }, [nameValid, nicknameValid, idValid, emailValid, pwValid, isEmailVerified]);
 
   useEffect(() => {
     let interval;
@@ -159,6 +169,12 @@ function SignUp() {
 
   const handleEmailVerify = async () => {
     try {
+      const emailCheckResponse = await AxiosApi.checkEmail(email);
+      if (emailCheckResponse.data) {
+        setEmailMessage("이미 사용중인 이메일 입니다.");
+        return;
+      }
+
       const response = await AxiosApi.sendVerificationEmail(email);
       if (response.status === 200) {
         setEmailVerify(true);
@@ -181,6 +197,7 @@ function SignUp() {
         alert("이메일 인증이 완료되었습니다.");
         setEmailVerify(true);
         setIsVerified(true);
+        setIsEmailVerified(true);
       } else {
         alert("인증 코드가 올바르지 않습니다.");
       }
@@ -359,9 +376,10 @@ function SignUp() {
           {!emailValid && email.length > 0 && (
             <div>올바른 이메일을 입력해주세요.</div>
           )}
+          {emailMessage && <div>{emailMessage}</div>}
         </div>
         <div className="clearExit">
-          <button onClick={Clear} className="clearButton">
+          <button onClick={ClearClick} className="clearButton">
             초기화
           </button>
           <button className="exit" onClick={ExitClick}>

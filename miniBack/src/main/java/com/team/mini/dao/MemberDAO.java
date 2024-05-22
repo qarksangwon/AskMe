@@ -289,5 +289,28 @@ public class MemberDAO {
         }
         return member;
     }
+    // 이메일 중복 체크
+    public boolean checkEmail(String email) {
+        boolean isEmailUsed = false;
+        try {
+            conn = Common.getConnection();
+            String sql = "SELECT COUNT(*) FROM USERTB WHERE EMAIL = ?";
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, email);
+            rs = pStmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                isEmailUsed = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return isEmailUsed;
+    }
+
+
 
 }

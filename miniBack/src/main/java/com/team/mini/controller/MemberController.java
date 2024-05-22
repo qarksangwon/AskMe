@@ -262,6 +262,12 @@ public class MemberController {
                     .allowCredentials(true);
         }
     }
+    // 이메일 중복 체크
+    @GetMapping("/checkEmail")
+    public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
+        boolean isEmailUsed = dao.checkEmail(email);
+        return new ResponseEntity<>(isEmailUsed, HttpStatus.OK);
+    }
 
 
 }
