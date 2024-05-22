@@ -4,6 +4,7 @@ import Exitimg from "../images/exit.png";
 import "./signup.css";
 import { useNavigate } from "react-router-dom";
 import ImageUploader from "../firebase/ImageUploader";
+import AxiosApi from "../api/AxiosApi";
 
 function SignUp() {
   let navigate = useNavigate();
@@ -26,6 +27,14 @@ function SignUp() {
   const [pwValid, setPwValid] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
 
+  const [nicknameMessage, setNickNameMessage] = useState("");
+  const [nicknameCheck, setNickNameCheck] = useState(false);
+
+  const [emailVerify, setEmailVerify] = useState(false);
+  const [verifyCode, setVerifyCode] = useState("");
+  const [timer, setTimer] = useState(180);
+  const [isVerified, setIsVerified] = useState(false);
+
   const Clear = () => {
     setName("");
     setNickName("");
@@ -35,6 +44,14 @@ function SignUp() {
     setNotAllow(true);
   };
 
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainSeconds = seconds % 60;
+    return `${minutes}:${
+      remainSeconds < 10 ? `0${remainSeconds}` : remainSeconds
+    }`;
+  };
+
   useEffect(() => {
     if (nameValid && nicknameValid && idValid && emailValid && pwValid) {
       setNotAllow(false);
@@ -42,6 +59,16 @@ function SignUp() {
     }
     setNotAllow(true);
   }, [nameValid, nicknameValid, idValid, emailValid, pwValid]);
+
+  useEffect(() => {
+    let interval;
+    if (emailVerify && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [emailVerify, timer]);
 
   const handleName = (e) => {
     setName(e.target.value);
@@ -95,6 +122,54 @@ function SignUp() {
     }
   };
 
+  const handleNicknameCheck = async () => {
+    try {
+      const response = await AxiosApi.checkNickname(nickname);
+      if (response.data) {
+        setNickNameMessage("이미 사용중인 닉네임 입니다.");
+      } else {
+        setNickNameMessage("사용 가능한 닉네임 입니다.");
+        setNickNameCheck(true);
+      }
+    } catch (error) {
+      console.error(error);
+      setNickNameMessage("닉네임 확인 중 오류가 발생했습니다.");
+    }
+  };
+
+  const handleEmailVerify = async () => {
+    try {
+      const response = await AxiosApi.sendVerificationEmail(email);
+      if (response.status === 200) {
+        setEmailVerify(true);
+        alert("인증 이메일이 전송되었습니다.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("이메일 전송에 실패했습니다.");
+    }
+  };
+
+  const handleVerifyCode = (e) => {
+    setVerifyCode(e.target.value);
+  };
+
+  const handleVerifyCodeSubmit = async () => {
+    try {
+      const response = await AxiosApi.verifyEmailCode(email, verifyCode);
+      if (response.data) {
+        alert("이메일 인증이 완료되었습니다.");
+        setEmailVerify(true);
+        setIsVerified(true);
+      } else {
+        alert("인증 코드가 올바르지 않습니다.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("인증 코드 확인에 실패했습니다.");
+    }
+  };
+
   // 확인버튼
   const onClickConfirmButton = () => {
     alert("회원가입에 성공했습니다");
@@ -143,7 +218,7 @@ function SignUp() {
               <input
                 className="input"
                 type="text"
-                placeholder="닉네임"
+                placeholder="한글 2~5자"
                 value={nickname}
                 onChange={handleNickName}
               />
@@ -152,11 +227,17 @@ function SignUp() {
               {!nicknameValid && nickname.length > 0 && (
                 <div>올바른 닉네임을 입력해주세요.</div>
               )}
+              {nicknameMessage && <div>{nicknameMessage}</div>}
             </div>
           </div>
-          <button onClick={setNickName} className="nickNameCheckButton">
-            중복 확인
-          </button>
+          {!nicknameCheck && (
+            <button
+              onClick={handleNicknameCheck}
+              className="nickNameCheckButton"
+            >
+              중복 확인
+            </button>
+          )}
         </div>
 
         {/* ------------------아이디 */}
@@ -216,11 +297,30 @@ function SignUp() {
               onChange={handleEmail}
             />
           </div>
-
-          <button onClick={setEmail} className="emailButton">
-            이메일 인증
-          </button>
+          {!emailVerify && (
+            <button onClick={handleEmailVerify} className="emailButton">
+              이메일 인증
+            </button>
+          )}
         </div>
+        {emailVerify && !isVerified && (
+          <div className="emailBox">
+            <div className="inputWrap">
+              <input
+                className="input"
+                type="text"
+                placeholder="인증번호 입력"
+                value={verifyCode}
+                onChange={handleVerifyCode}
+              />
+            </div>
+            <div className="timerWrap">{formatTime(timer)}</div>
+            <button onClick={handleVerifyCodeSubmit} className="verifyButton">
+              인증 코드 확인
+            </button>
+          </div>
+        )}
+
         <div className="errorMessageWrap">
           {!emailValid && email.length > 0 && (
             <div>올바른 이메일을 입력해주세요.</div>

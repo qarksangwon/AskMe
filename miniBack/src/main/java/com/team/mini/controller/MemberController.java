@@ -17,6 +17,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/askme")
@@ -28,13 +33,14 @@ public class MemberController {
     private JavaMailSender mailSender;
     private Map<String, String> verificationCodes = new HashMap<>();
 
+    private String currentEmail = "";
     @GetMapping("/main")
     public String mainPage() {
         return "hi";
     }
 
     // GET 회원 가입 이메일 전송
-    @GetMapping("/email")
+    @PostMapping("/email")
     public ResponseEntity<String> sendMail(@RequestParam String email) {
         System.out.println("인증 번호 받을 email : " + email);
 
@@ -43,6 +49,7 @@ public class MemberController {
         int max = 999999;
         String tempPw = String.valueOf(random.nextInt(max - min + 1) + min);
         System.out.println("인증 번호 : " + tempPw);
+        currentEmail = tempPw.toString();
 
         String htmlContent = "<div style=\"text-align: center; display:flex; flex-direction:column; justify-content:center; text-align:center;\">"
                 + "<p style=\"font-size:30px; display: block;\">AskMe 인증번호 입니다.</p>"
@@ -98,7 +105,7 @@ public class MemberController {
 
     // GET 아이디 및 닉네임 중복 체크
     @GetMapping("/signup")
-    public ResponseEntity<Boolean> memberCheck(@RequestParam String check, String value) {
+    public ResponseEntity<Boolean> memberCheck(@RequestParam String check, @RequestParam String value) {
 //        String testCheck = "nickname";
 //        String testValue = "bsj";
         boolean isTrue = dao.checkIdAndNickname(check, value);
@@ -145,12 +152,14 @@ public class MemberController {
     }
     // 이메일 인증 번호와 사용자가 입력한 코드 일치하는지 확인
     @PostMapping("/verifyId")
-    public ResponseEntity<String> VerifyCodeId(@RequestParam String email, @RequestParam String code) {
-        String savedCode = verificationCodes.get(email);
-        if (savedCode != null && savedCode.equals(code)) {
-            return new ResponseEntity<>("Verification successful", HttpStatus.OK);
+    public ResponseEntity<Boolean> VerifyCodeId(@RequestParam String email, @RequestParam String code) {
+        System.out.println("email : " + email + " / code : " + code);
+        System.out.println(currentEmail);
+        if (currentEmail.equals(code)) {
+            currentEmail = "";
+            return ResponseEntity.ok(true);
         } else {
-            return new ResponseEntity<>("Invalid verification code", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.ok(false);
         }
     }
     // 코드가 일치하면 사용자의 아이디 출력
@@ -236,4 +245,16 @@ public class MemberController {
         mailSender.send(mimeMessage);
         return verificationCode;
     }
+
+    @Configuration
+    public class WebConfig implements WebMvcConfigurer {
+        @Override
+        public void addCorsMappings(CorsRegistry registry) {
+            registry.addMapping("/**")
+                    .allowedOrigins("http://localhost:3000")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD")
+                    .allowCredentials(true);
+        }
+    }
+
 }
