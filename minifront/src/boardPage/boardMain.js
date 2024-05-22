@@ -8,6 +8,7 @@ import AxiosApi from "../api/AxiosApi";
 import Toggle from "../customComponent/Toggle";
 import Pagination from "react-js-pagination";
 import BoardModal from "./boardModal";
+import { PacmanLoader } from "react-spinners";
 
 const Container = styled.div`
   display: flex;
@@ -154,6 +155,10 @@ const PageStyle = styled.div`
   }
 `;
 
+const Loading = styled.div`
+  display: flex;
+`;
+
 const BtnWrite = styled.div``;
 
 const BtnMyWrite = styled.div``;
@@ -168,6 +173,26 @@ const Board = () => {
   const [totalItemsCount, setTotalItemsCount] = useState(0);
   const [selectedBoard, setSelectedBoard] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // 사용자가 로그인되어 있는지 확인하는 함수
+  const checkLoginStatus = () => {
+    const userId = localStorage.getItem("userId");
+    setIsLoggedIn(!!userId); // userId가 존재하면 true, 존재하지 않으면 false
+  };
+
+  useEffect(() => {
+    checkLoginStatus(); // 페이지가 로드될 때마다 로그인 상태 확인
+  }, []);
+
+  // "글 쓰기" 버튼 클릭 핸들러
+  const handleWriteButtonClick = () => {
+    if (!isLoggedIn) {
+      alert("로그인 후 사용 가능합니다!");
+    }
+    // 여기에 글 쓰기 버튼을 클릭했을 때의 로직을 추가할 수 있습니다.
+  };
 
   const openModal = (board) => {
     setSelectedBoard(board);
@@ -206,18 +231,24 @@ const Board = () => {
   }, [page, originalBoards]);
 
   const handleSearch = () => {
-    if (searchTerm === "") {
-      setBoards(originalBoards.slice(0, itemsPerPage));
-      setTotalItemsCount(originalBoards.length);
-    } else {
-      const filteredBoards = originalBoards.filter(
-        (board) =>
-          board.title &&
-          board.title.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setBoards(filteredBoards.slice(0, itemsPerPage));
-      setTotalItemsCount(filteredBoards.length);
-    }
+    setLoading(true); // 검색이 시작될 때 로딩 상태 활성화
+
+    // 임의의 로딩 시간 설정 (예: 2초)
+    setTimeout(() => {
+      if (searchTerm === "") {
+        setBoards(originalBoards.slice(0, itemsPerPage));
+        setTotalItemsCount(originalBoards.length);
+      } else {
+        const filteredBoards = originalBoards.filter(
+          (board) =>
+            board.title &&
+            board.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setBoards(filteredBoards.slice(0, itemsPerPage));
+        setTotalItemsCount(filteredBoards.length);
+      }
+      setLoading(false); // 검색이 완료되면 로딩 상태 비활성화
+    }, 2000); // 2초로 설정
   };
 
   const handleKeyPress = (event) => {
@@ -254,10 +285,22 @@ const Board = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyPress={handleKeyPress}
             />
-            <Searchlogo src={logosearch} onClick={handleSearch} />
-            <Link to="/askme/board/write">
+            <Searchlogo
+              src={logosearch}
+              onClick={() => {
+                handleSearch();
+                setLoading(true);
+              }}
+            />
+
+            <Link to={isLoggedIn ? "/askme/board/write" : "/login"}>
               <Btn>
-                <BtnWrite>글 쓰기</BtnWrite>
+                <BtnWrite
+                  loggedIn={isLoggedIn}
+                  onClick={isLoggedIn ? null : handleWriteButtonClick}
+                >
+                  글 쓰기
+                </BtnWrite>
               </Btn>
             </Link>
             <Btn>
@@ -267,6 +310,7 @@ const Board = () => {
               <Exit src={exit} />
             </Link>
           </Boardhead>
+          <Loading>{loading && <PacmanLoader />}</Loading>
           <Tdfont>
             <table>
               <thead>

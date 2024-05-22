@@ -152,6 +152,7 @@ const BoardModal = ({ board, onClose }) => {
   useEffect(() => {
     if (isDel) {
       window.location.reload();
+      alert("삭제가 완료 되었습니다.");
     }
   }, [isDel]);
 
