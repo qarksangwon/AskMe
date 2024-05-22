@@ -144,7 +144,7 @@ const Chat = ({ roomId }) => {
   const [isActive, setIsActive] = useState(true);
   const [inputMessage, setInputMessage] = useState("");
   const [errorMsg, setErrorMsg] = useState(false);
-  const myNickName = localStorage.getItem("userNickname");
+  const [myNickName, setMyNickName] = useState();
 
   //웹소켓 연결
   useEffect(() => {
@@ -193,6 +193,7 @@ const Chat = ({ roomId }) => {
       }
     };
     currentMsg();
+    setMyNickName(localStorage.getItem("userNickname"));
   }, []);
 
   const onEnterKey = (e) => {
@@ -210,7 +211,7 @@ const Chat = ({ roomId }) => {
       JSON.stringify({
         type: "TALK",
         roomId: roomNum,
-        nickName: "test",
+        nickName: myNickName,
         message: inputMessage,
       })
     );
@@ -272,8 +273,9 @@ const Chat = ({ roomId }) => {
                     justifyContent:
                       chat.nickName === myNickName ? "flex-end" : "flex-start",
                   }}
+                  key={index}
                 >
-                  <MessageBox key={index}>
+                  <MessageBox>
                     <p>{chat.nickName === myNickName ? "" : chat.nickName}</p>
                     <Message>{chat.message}</Message>
                   </MessageBox>
