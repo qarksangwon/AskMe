@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: relative;
   top: 100px;
   bottom: 0;
   width: 100%;
@@ -54,17 +54,6 @@
   background-color: white;
   color: #000000;
   transition: all 0.3s ease-in;
-}
-
-@media (max-width: 430px) {
-  .page {
-    width: 100%;
-    height: auto;
-    top: 0px;
-  }
-  .titleWrap {
-    margin: 0;
-  }
 }
 
 .nicknameBox {
@@ -123,11 +112,11 @@
 
 .emailBox {
   display: flex;
-
   align-items: center;
 }
 
-.emailButton {
+.emailButton,
+.verifyButton {
   margin-top: 10px;
   margin-left: 10px;
   font-size: 15px;
@@ -141,10 +130,18 @@
   transition: all 0.3s ease-in;
 }
 
-.emailButton:hover {
+.emailButton:hover,
+.verifyButton:hover {
   background-color: white;
   color: #000000;
   transition: all 0.3s ease-in;
+}
+
+.timerWrap {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: red;
 }
 
 .contentWrap {
@@ -159,6 +156,7 @@
 }
 
 .inputWrap {
+  flex: 1;
   display: flex;
   border-radius: 8px;
   padding: 16px;
@@ -188,7 +186,7 @@
 .clearButton {
   font-size: 15px;
   margin-top: 20px;
-  margin-left: 100px;
+  margin-left: 60px;
   border-radius: 10px;
   width: 120px;
   height: 30px;
@@ -216,6 +214,7 @@
 .bottomButton {
   width: 130px;
   height: 40px;
+  margin-bottom: 40px;
   font-weight: bold;
   border-radius: 64px;
   background-color: #000000;
@@ -236,4 +235,52 @@
 
 .exit {
   cursor: pointer;
+}
+
+@media (max-width: 430px) {
+  .page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  .imgContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .Logoimg {
+    max-width: 80%;
+    height: auto;
+  }
+
+  .contentWrap {
+    flex: 1;
+    padding: 0 10px;
+  }
+
+  .inputWrap,
+  .emailBox {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .bottomContainer {
+    width: 100%;
+    padding: 0 10px 10px;
+  }
+
+  .bottomButton {
+    width: 100%;
+    padding: 15px 10px;
+  }
+
+  .clearExit {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
 }

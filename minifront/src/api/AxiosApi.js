@@ -57,6 +57,24 @@ const AxiosApi = {
       },
     });
   },
+
+  checkNickname: async (nickname) => {
+    return await axios.get(Askme_Domain + "/askme/signup", {
+      params: { check: "nickname", value: nickname },
+    });
+  },
+
+  sendVerificationEmail: async (email) => {
+    return await axios.post(Askme_Domain + "/askme/email", null, {
+      params: { email },
+    });
+  },
+
+  verifyEmailCode: async (email, code) => {
+    return await axios.post(Askme_Domain + "/askme/verifyId", null, {
+      params: { email, code },
+    });
+  },
 };
 
 export default AxiosApi;
