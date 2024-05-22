@@ -1,7 +1,7 @@
 import axios from "axios";
-import SignUp from "./../signupPage/SignUp";
 
 const Askme_Domain = "http://localhost:8111";
+//  "http://192.168.10.17:8111";
 
 const AxiosApi = {
   LoginMain: async (id, pwd) => {
@@ -69,6 +69,10 @@ const AxiosApi = {
         id: id,
       },
     });
+  },
+
+  chatList: async (roomId) => {
+    return await axios.get(Askme_Domain + `/askme/rooms/${roomId}`);
   },
 
   checkNickname: async (nickname) => {

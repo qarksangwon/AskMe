@@ -1,11 +1,15 @@
 package com.team.mini.dao;
 
 import com.team.mini.utils.Common;
+import com.team.mini.vo.ChatMessageVO;
+import com.team.mini.vo.ChatRoomVO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatDAO {
     private Connection conn = null;
@@ -80,5 +84,75 @@ public class ChatDAO {
             Common.close(conn);
         }
         return isTrue;
+    }
+
+    public List<ChatMessageVO> chatList(String roomId){
+        String q = "SELECT * FROM CHATTB WHERE roomId = ?";
+        List<ChatMessageVO> chatList = new ArrayList<>();
+        try{
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(q);
+            pStmt.setString(1, roomId);
+            rs = pStmt.executeQuery();
+            while(rs.next()){
+                ChatMessageVO chatMessageVO = new ChatMessageVO();
+                chatMessageVO.setNickName(rs.getString("NICKNAME"));
+                chatMessageVO.setMessage(rs.getString("MESSAGE"));
+                chatMessageVO.setRoomId(rs.getString("ROOMID"));
+                chatMessageVO.setType(ChatMessageVO.MessageType.valueOf("TALK"));
+                chatList.add(chatMessageVO);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return chatList;
+    }
+
+    public int insertMessage(ChatMessageVO message){
+        int isTrue = 0;
+        String q = "INSERT INTO CHATTB (ROOMID, NICKNAME, MESSAGE) VALUES (?, ?, ?)";
+        try{
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(q);
+            pStmt.setString(1,message.getRoomId());
+            pStmt.setString(2, message.getNickName());
+            pStmt.setString(3, message.getMessage());
+            isTrue = pStmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return isTrue;
+    }
+
+    public List<ChatRoomVO> roomList(){
+        String q = "SELECT * FROM CHATROOM";
+        List<ChatRoomVO> roomList = new ArrayList<>();
+        try{
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(q);
+            rs = pStmt.executeQuery();
+            while(rs.next()){
+                ChatRoomVO chatRoom = new ChatRoomVO(
+                        rs.getString("ROOMID"),
+                        rs.getString("ID")
+                );
+                roomList.add(chatRoom);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return roomList;
     }
 }
