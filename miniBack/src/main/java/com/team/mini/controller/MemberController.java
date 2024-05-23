@@ -132,11 +132,11 @@ public class MemberController {
     }
 
     // POST 회원 탈퇴
+    // POST 회원 탈퇴
     @PostMapping("/userdel/del")
-    public ResponseEntity<Boolean> memberDelete(@RequestBody MemberVO vo) {
-        System.out.println(vo.getId());
-        boolean isTrue = dao.memberDelete(vo.getId());
-        System.out.println(isTrue);
+    public ResponseEntity<Boolean> memberDelete(@RequestBody Map<String, String> delData) {
+        String id = delData.get("id");
+        boolean isTrue = dao.memberDelete(id);
         return ResponseEntity.ok(isTrue);
     }
 

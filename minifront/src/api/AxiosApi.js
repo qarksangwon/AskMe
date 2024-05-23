@@ -11,11 +11,7 @@ const AxiosApi = {
   },
 
   userDel: async (id) => {
-    const delId = {
-      id: id,
-    };
-    console.log(delId);
-    return await axios.post(Askme_Domain + "/askme/userdel/del", delId);
+    return await axios.post(Askme_Domain + "/askme/userdel/del", { id });
   },
 
   boardMain: async () => {

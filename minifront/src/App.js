@@ -13,6 +13,7 @@ import Writesucces from "./boardPage/writeSuccess";
 import FindId from "./findPage/findId";
 import FindPw from "./findPage/findPw";
 import MyPage from "./myPage/MyPage";
+import UserDel from "./myPage/UserDel";
 
 function App() {
   const isMobile = window.innerWidth <= 430;
@@ -41,6 +42,7 @@ function App() {
           <Route path="/askme/findid" element={<FindId />} />
           <Route path="/askme/findpw" element={<FindPw />} />
           <Route path="/askme/mypage" element={<MyPage />} />
+          <Route path="/askme/userdel" element={<UserDel />} />
         </Routes>
       </Router>
     </>

@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  top: 0;
+  position: relative;
+  top: 300px;
   bottom: 0;
   width: 100%;
   padding: 0 20px;
@@ -30,7 +30,7 @@
   font-size: 20px;
   font-weight: 600;
   color: #262626;
-  margin-right: 125px;
+  margin-right: 190px;
 }
 
 .findpwEmailBox {
@@ -38,22 +38,24 @@
   align-items: center;
 }
 
-.findpwInputWrap {
-  display: flex;
+.findpwInputWrap,
+.pwemailBox .inputWrap {
+  width: 100%;
   border-radius: 8px;
   padding: 16px;
   margin-top: 8px;
+  margin-right: 60px;
   background-color: white;
   border: 1px solid #e2e0e0;
 }
 
-.findpwInput {
-  display: flex;
+.findpwInput,
+.pwemailBox .input {
   width: 100%;
   outline: none;
   border: none;
   height: 17px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
 }
 

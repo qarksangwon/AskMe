@@ -9,20 +9,6 @@ import AxiosApi from "../api/AxiosApi";
 function SignUp() {
   let navigate = useNavigate();
 
-  const ClearClick = () => {
-    setName("");
-    setNickName("");
-    setId("");
-    setEmail("");
-    setPw("");
-    setNotAllow(true);
-    window.location.reload(); // 페이지 새로고침
-  };
-
-  const ExitClick = () => {
-    navigate("/askme");
-  };
-
   const [name, setName] = useState("");
   const [nickname, setNickName] = useState("");
   const [id, setId] = useState("");
@@ -49,6 +35,20 @@ function SignUp() {
   const [timer, setTimer] = useState(180);
   const [isVerified, setIsVerified] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
+
+  const ClearClick = () => {
+    setName("");
+    setNickName("");
+    setId("");
+    setEmail("");
+    setPw("");
+    setNotAllow(true);
+    window.location.reload(); // 페이지 새로고침
+  };
+
+  const ExitClick = () => {
+    navigate("/askme");
+  };
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -94,24 +94,34 @@ function SignUp() {
   };
 
   const handleNickName = (e) => {
-    setNickName(e.target.value);
-    const regex = /^[가-힣]{2,5}$/;
-    if (regex.test(e.target.value)) {
-      setNickNameValid(true);
-    } else {
-      setNickNameValid(false);
+    const value = e.target.value;
+    const regex = /^[가-힣A-Za-z0-9]{0,8}$/;
+    if (regex.test(value)) {
+      setNickName(value);
       setNickNameMessage("");
+      if (value.length >= 2) {
+        setNickNameValid(true);
+      } else {
+        setNickNameValid(false);
+      }
+    } else {
+      setNickNameMessage("한글, 영어, 숫자로만 입력 가능합니다.");
     }
   };
 
   const handleId = (e) => {
-    setId(e.target.value);
-    const regex = /^[A-Za-z0-9]{4,8}$/;
-    if (regex.test(e.target.value)) {
-      setIdValid(true);
-    } else {
-      setIdValid(false);
+    const value = e.target.value;
+    const regex = /^[가-힣A-Za-z0-9]{0,8}$/;
+    if (regex.test(value)) {
+      setId(value);
       setIdMessage("");
+      if (value.length >= 2) {
+        setIdValid(true);
+      } else {
+        setIdValid(false);
+      }
+    } else {
+      setIdMessage("한글, 영어, 숫자로만 입력 가능합니다.");
     }
   };
 
@@ -138,6 +148,10 @@ function SignUp() {
   };
 
   const handleNicknameCheck = async () => {
+    if (!nickname) {
+      setNickNameMessage("닉네임을 입력해주세요.");
+      return;
+    }
     try {
       const response = await AxiosApi.checkNickname(nickname);
       if (response.data) {
@@ -153,6 +167,10 @@ function SignUp() {
   };
 
   const handleIdCheck = async () => {
+    if (!id) {
+      setIdMessage("아이디를 입력해주세요.");
+      return;
+    }
     try {
       const response = await AxiosApi.checkId(id);
       if (response.data) {
@@ -266,7 +284,7 @@ function SignUp() {
               <input
                 className="input"
                 type="text"
-                placeholder="한글 2~5자"
+                placeholder="한글, 영어, 숫자 입력가능"
                 value={nickname}
                 onChange={handleNickName}
               />

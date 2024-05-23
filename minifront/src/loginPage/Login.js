@@ -48,7 +48,7 @@ function Login() {
       alert("로그인에 성공했습니다");
       console.log(id);
       console.log(nickname);
-      navigate("/askme");
+      navigate("/askme/mypage");
     }
   }, [isLogin]);
 

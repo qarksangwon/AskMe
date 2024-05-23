@@ -71,14 +71,15 @@ const Btn = styled.div`
     height: 50px;
   }
 `;
+
 const Exit = styled.img`
   width: 70px;
   height: 70px;
   cursor: pointer;
-  transition: all 0.2s ease-in;
+  transition: all 0.3s ease-in;
   &:hover {
     opacity: 0.5;
-    transition: all 0.2s ease-in;
+    transition: all 0.3s ease-in;
   }
   @media (max-width: 430px) {
     margin-top: 10px;
@@ -94,17 +95,24 @@ const UserDel = () => {
     console.log(id);
     if (window.confirm("정말로 회원 탈퇴하시겠습니까?")) {
       try {
-        await AxiosApi.userDel(id);
-        setUserDel(true);
+        const response = await AxiosApi.userDel(id);
+        if (response.data) {
+          setUserDel(true);
+          localStorage.removeItem("userId");
+        } else {
+          setUserDel(false);
+        }
       } catch (error) {
         console.log("회원 탈퇴를 실패했습니다: " + error.message);
+        setUserDel(false);
       }
     }
   };
+
   useEffect(() => {
     if (isSuccess !== undefined) {
       if (isSuccess) window.location.href = "/askme";
-      else alert("회원 탈퇴를 실패했습니다: ");
+      else alert("회원 탈퇴를 실패했습니다.");
     }
   }, [isSuccess]);
 
