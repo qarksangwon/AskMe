@@ -60,7 +60,7 @@
 
 .findpwEmailButton {
   margin-top: 10px;
-  margin-left: 10px;
+  margin-right: 20px;
   font-size: 15px;
   border-radius: 10px;
   width: 100px;
@@ -108,6 +108,27 @@
   background-color: white;
   cursor: pointer;
   border: 2px solid white;
+}
+
+.pwerrorMessageWrap {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-right: 125px;
+  /* 추가된 부분: 오류 메시지가 입력 필드와 같은 너비를 가지도록 */
+}
+
+.findpwInputWrap {
+  margin-right: 10px;
+}
+
+.resetPasswordContainer {
+  width: 75%;
+  margin-left: 80px;
+}
+
+.resetPasswordContainer .findpwInputWrap {
+  width: 75%;
 }
 
 @media (max-width: 430px) {

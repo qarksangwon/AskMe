@@ -128,6 +128,11 @@ const AxiosApi = {
       params: { email, code },
     });
   },
+  resetPassword: async (id, email, code, newPassword) => {
+    return await axios.post(Askme_Domain + "/askme/resetPw", null, {
+      params: { id, email, code, newPassword },
+    });
+  },
 };
 
 export default AxiosApi;

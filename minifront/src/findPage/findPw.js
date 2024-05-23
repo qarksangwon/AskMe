@@ -19,6 +19,8 @@ function FindPw() {
   const [pwEmailVerify, setPwEmailVerify] = useState(false);
   const [pwIsVerified, setPwIsVerified] = useState(false);
   const [pwEmailMessage, setPwEmailMessage] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [resetPasswordVisible, setResetPasswordVisible] = useState(false);
 
   useEffect(() => {
     let interval;
@@ -81,6 +83,34 @@ function FindPw() {
     }
   };
 
+  const handleNewPasswordChange = (e) => {
+    setNewPassword(e.target.value);
+  };
+
+  const handleResetPasswordSubmit = async () => {
+    try {
+      const response = await AxiosApi.resetPassword(
+        findid,
+        pwemail,
+        pwVerifyCode,
+        newPassword
+      );
+      if (response.status === 200) {
+        alert("비밀번호 변경이 완료되었습니다.");
+        setResetPasswordVisible(false);
+        setFindId("");
+        setPwEmail("");
+        setPwVerifyCode("");
+        setPwEmailVerify(false);
+        setPwIsVerified(false);
+        setNewPassword("");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("비밀번호 변경에 실패했습니다.");
+    }
+  };
+
   return (
     <div className="findpwpage">
       <div className="findpwimg">
@@ -88,10 +118,8 @@ function FindPw() {
       </div>
       <div className="findpwTitleWrap">비밀번호 찾기</div>
       <br />
-      {/* --------------- 비번찾기 */}
       <div className="findpwidBox">
         <div className="findpwInputTitle">아이디 입력</div>
-
         <div className="findpwIdBox">
           <div className="inputWrap">
             <input
@@ -106,7 +134,6 @@ function FindPw() {
       </div>
       <br />
       <div className="findpwInputTitle">이메일 주소</div>
-
       <div className="findpwEmailBox">
         <div className="pwemailBox">
           <div className="inputWrap">
@@ -146,12 +173,18 @@ function FindPw() {
         )}
       </div>
 
-      <div className="errorMessageWrap">
+      <div className="pwerrorMessageWrap">
         {pwEmailMessage && <div>{pwEmailMessage}</div>}
       </div>
 
       <div className="findPw">
-        <button className="findPwButton">비밀번호 찾기</button>
+        <button
+          className="findPwButton"
+          disabled={!findid || !pwIsVerified}
+          onClick={() => setResetPasswordVisible(true)}
+        >
+          비밀번호 변경
+        </button>
         <button className="findExit" onClick={findPwExitClick}>
           <img
             src={Exitimg}
@@ -160,6 +193,24 @@ function FindPw() {
           />
         </button>
       </div>
+      <br />
+      {resetPasswordVisible && (
+        <div className="resetPasswordContainer">
+          <div className="findpwInputTitle">새로운 비밀번호 입력</div>
+          <div className="findpwInputWrap">
+            <input
+              className="findpwInput"
+              type="password"
+              placeholder="새로운 비밀번호"
+              value={newPassword}
+              onChange={handleNewPasswordChange}
+            />
+          </div>
+          <button className="findPwButton" onClick={handleResetPasswordSubmit}>
+            비밀번호 재설정
+          </button>
+        </div>
+      )}
     </div>
   );
 }
