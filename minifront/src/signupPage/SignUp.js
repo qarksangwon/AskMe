@@ -36,6 +36,8 @@ function SignUp() {
   const [isVerified, setIsVerified] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
 
+  const [uploadTrigger, setUploadTrigger] = useState(false); //이미지 업로드용 트리거
+
   const ClearClick = () => {
     setName("");
     setNickName("");
@@ -231,9 +233,10 @@ function SignUp() {
     const userData = { id, password: pw, name, nickname, email };
     try {
       const response = await AxiosApi.signup(userData);
+
       if (response.data) {
         alert("회원가입에 성공했습니다");
-        navigate("/askme/login");
+        test();
       } else {
         alert("회원가입에 실패했습니다");
       }
@@ -242,7 +245,9 @@ function SignUp() {
       alert("회원가입 중 오류가 발생했습니다");
     }
   };
-
+  const test = () => {
+    setUploadTrigger(true);
+  };
   return (
     <div className="page">
       <div className="imgContainer">
@@ -254,7 +259,11 @@ function SignUp() {
 
       {/* ----------- 사진등록 */}
       <div>
-        <ImageUploader setUrl={setUrl} />
+        <ImageUploader
+          setUrl={setUrl}
+          usernickname={nickname}
+          uploadTrigger={uploadTrigger}
+        />
         {url && <img src={url} alt="uploaded" />}
       </div>
 

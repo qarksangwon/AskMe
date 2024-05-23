@@ -8,7 +8,7 @@ import ImageDisplayByName from "../api/ImageDisplayByName";
 const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+
   justify-content: center;
   width: 100vh;
   height: 65vh;
@@ -28,10 +28,13 @@ const ModalWrapper = styled.div`
     top: 50%;
   }
 `;
+const Profile = styled.div`
+  display: flex;
+  align-items: left;
+`;
 
 const TitleBox = styled.div`
   display: flex;
-  align-items: center;
   width: 100%;
   margin-bottom: 10px;
 
@@ -41,8 +44,9 @@ const TitleBox = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
+  align-items: center;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 20px;
 
   @media (max-width: 430px) {
@@ -165,18 +169,18 @@ const BoardModal = ({ board, onClose }) => {
     <motion.div
       initial={{ opacity: 0, x: 0 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.5, delay: 0.8 }} // 2초 후에 애니메이션 시작
     >
       <ModalBack>
         <ModalWrapper>
-          <div>
+          <Profile>
             <ImageDisplayByName filename={board.nickname} />
-          </div>
+          </Profile>
           <TitleBox>
             <h1>{board.title}</h1>
           </TitleBox>
           <NicknameBox>
-            <p>{board.nickname}</p>
+            <p>닉네임 : {board.nickname}</p>
           </NicknameBox>
           <ContentBox>
             <p>{board.content}</p>
