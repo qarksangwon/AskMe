@@ -168,13 +168,21 @@ public class MemberController {
 
     // 코드가 일치하면 사용자의 아이디 출력
     @PostMapping("/getId")
-    public ResponseEntity<String> getId(@RequestParam String name, @RequestParam String email, @RequestParam String code) {
-        String savedCode = verificationCodes.get(email);
-        if (savedCode != null && savedCode.equals(code)) {
+    public ResponseEntity<String> getId(@RequestBody Map<String, String> payload) {
+        String name = payload.get("name");
+        String email = payload.get("email");
+        String code = payload.get("code");
+
+        System.out.println(name);
+        System.out.println(email);
+        System.out.println(code);
+
+        // Assuming currentEmail is defined and accessible here
+        if (currentEmail != null && currentEmail.equals(code)) {
             String userId = dao.getUserIdByNameAndEmail(name, email);
             if (userId != null) {
-                verificationCodes.remove(email);
-                return new ResponseEntity<>("Your ID is: " + userId, HttpStatus.OK);
+                currentEmail = "";
+                return new ResponseEntity<>(userId, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
             }

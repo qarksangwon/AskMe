@@ -103,12 +103,13 @@ const AxiosApi = {
   signup: async (userData) => {
     return await axios.post(Askme_Domain + "/askme/signup", userData);
   },
-  EmailfindId: async (name, email, code) => {
-    return await axios.post(Askme_Domain + "/askme/getId", {
-      name,
-      email,
-      code,
-    });
+  EmailfindId: async ({ name, email, code }) => {
+    const value = {
+      name: name,
+      email: email,
+      code: code,
+    };
+    return await axios.post(Askme_Domain + "/askme/getId", value);
   },
 };
 

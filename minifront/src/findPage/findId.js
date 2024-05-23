@@ -3,11 +3,13 @@ import Logoimg from "../images/Logo.png";
 import Exitimg from "../images/exit.png";
 import "./findId.css";
 import AxiosApi from "../api/AxiosApi";
+import { useNavigate } from "react-router-dom";
 
 function FindId() {
+  let navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [code, setCode] = useState("");
+  const code = "";
   const [verifyCode, setVerifyCode] = useState("");
   const [timer, setTimer] = useState(180);
 
@@ -28,6 +30,13 @@ function FindId() {
     return `${minutes}:${
       remainSeconds < 10 ? `0${remainSeconds}` : remainSeconds
     }`;
+  };
+
+  const ExitClick = () => {
+    navigate("/askme");
+  };
+  const LoginClick = () => {
+    navigate("/askme/login");
   };
 
   useEffect(() => {
@@ -61,7 +70,7 @@ function FindId() {
   const findHandleEmail = (e) => {
     setEmail(e.target.value);
     const regex =
-      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+      /^(([^<>()[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
     if (regex.test(e.target.value)) {
       setEmailValid(true);
     } else {
@@ -103,24 +112,24 @@ function FindId() {
     }
   };
 
-  const findIdExitClick = async () => {
+  const findIdClick = async () => {
     if (notAllow) return;
     const userData = { name, email, code };
     try {
       const response = await AxiosApi.EmailfindId(userData);
-      if (response.data) {
-        setFoundId(response.data); // 성공적으로 찾은 아이디 설정
-        setIsIdFound(true); // 아이디 찾기 성공 여부 설정
-        localStorage.removeItem("userId");
-        alert("아이디 찾기에 성공했습니다");
-      } else {
-        alert("아이디 찾기에 실패했습니다");
-      }
+      setFoundId(response.data); // 성공적으로 찾은 아이디 설정
+      setIsIdFound(true); // 아이디 찾기 성공 여부 설정
     } catch (error) {
       console.error(error);
       alert("아이디 찾기 중 오류가 발생했습니다");
     }
   };
+
+  useEffect(() => {
+    if (isIdFound) {
+      alert("아이디 찾기를 성공적으로 완료하였습니다.");
+    }
+  }, [isIdFound]);
 
   return (
     <div className="findidpage">
@@ -131,9 +140,23 @@ function FindId() {
       <br />
       <div className="contentWrap">
         {isIdFound ? (
-          <div className="foundIdMessage">
-            사용자의 아이디는 {foundId} 입니다.
-          </div>
+          <>
+            <div className="foundIdMessage">
+              사용자의 아이디는 {foundId} 입니다.
+            </div>
+            <div className="findId">
+              <button className="findIdButton" onClick={LoginClick}>
+                로그인
+              </button>
+              <button className="findExit" onClick={ExitClick}>
+                <img
+                  src={Exitimg}
+                  alt="findExit"
+                  style={{ width: "40px", height: "40px" }}
+                />
+              </button>
+            </div>
+          </>
         ) : (
           <>
             {/* --------------- 이름 */}
@@ -149,7 +172,7 @@ function FindId() {
                 />
               </div>
             </div>
-            {/* --------------- 아이디찾기 */}
+            {/* --------------- 이메일 인증 */}
             <div className="findidInputTitle">이메일 주소</div>
             <div className="findidEmailBox">
               <div className="findidInputWrap">
@@ -197,10 +220,10 @@ function FindId() {
             </div>
 
             <div className="findId">
-              <button className="findIdButton" onClick={findIdExitClick}>
+              <button className="findIdButton" onClick={findIdClick}>
                 아이디 찾기
               </button>
-              <button className="findExit" onClick={findIdExitClick}>
+              <button className="findExit" onClick={ExitClick}>
                 <img
                   src={Exitimg}
                   alt="findExit"
