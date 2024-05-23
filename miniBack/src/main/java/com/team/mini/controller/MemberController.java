@@ -131,7 +131,7 @@ public class MemberController {
         return new ResponseEntity<>(isUpdated, HttpStatus.OK);
     }
 
-    // POST 회원 탈퇴
+
     // POST 회원 탈퇴
     @PostMapping("/userdel/del")
     public ResponseEntity<Boolean> memberDelete(@RequestBody Map<String, String> delData) {
@@ -168,21 +168,13 @@ public class MemberController {
 
     // 코드가 일치하면 사용자의 아이디 출력
     @PostMapping("/getId")
-    public ResponseEntity<String> getId(@RequestBody Map<String, String> payload) {
-        String name = payload.get("name");
-        String email = payload.get("email");
-        String code = payload.get("code");
-
-        System.out.println(name);
-        System.out.println(email);
-        System.out.println(code);
-
-        // Assuming currentEmail is defined and accessible here
-        if (currentEmail != null && currentEmail.equals(code)) {
+    public ResponseEntity<String> getId(@RequestParam String name, @RequestParam String email, @RequestParam String code) {
+        String savedCode = verificationCodes.get(email);
+        if (savedCode != null && savedCode.equals(code)) {
             String userId = dao.getUserIdByNameAndEmail(name, email);
             if (userId != null) {
-                currentEmail = "";
-                return new ResponseEntity<>(userId, HttpStatus.OK);
+                verificationCodes.remove(email);
+                return new ResponseEntity<>("Your ID is: " + userId, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
             }
@@ -190,19 +182,61 @@ public class MemberController {
             return new ResponseEntity<>("Invalid verification code", HttpStatus.BAD_REQUEST);
         }
     }
+ /// 기존 코드
+//    @PostMapping("/getId")
+//    public ResponseEntity<String> getId(@RequestBody Map<String, String> payload) {
+//        String name = payload.get("name");
+//        String email = payload.get("email");
+//        String code = payload.get("code");
+//
+//        System.out.println(name);
+//        System.out.println(email);
+//        System.out.println(code);
+//
+//        // Assuming currentEmail is defined and accessible here
+//        if (currentEmail != null && currentEmail.equals(code)) {
+//            String userId = dao.getUserIdByNameAndEmail(name, email);
+//            if (userId != null) {
+//                currentEmail = "";
+//                return new ResponseEntity<>(userId, HttpStatus.OK);
+//            } else {
+//                return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+//            }
+//        } else {
+//            return new ResponseEntity<>("Invalid verification code", HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
     // POST 비밀번호 찾기
     // 아이디와 이메일이 일치하면 이메일을 전송
+
     @PostMapping("/requestPw")
     public ResponseEntity<String> requestPwdReset(@RequestParam String id, @RequestParam String email) {
-        if (dao.isIdAndEmailMatch(id, email)) {
+        System.out.println("ID received: " + id);
+        System.out.println("Email received: " + email);
+        if (dao.isEmailExist(email)) {
             String verificationCode = sendVerificationEmail(email);
             verificationCodes.put(email, verificationCode);
+            // 인증 코드를 터미널에 출력
+            System.out.println("Generated verification code: " + verificationCode);
             return new ResponseEntity<>("Verification email sent", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Invalid ID or email", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("아이디와 이메일을 확인해주세요.", HttpStatus.BAD_REQUEST);
         }
     }
+
+
+    //기존 코드
+//    @PostMapping("/requestPw")
+//    public ResponseEntity<String> requestPwdReset(@RequestParam String id, @RequestParam String email) {
+//        if (dao.isIdAndEmailMatch(id, email)) {
+//            String verificationCode = sendVerificationEmail(email);
+//            verificationCodes.put(email, verificationCode);
+//            return new ResponseEntity<>("Verification email sent", HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>("Invalid ID or email", HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
     // 이메일 인증 번호와 사용자가 입력한 코드 일치하는지 확인
     @PostMapping("/verifyPw")
@@ -276,6 +310,12 @@ public class MemberController {
         boolean isEmailUsed = dao.checkEmail(email);
         return new ResponseEntity<>(isEmailUsed, HttpStatus.OK);
     }
-
-
+    // 비밀번호 찾기용 이메일 존재 여부 확인
+    @GetMapping("/check-pw-email")
+    public ResponseEntity<Boolean> checkPwEmail(@RequestParam String email) {
+        boolean exist = dao.isEmailExist(email);
+        return new ResponseEntity<>(exist, HttpStatus.OK);
+    }
 }
+
+

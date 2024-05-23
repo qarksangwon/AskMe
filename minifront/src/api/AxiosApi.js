@@ -111,6 +111,23 @@ const AxiosApi = {
     };
     return await axios.post(Askme_Domain + "/askme/getId", value);
   },
+  checkPwEmail: async (email) => {
+    return await axios.get(Askme_Domain + "/askme/check-pw-email", {
+      params: { email },
+    });
+  },
+
+  sendPwVerificationEmail: async (id, email) => {
+    return await axios.post(Askme_Domain + "/askme/requestPw", null, {
+      params: { id, email },
+    });
+  },
+
+  verifyPwEmailCode: async (email, code) => {
+    return await axios.post(Askme_Domain + "/askme/verifyPw", null, {
+      params: { email, code },
+    });
+  },
 };
 
 export default AxiosApi;

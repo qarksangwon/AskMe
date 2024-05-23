@@ -48,7 +48,7 @@ function FindPw() {
 
   const handlePwVerifyCodeSubmit = async () => {
     try {
-      const response = await AxiosApi.verifyEmailCode(pwemail, pwVerifyCode);
+      const response = await AxiosApi.verifyPwEmailCode(pwemail, pwVerifyCode);
       if (response.data) {
         alert("이메일 인증이 완료되었습니다.");
         setPwEmailVerify(true);
@@ -64,13 +64,13 @@ function FindPw() {
 
   const pwhandleEmailVerify = async () => {
     try {
-      const emailCheckResponse = await AxiosApi.checkEmail(pwemail);
-      if (emailCheckResponse.data) {
-        setPwEmailMessage("이미 사용중인 이메일 입니다.");
+      const emailCheckResponse = await AxiosApi.checkPwEmail(pwemail);
+      if (!emailCheckResponse.data) {
+        setPwEmailMessage("등록되지 않은 이메일입니다.");
         return;
       }
 
-      const response = await AxiosApi.sendVerificationEmail(pwemail);
+      const response = await AxiosApi.sendPwVerificationEmail(findid, pwemail);
       if (response.status === 200) {
         setPwEmailVerify(true);
         alert("인증 이메일이 전송되었습니다.");
@@ -89,22 +89,27 @@ function FindPw() {
       <div className="findpwTitleWrap">비밀번호 찾기</div>
       <br />
       {/* --------------- 비번찾기 */}
-      <div className="findpwInputTitle">아이디 입력</div>
-      <div className="pwemailbox">
-        <div className="findpwInputWrap">
-          <input
-            className="input"
-            type="text"
-            placeholder="아이디"
-            value={findid}
-            onChange={findHandleId}
-          />
-        </div>
-        <br />
+      <div className="findpwidBox">
+        <div className="findpwInputTitle">아이디 입력</div>
 
-        <div className="findpwInputTitle">이메일 주소</div>
+        <div className="findpwIdBox">
+          <div className="inputWrap">
+            <input
+              className="input"
+              type="text"
+              placeholder="아이디"
+              value={findid}
+              onChange={findHandleId}
+            />
+          </div>
+        </div>
+      </div>
+      <br />
+      <div className="findpwInputTitle">이메일 주소</div>
+
+      <div className="findpwEmailBox">
         <div className="pwemailBox">
-          <div className="findpwInputWrap">
+          <div className="inputWrap">
             <input
               className="input"
               type="text"
@@ -114,13 +119,13 @@ function FindPw() {
             />
           </div>
           {!pwEmailVerify && (
-            <button onClick={pwhandleEmailVerify} className="emailButton">
+            <button onClick={pwhandleEmailVerify} className="findpwEmailButton">
               이메일 인증
             </button>
           )}
         </div>
         {pwEmailVerify && !pwIsVerified && (
-          <div className="emailBox">
+          <div className="pwemailBox">
             <div className="inputWrap">
               <input
                 className="input"
@@ -131,16 +136,20 @@ function FindPw() {
               />
             </div>
             <div className="timerWrap">{formatPwTime(pwTimer)}</div>
-            <button onClick={handlePwVerifyCodeSubmit} className="verifyButton">
+            <button
+              onClick={handlePwVerifyCodeSubmit}
+              className="findpwEmailButton"
+            >
               인증 코드 확인
             </button>
           </div>
         )}
-
-        <div className="errorMessageWrap">
-          {pwEmailMessage && <div>{pwEmailMessage}</div>}
-        </div>
       </div>
+
+      <div className="errorMessageWrap">
+        {pwEmailMessage && <div>{pwEmailMessage}</div>}
+      </div>
+
       <div className="findPw">
         <button className="findPwButton">비밀번호 찾기</button>
         <button className="findExit" onClick={findPwExitClick}>

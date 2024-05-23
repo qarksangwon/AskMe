@@ -152,17 +152,16 @@ public class MemberDAO {
 
     // 비밀번호 찾기 테스트
     // 아이디와 이메일 정보가 맞으면 이메일을 발송하고 인증코드를 입력하면 비밀번호를 수정 가능
-    public boolean isIdAndEmailMatch(String id, String email) {
-        boolean isMatch = false;
+    public boolean isEmailExist(String email) {
+        boolean exist = false;
         try {
             conn = Common.getConnection();
-            String sql = "SELECT COUNT(*) FROM USERTB WHERE ID = ? AND EMAIL = ?";
+            String sql = "SELECT COUNT(*) FROM USERTB WHERE EMAIL = ?";
             pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1, id);
-            pStmt.setString(2, email);
+            pStmt.setString(1, email);
             rs = pStmt.executeQuery();
             if (rs.next() && rs.getInt(1) > 0) {
-                isMatch = true;
+                exist = true;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -171,8 +170,9 @@ public class MemberDAO {
             Common.close(pStmt);
             Common.close(conn);
         }
-        return isMatch;
+        return exist;
     }
+
     // 비밀번호 재설정
     public boolean updatePassword(String id, String newPassword) {
         boolean isUpdated = false;
@@ -315,6 +315,48 @@ public class MemberDAO {
             Common.close(conn);
         }
         return isEmailUsed;
+    }
+
+    public boolean checkEmailExists(String email) {
+        boolean exists = false;
+        try {
+            conn = Common.getConnection();
+            String sql = "SELECT COUNT(*) FROM USERTB WHERE EMAIL = ?";
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, email);
+            rs = pStmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                exists = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return exists;
+    }
+    public boolean isIdAndEmailMatch(String id, String email) {
+        boolean isMatch = false;
+        try {
+            conn = Common.getConnection();
+            String sql = "SELECT COUNT(*) FROM USERTB WHERE ID = ? AND EMAIL = ?";
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, id);
+            pStmt.setString(2, email);
+            rs = pStmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                isMatch = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return isMatch;
     }
 
 
