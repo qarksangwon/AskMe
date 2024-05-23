@@ -261,8 +261,7 @@ const Chat = ({ roomId }) => {
       ws.current.send(
         JSON.stringify({
           type: "CANVAS",
-          roomId,
-          roomNum,
+          roomId: roomNum,
           nickName: myNickName,
           drawing: JSON.stringify(newCanvas.toJSON()),
         })
