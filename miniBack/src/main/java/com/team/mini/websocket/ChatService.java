@@ -80,7 +80,7 @@ public class ChatService {
     public void sendMessageToAll(String roomId, ChatMessageVO message) {
         ChatRoomVO room = findRoomId(roomId);
         if (room != null) {
-            cDao.insertMessage(message);
+            if(message.getType() == ChatMessageVO.MessageType.TALK) cDao.insertMessage(message);
             for (WebSocketSession session : room.getSessions()) {
                 sendMessage(session, message);
             }

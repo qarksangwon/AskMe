@@ -1,0 +1,30 @@
+.optionContainer {
+  width: 160px;
+  height: 60px;
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  left: 8px;
+  top: 10px;
+  background-color: #ececec;
+  border-radius: 10px;
+}
+
+.optionContainer button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.optionContainer button svg {
+  fill: #000000;
+}
+
+.optionContainer button:disabled {
+  background-color: #000000;
+}
+
+.optionContainer button:disabled svg {
+  fill: #ffffff;
+}

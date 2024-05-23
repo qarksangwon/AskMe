@@ -1,12 +1,22 @@
 import styled from "styled-components";
-import imgLogo from "../images/Logo.png";
+import imgLogo from "../images/Logotest.gif";
 import { Link } from "react-router-dom";
 import Toggle from "../customComponent/Toggle";
 import Footer from "../customComponent/Footer";
 
+const LogoContainer = styled.div`
+  width: 150px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Logo = styled.img`
   width: 150px;
   height: 150px;
+  border-radius: 20px;
   @media (max-width: 390px) {
     width: 100px;
     height: 100px;
@@ -95,7 +105,10 @@ const Home = () => {
       <Container>
         <Toggle />
         <Body>
-          <Logo src={imgLogo} />
+          <LogoContainer>
+            <Logo src={imgLogo} />
+            <p style={{ fontSize: 38 }}>ASK ME</p>
+          </LogoContainer>
           <Link to="/askme/board">
             <Btn>
               <BtnFront>게시판</BtnFront>

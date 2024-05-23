@@ -29,6 +29,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
         log.warn("{}" , payload);
         // JSON 문자열 ChatMessageVO 변환
         ChatMessageVO chatMessage = objectMapper.readValue(payload, ChatMessageVO.class);
+
         String roomId = chatMessage.getRoomId();
         System.out.println(roomId);
         // 세션과 roomId 매칭
@@ -38,6 +39,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
             System.out.println("handleTextMessage run : " + session);
         } else if(chatMessage.getType() == ChatMessageVO.MessageType.CLOSE){
             chatService.removeSession(roomId,session);
+        }else if(chatMessage.getType() == ChatMessageVO.MessageType.CANVAS){
+            chatService.sendMessageToAll(roomId,chatMessage);
         }else{
             chatService.sendMessageToAll(roomId,chatMessage);
         }

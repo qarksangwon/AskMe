@@ -87,7 +87,7 @@ public class ChatDAO {
     }
 
     public List<ChatMessageVO> chatList(String roomId){
-        String q = "SELECT * FROM CHATTB WHERE roomId = ?";
+        String q = "SELECT * FROM CHATTB WHERE roomId = ? ORDER BY senddate asc";
         List<ChatMessageVO> chatList = new ArrayList<>();
         try{
             conn = Common.getConnection();
