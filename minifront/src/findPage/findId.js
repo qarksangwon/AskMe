@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import Logoimg from "../images/Logo.png";
 import Exitimg from "../images/exit.png";
 import "./findId.css";
-import { useNavigate } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
 
 function FindId() {
-  let findIdNavigate = useNavigate();
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
   const [verifyCode, setVerifyCode] = useState("");
   const [timer, setTimer] = useState(180);
 
@@ -19,6 +17,10 @@ function FindId() {
   const [isVerified, setIsVerified] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
+
+  // 추가된 상태
+  const [foundId, setFoundId] = useState("");
+  const [isIdFound, setIsIdFound] = useState(false);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -103,12 +105,14 @@ function FindId() {
 
   const findIdExitClick = async () => {
     if (notAllow) return;
-    const userData = { name, email };
+    const userData = { name, email, code };
     try {
-      const response = await AxiosApi.findId(userData);
+      const response = await AxiosApi.EmailfindId(userData);
       if (response.data) {
+        setFoundId(response.data); // 성공적으로 찾은 아이디 설정
+        setIsIdFound(true); // 아이디 찾기 성공 여부 설정
+        localStorage.removeItem("userId");
         alert("아이디 찾기에 성공했습니다");
-        findIdNavigate("/askme/login");
       } else {
         alert("아이디 찾기에 실패했습니다");
       }
@@ -126,70 +130,86 @@ function FindId() {
       <div className="findidTitleWrap">아이디 찾기</div>
       <br />
       <div className="contentWrap">
-        {/* --------------- 이름 */}
-        <div className="findidInputTitle">이름</div>
-        <div className="findidNameBox">
-          <div className="findidInputWrap">
-            <input
-              className="findidInput"
-              type="text"
-              placeholder="이름"
-              value={name}
-              onChange={handleName}
-            />
+        {isIdFound ? (
+          <div className="foundIdMessage">
+            사용자의 아이디는 {foundId} 입니다.
           </div>
-        </div>
-        {/* --------------- 아이디찾기 */}
-        <div className="findidInputTitle">이메일 주소</div>
-        <div className="findidEmailBox">
-          <div className="findidInputWrap">
-            <input
-              className="findidInput"
-              type="text"
-              placeholder="test@gmail.com"
-              value={email}
-              onChange={findHandleEmail}
-            />
-          </div>
-          {!emailVerify && (
-            <button onClick={handleEmailVerify} className="findidEmailButton">
-              이메일 인증
-            </button>
-          )}
-        </div>
-        {emailVerify && !isVerified && (
-          <div className="emailBox">
-            <div className="inputWrap">
-              <input
-                className="input"
-                type="text"
-                placeholder="인증번호 입력"
-                value={verifyCode}
-                onChange={handleVerifyCode}
-              />
+        ) : (
+          <>
+            {/* --------------- 이름 */}
+            <div className="findidInputTitle">이름</div>
+            <div className="findidNameBox">
+              <div className="findidInputWrap">
+                <input
+                  className="findidInput"
+                  type="text"
+                  placeholder="이름"
+                  value={name}
+                  onChange={handleName}
+                />
+              </div>
             </div>
-            <div className="timerWrap">{formatTime(timer)}</div>
-            <button onClick={handleVerifyCodeSubmit} className="verifyButton">
-              인증 코드 확인
-            </button>
-          </div>
-        )}
-        <div className="errorMessageWrap">
-          {!emailValid && email.length > 0 && (
-            <div>올바른 이메일을 입력해주세요.</div>
-          )}
-        </div>
+            {/* --------------- 아이디찾기 */}
+            <div className="findidInputTitle">이메일 주소</div>
+            <div className="findidEmailBox">
+              <div className="findidInputWrap">
+                <input
+                  className="findidInput"
+                  type="text"
+                  placeholder="test@gmail.com"
+                  value={email}
+                  onChange={findHandleEmail}
+                />
+              </div>
+              {!emailVerify && (
+                <button
+                  onClick={handleEmailVerify}
+                  className="findidEmailButton"
+                >
+                  이메일 인증
+                </button>
+              )}
+            </div>
+            {emailVerify && !isVerified && (
+              <div className="emailBox">
+                <div className="inputWrap">
+                  <input
+                    className="input"
+                    type="text"
+                    placeholder="인증번호 입력"
+                    value={verifyCode}
+                    onChange={handleVerifyCode}
+                  />
+                </div>
+                <div className="timerWrap">{formatTime(timer)}</div>
+                <button
+                  onClick={handleVerifyCodeSubmit}
+                  className="verifyButton"
+                >
+                  인증 코드 확인
+                </button>
+              </div>
+            )}
+            <div className="errorMessageWrap">
+              {!emailValid && email.length > 0 && (
+                <div>올바른 이메일을 입력해주세요.</div>
+              )}
+            </div>
 
-        <div className="findId">
-          <button className="findIdButton">아이디 찾기</button>
-          <button className="findExit" onClick={findIdExitClick}>
-            <img
-              src={Exitimg}
-              alt="findExit"
-              style={{ width: "40px", height: "40px" }}
-            />
-          </button>
-        </div>
+            <div className="findId">
+              <button className="findIdButton" onClick={findIdExitClick}>
+                아이디 찾기
+              </button>
+              <button className="findExit" onClick={findIdExitClick}>
+                <img
+                  src={Exitimg}
+                  alt="findExit"
+                  style={{ width: "40px", height: "40px" }}
+                />
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

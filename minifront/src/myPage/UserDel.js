@@ -99,6 +99,7 @@ const UserDel = () => {
         if (response.data) {
           setUserDel(true);
           localStorage.removeItem("userId");
+          alert("회원 탈퇴가 성공적으로 완료되었습니다.");
         } else {
           setUserDel(false);
         }

@@ -245,22 +245,28 @@ public class MemberDAO {
     // 회원 탈퇴
     public boolean memberDelete(String id) {
         int result = 0;
-        String sql = "DELETE FROM USERTB WHERE ID = ?";
         try {
             conn = Common.getConnection();
-            pStmt = conn.prepareStatement(sql);
+
+            // 보드 테이블에서 해당 사용자의 ID와 관련된 레코드를 삭제
+            String deleteBoardSql = "DELETE FROM BOARDTB WHERE ID = ?";
+            pStmt = conn.prepareStatement(deleteBoardSql);
+            pStmt.setString(1, id);
+            pStmt.executeUpdate();
+
+            // 유저 테이블에서 해당 사용자 삭제
+            String deleteUserSql = "DELETE FROM USERTB WHERE ID = ?";
+            pStmt = conn.prepareStatement(deleteUserSql);
             pStmt.setString(1, id);
             result = pStmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             Common.close(rs);
             Common.close(pStmt);
             Common.close(conn);
         }
-        if(result == 1) return true;
-        else return false;
+        return result > 0;
     }
 
     // 사용자 정보를 ID로 검색하는 메서드 추가
