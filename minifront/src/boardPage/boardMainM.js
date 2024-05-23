@@ -180,8 +180,27 @@ const BoardM = () => {
   const [totalItemsCount, setTotalItemsCount] = useState(0);
   const [selectedBoard, setSelectedBoard] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const itemsPerPage = 4;
+
+  // 사용자가 로그인되어 있는지 확인하는 함수
+  const checkLoginStatus = () => {
+    const userId = localStorage.getItem("userId");
+    setIsLoggedIn(!!userId); // userId가 존재하면 true, 존재하지 않으면 false
+  };
+
+  useEffect(() => {
+    checkLoginStatus(); // 페이지가 로드될 때마다 로그인 상태 확인
+  }, []);
+
+  // "글 쓰기" 버튼 클릭 핸들러
+  const handleWriteButtonClick = () => {
+    if (!isLoggedIn) {
+      alert("로그인 후 사용 가능합니다!");
+    }
+    // 여기에 글 쓰기 버튼을 클릭했을 때의 로직을 추가할 수 있습니다.
+  };
 
   const openModal = (board) => {
     setSelectedBoard(board);
@@ -255,7 +274,7 @@ const BoardM = () => {
       <Toggle></Toggle>
       <motion.div
         /* 2. 원하는 애니메이션으로 jsx를 감싸준다 */
-        initial={{ opacity: 0, x: 200 }}
+        initial={{ opacity: 0, x: -200 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -100 }}
         transition={{ duration: 1.5 }}
@@ -263,9 +282,14 @@ const BoardM = () => {
         <Container>
           <Title>게시판</Title>
           <ContentWrapper>
-            <Link to="/askme/board/write">
+            <Link to={isLoggedIn ? "/askme/board/write" : "/askme/login"}>
               <Btn>
-                <BtnWrite>글 쓰기</BtnWrite>
+                <BtnWrite
+                  loggedIn={isLoggedIn}
+                  onClick={isLoggedIn ? null : handleWriteButtonClick}
+                >
+                  글 쓰기
+                </BtnWrite>
               </Btn>
             </Link>
             <Btn>

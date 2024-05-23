@@ -1,12 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "../firebase/firebase";
+import { storage } from "../api/Fb";
 import "./imgUpload.css";
+import { useNavigate } from "react-router-dom";
 
-const ImageUploader = ({ setUrl }) => {
+const ImageUploader = ({ setUrl, usernickname, uploadTrigger }) => {
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [error, setError] = useState("");
+  const [signup, setsignup] = useState(false);
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (uploadTrigger === true) {
+      uploadImage();
+    }
+  }, [uploadTrigger]);
+
+  useEffect(() => {
+    if (signup === true) {
+      navigate("/askme");
+    }
+  }, [signup]);
 
   const handleFileInputChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -44,15 +59,17 @@ const ImageUploader = ({ setUrl }) => {
     }
   };
 
-  const handleUploadClick = () => {
+  const uploadImage = () => {
     if (!file) return;
-    const fileRef = ref(storage, `images/${file.name}`);
+    const fileRef = ref(storage, `images/${usernickname}`);
+    // 테스트용 const fileRef = ref(storage, `images/캉캉`);
     uploadBytes(fileRef, file)
       .then((snapshot) => {
         console.log("File uploaded successfully!");
         getDownloadURL(snapshot.ref).then((url) => {
           console.log("저장경로 확인 : " + url);
           setUrl(url);
+          setsignup(true);
         });
       })
       .catch((error) => {
@@ -73,9 +90,6 @@ const ImageUploader = ({ setUrl }) => {
           <img src={previewUrl} alt="Preview" className="preview" />
         </div>
       )}
-      <button onClick={handleUploadClick} disabled={!file} className="upload">
-        Upload
-      </button>
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );

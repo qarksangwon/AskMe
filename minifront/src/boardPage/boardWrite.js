@@ -184,10 +184,10 @@ const BoardWrite = () => {
     <>
       <Toggle></Toggle>
       <motion.div
-        initial={{ opacity: 0, x: 200 }}
-        animate={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0, y: -200 }}
+        animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, x: -100 }}
-        transition={{ duration: 1.5 }}
+        transition={{ duration: 0.5 }}
       >
         <Container>
           <Title>글 쓰기</Title>
@@ -210,10 +210,10 @@ const BoardWrite = () => {
             </Btn>
           </BtnKing>
         </Container>
-        <FooterWrapper>
-          <Footer mtop={750} />
-        </FooterWrapper>
       </motion.div>
+      <FooterWrapper>
+        <Footer mtop={750} />
+      </FooterWrapper>
     </>
   );
 };

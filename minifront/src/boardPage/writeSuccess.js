@@ -72,24 +72,23 @@ const Writesucces = () => {
       <Toggle></Toggle>
       <motion.div
         /* 2. 원하는 애니메이션으로 jsx를 감싸준다 */
-        initial={{ opacity: 0, x: 200 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1.5 }}
+        initial={{ opacity: 0, y: -200 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
       >
-        <>
-          <Container>
-            <Logo src={imgLogo} />
+        <Container>
+          <Logo src={imgLogo} />
 
-            <Comment>
-              <h1>등록이 완료되었습니다.</h1>
-            </Comment>
-            <BtnKing>
-              <Link to="/askme/board">
-                <Btn>돌아가기</Btn>
-              </Link>
-            </BtnKing>
-          </Container>
-        </>
+          <Comment>
+            <h1>등록이 완료되었습니다.</h1>
+          </Comment>
+
+          <BtnKing>
+            <Link to="/askme/board">
+              <Btn>돌아가기</Btn>
+            </Link>
+          </BtnKing>
+        </Container>
       </motion.div>
     </>
   );

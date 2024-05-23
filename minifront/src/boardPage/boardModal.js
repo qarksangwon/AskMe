@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { motion, useScroll } from "framer-motion";
 import AxiosApi from "../api/AxiosApi";
+import ImageUploader from "../firebase/ImageUploader";
+import ImageDisplayByName from "../api/ImageDisplayByName";
 
 const ModalWrapper = styled.div`
   display: flex;
@@ -119,6 +121,8 @@ const ModalBack = styled.div`
   background: rgba(0, 0, 0, 0.6);
 `;
 
+const Image = styled.img``;
+
 const IsMyPost = styled.div`
   display: ${(props) => (props.isMyPost ? "block" : "none")};
 `;
@@ -129,6 +133,7 @@ const IsMyPost2 = styled.div`
 const BoardModal = ({ board, onClose }) => {
   const isMyPost = localStorage.getItem("userNickname") === board.nickname;
   const isMyPost2 = localStorage.getItem("userNickname") !== board.nickname;
+
   console.log(`클래스넘버${board.classNo}`);
   const [isDel, setIsDel] = useState(false);
 
@@ -164,6 +169,9 @@ const BoardModal = ({ board, onClose }) => {
     >
       <ModalBack>
         <ModalWrapper>
+          <div>
+            <ImageDisplayByName filename={board.nickname} />
+          </div>
           <TitleBox>
             <h1>{board.title}</h1>
           </TitleBox>
