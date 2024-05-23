@@ -242,38 +242,45 @@ const Chat = ({ roomId }) => {
     };
     currentMsg();
     // setMyNickName(localStorage.getItem("userNickname"));
-    const newCanvas = new fabric.Canvas(canvasRef.current, {
-      width: 1200,
-      height: 800,
-    });
-    newCanvas.on("mouse:wheel", function (opt) {
-      const delta = opt.e.deltaY;
-      let zoom = newCanvas.getZoom();
-      zoom *= 0.999 ** delta;
-      if (zoom > 20) zoom = 20;
-      if (zoom < 0.01) zoom = 0.01;
-      newCanvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
-      opt.e.preventDefault();
-      opt.e.stopPropagation();
-    });
-
-    newCanvas.on("object:modified", () => {
-      ws.current.send(
-        JSON.stringify({
-          type: "CANVAS",
-          roomId: roomNum,
-          nickName: myNickName,
-          drawing: JSON.stringify(newCanvas.toJSON()),
-        })
-      );
-    });
-
-    setCanvas(newCanvas);
-    return () => {
-      // 컴포넌트 언마운트 시 메모리에서 캔버스 제외, .dispose 사용
-      newCanvas.dispose();
-    };
   }, []);
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      const newCanvas = new fabric.Canvas(canvasRef.current, {
+        width: 1200,
+        height: 800,
+      });
+
+      newCanvas.on("mouse:wheel", function (opt) {
+        const delta = opt.e.deltaY;
+        let zoom = newCanvas.getZoom();
+        zoom *= 0.999 ** delta;
+        if (zoom > 20) zoom = 20;
+        if (zoom < 0.01) zoom = 0.01;
+        newCanvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
+        opt.e.preventDefault();
+        opt.e.stopPropagation();
+      });
+
+      newCanvas.on("object:modified", () => {
+        ws.current.send(
+          JSON.stringify({
+            type: "CANVAS",
+            roomId: roomNum,
+            nickName: myNickName,
+            drawing: JSON.stringify(newCanvas.toJSON()),
+          })
+        );
+      });
+
+      setCanvas(newCanvas);
+
+      return () => {
+        // 컴포넌트 언마운트 시 메모리에서 캔버스 제외, .dispose 사용
+        newCanvas.dispose();
+      };
+    }
+  }, [canvasRef.current]);
 
   // 선택 도구를 골랐을 때, 펜 도구를 골랐을 때
   const handleSelectTool = () => {
