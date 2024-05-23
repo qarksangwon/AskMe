@@ -296,7 +296,6 @@ const Board = () => {
               src={logosearch}
               onClick={() => {
                 handleSearch();
-                setLoading(true);
               }}
             />
             <Loading>
@@ -333,7 +332,13 @@ const Board = () => {
               <tbody>
                 {boards &&
                   boards.map((board) => (
-                    <tr key={board.classNo} onClick={() => openModal(board)}>
+                    <tr
+                      key={board.classNo}
+                      onClick={() => {
+                        handleSearch();
+                        openModal(board);
+                      }}
+                    >
                       <td>{board.classNo}</td>
                       <td>{board.title}</td>
                       <td>{board.nickname}</td>
