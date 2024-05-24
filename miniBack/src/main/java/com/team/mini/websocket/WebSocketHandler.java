@@ -9,7 +9,7 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-
+import java.util.zip.Inflater;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -27,6 +27,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception{
         String payload = message.getPayload();
         log.warn("{}" , payload);
+
         // JSON 문자열 ChatMessageVO 변환
         ChatMessageVO chatMessage = objectMapper.readValue(payload, ChatMessageVO.class);
 

@@ -139,8 +139,8 @@ const MessageBoxContainer = styled.div`
 const Canvas = styled.canvas`
   border: 3px solid black;
   margin: 0;
-  width: 1200px;
-  height: 800pxpx;
+  width: 1000px;
+  height: 600px;
 `;
 
 const CanvasBtn = styled.button`
@@ -207,22 +207,32 @@ const Chat = ({ roomId }) => {
 
     ws.current.onmessage = (event) => {
       const newMessage = JSON.parse(event.data);
-      console.log(newMessage);
       if (newMessage.type === "CANVAS") {
         // 캔버스 데이터를 받아서 처리하는 부분
         // 예를 들어, 받은 데이터를 파싱하고 캔버스에 그리는 작업을 수행할 수 있습니다.
-        const canvasData = JSON.parse(newMessage.drawing);
-        canvas.loadFromJSON(canvasData, () => {
-          // 캔버스에 객체를 추가한 후 캔버스를 다시 랜더링
-          canvas.renderAll();
-        });
+        const canvasData = newMessage.drawing;
+        console.log(
+          "onmessage에서 받은 data의 drawing JSON.parse 값 :",
+          canvasData
+        );
+        if (canvas) {
+          console.log("canvas : ", canvas);
+          canvas.loadFromJSON(canvasData, () => {
+            // 캔버스에 객체를 추가한 후 캔버스를 다시 랜더링
+            canvas.requestRenderAll();
+          });
+        }
       } else {
         setMsgContent((prevMessages) => [...prevMessages, newMessage]);
       }
     };
 
-    ws.current.onclose = () => {
-      console.log("웹 소켓 connection closed");
+    ws.current.onerror = (error) => {
+      console.error("WebSocket Error: ", error);
+    };
+
+    ws.current.onclose = (event) => {
+      console.log("웹 소켓 connection closed : ", event);
     };
     return () => {
       // 컴포넌트 언마운트 시 웹소켓 해제
@@ -230,7 +240,6 @@ const Chat = ({ roomId }) => {
     };
   }, [socketConnected]);
 
-  // 첫 페이지 로딩시 canvas 로딩
   useEffect(() => {
     const currentMsg = async () => {
       try {
@@ -244,11 +253,12 @@ const Chat = ({ roomId }) => {
     // setMyNickName(localStorage.getItem("userNickname"));
   }, []);
 
+  //canvas 구현
   useEffect(() => {
     if (canvasRef.current) {
       const newCanvas = new fabric.Canvas(canvasRef.current, {
-        width: 1200,
-        height: 800,
+        width: 1000,
+        height: 600,
       });
 
       newCanvas.on("mouse:wheel", function (opt) {
@@ -262,13 +272,16 @@ const Chat = ({ roomId }) => {
         opt.e.stopPropagation();
       });
 
-      newCanvas.on("object:modified", () => {
+      newCanvas.on("object:added", (e) => {
+        // 새로운 객체가 추가될 때마다 해당 객체 정보를 서버로 전송
+        const newObject = e.target.toJSON();
+        // console.log(JSON.stringify(newObject));
         ws.current.send(
           JSON.stringify({
             type: "CANVAS",
             roomId: roomNum,
             nickName: myNickName,
-            drawing: JSON.stringify(newCanvas.toJSON()),
+            drawing: JSON.stringify(newObject), // 새로운 객체만 전송
           })
         );
       });
