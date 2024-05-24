@@ -3,6 +3,8 @@ import styled from "styled-components";
 import imgLogo from "../images/Logo.png";
 import { useNavigate } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
+import { Link } from "react-router-dom";
+import exit from "../images/exit.png";
 
 const Container = styled.div`
   width: 80vw;
@@ -90,6 +92,20 @@ const ErrorMessage = styled.div`
   font-size: 14px;
 `;
 
+const Exit = styled.img`
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  &:hover {
+    opacity: 0.5;
+    transition: all 0.2s ease-in;
+  }
+  @media (max-width: 430px) {
+    margin-top: 10px;
+  }
+`;
+
 const PasswordConfirm = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -136,6 +152,9 @@ const PasswordConfirm = () => {
       </InputContainer>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <Btn onClick={handleSubmit}>비밀번호 확인</Btn>
+      <Link to="/askme/mypage">
+        <Exit src={exit} />
+      </Link>
     </Container>
   );
 };
