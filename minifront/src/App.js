@@ -32,7 +32,7 @@ function App() {
             path="/askme/board"
             element={
               isMobile ? (
-                <BoardM />
+                <BoardM roomId={roomId} setRoomId={setRoomId} />
               ) : (
                 <Board roomId={roomId} setRoomId={setRoomId} />
               )

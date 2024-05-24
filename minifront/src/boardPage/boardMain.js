@@ -266,8 +266,8 @@ const Board = ({ roomId, setRoomId }) => {
     }, 700); // 2초로 설정
   };
   const delStorage = () => {
-    localStorage.setItem("userId", "");
-    localStorage.setItem("userNickname", "");
+    localStorage.setItem("userId", null);
+    localStorage.setItem("userNickname", null);
     window.location.reload();
   };
   const handleKeyPress = (event) => {

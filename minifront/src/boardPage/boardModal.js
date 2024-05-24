@@ -141,15 +141,24 @@ const ModalBack = styled.div`
 `;
 
 const IsMyPost = styled.div`
-  display: ${(props) => (props.isMyPost ? "block" : "none")};
+  //삭제하기
+  display: block;
 `;
 const IsMyPost2 = styled.div`
-  display: ${(props) => (props.isMyPost ? "block" : "none")};
+  //채팅입장
+  display: block;
+`;
+
+const Logincheck = styled.div`
+  display: block;
 `;
 
 const BoardModal = ({ board, onClose, roomId, setRoomId }) => {
-  const isMyPost = localStorage.getItem("userNickname") === board.nickname;
-  const isMyPost2 = localStorage.getItem("userNickname") !== board.nickname;
+  const isMyPost = localStorage.getItem("userNickname") === board.nickname; //같으면 삭제하기
+  const isMyPost2 = localStorage.getItem("userNickname") !== board.nickname; //다르면 채팅입장
+
+  const logincheck = localStorage.getItem("userId") !== "null";
+  console.log(localStorage.getItem("userId"));
   console.log(`클래스넘버${board.classNo}`);
 
   const [isDel, setIsDel] = useState(false);
@@ -228,15 +237,25 @@ const BoardModal = ({ board, onClose, roomId, setRoomId }) => {
           </ContentBox>
 
           <ButtonWrapper>
-            <IsMyPost isMyPost={isMyPost} onClick={confirmDeleteBoard}>
-              {isMyPost && <Btn>삭제하기</Btn>}
-            </IsMyPost>
-            <IsMyPost2 isMyPost={isMyPost2}>
-              <Link to="/askme/chat" ref={linkRef} style={{ display: "none" }}>
-                Hidden Link
-              </Link>
-              {isMyPost2 && <Btn onClick={linkToChat}>채팅 입장</Btn>}
-            </IsMyPost2>
+            <Logincheck>
+              {logincheck && (
+                <>
+                  <IsMyPost isMyPost={isMyPost} onClick={confirmDeleteBoard}>
+                    {isMyPost && <Btn>삭제하기</Btn>}
+                  </IsMyPost>
+                  <IsMyPost2 isMyPost={isMyPost2}>
+                    <Link
+                      to="/askme/chat"
+                      ref={linkRef}
+                      style={{ display: "none" }}
+                    >
+                      Hidden Link
+                    </Link>
+                    {isMyPost2 && <Btn onClick={linkToChat}>채팅 입장</Btn>}
+                  </IsMyPost2>
+                </>
+              )}
+            </Logincheck>
             <Btn onClick={onClose} className="close">
               닫기
             </Btn>

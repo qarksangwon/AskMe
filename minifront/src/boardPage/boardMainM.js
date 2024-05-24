@@ -172,7 +172,7 @@ const BtnWrite = styled.div``;
 
 const BtnMyWrite = styled.div``;
 
-const BoardM = () => {
+const BoardM = ({ roomId, setRoomId }) => {
   const [boards, setBoards] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [originalBoards, setOriginalBoards] = useState([]);
@@ -339,7 +339,12 @@ const BoardM = () => {
           />
         </PageStyle>
         {isModalOpen && (
-          <BoardModal board={selectedBoard} onClose={closeModal} />
+          <BoardModal
+            roomId={roomId}
+            setRoomId={setRoomId}
+            board={selectedBoard}
+            onClose={closeModal}
+          />
         )}
       </motion.div>
       <Footer top={1000} mtop={930} />
