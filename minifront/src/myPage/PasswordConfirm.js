@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import imgLogo from "../images/Logo.png";
 import { useNavigate } from "react-router-dom";
-import AxiosApi from "../api/AxiosApi"; // 서버와 통신을 위한 API 모듈 임포트
-import { Link } from "react-router-dom";
-import exit from "../images/exit.png";
+import AxiosApi from "../api/AxiosApi";
 
 const Container = styled.div`
   width: 80vw;
@@ -92,36 +90,30 @@ const ErrorMessage = styled.div`
   font-size: 14px;
 `;
 
-const Exit = styled.img`
-  width: 70px;
-  height: 70px;
-  cursor: pointer;
-  transition: all 0.2s ease-in;
-  &:hover {
-    opacity: 0.5;
-    transition: all 0.2s ease-in;
-  }
-  @media (max-width: 430px) {
-    margin-top: 10px;
-  }
-`;
-
 const PasswordConfirm = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    // console.log("Current userId:", userId); 현재 userId 확인
+  }, []);
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
   const handleSubmit = async () => {
+    const userId = localStorage.getItem("userId");
+
     try {
-      const response = await AxiosApi.verifyPassword(password); // 서버에 비밀번호 확인 요청
+      const response = await AxiosApi.verifyPassword(userId, password); // 서버에 비밀번호 확인 요청
+
       if (response.data) {
         navigate("/askme/mypage/edit-info"); // 비밀번호가 일치하면 정보 수정 페이지로 이동
       } else {
-        setErrorMessage("비밀번호가 일치하지 않습니다."); // 비밀번호가 일치하지 않으면 오류 메시지 출력
+        setErrorMessage("비밀번호가 일치하지 않습니다.");
       }
     } catch (error) {
       console.error(error);
@@ -144,9 +136,6 @@ const PasswordConfirm = () => {
       </InputContainer>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <Btn onClick={handleSubmit}>비밀번호 확인</Btn>
-      <Link to="/askme/mypage">
-        <Exit src={exit} />
-      </Link>
     </Container>
   );
 };

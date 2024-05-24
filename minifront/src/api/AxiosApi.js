@@ -149,8 +149,9 @@ const AxiosApi = {
   },
 
   // 정보수정할때 비밀번호 확인
-  verifyPassword: async (password) => {
+  verifyPassword: async (userId, password) => {
     return await axios.post(`${Askme_Domain}/askme/verify-password`, {
+      userId,
       password,
     });
   },

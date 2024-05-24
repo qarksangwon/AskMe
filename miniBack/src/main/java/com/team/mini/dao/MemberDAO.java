@@ -360,15 +360,18 @@ public class MemberDAO {
     }
 
     // 정보수정 진입시 비밀번호 검사
-    public boolean verifyPassword(String password) {
+    public boolean verifyPassword(String userId, String password) {
         try {
             conn = Common.getConnection();
-            String sql = "SELECT COUNT(*) FROM USERTB WHERE PASSWORD = ?";
+            String sql = "SELECT COUNT(*) FROM USERTB WHERE ID = ? AND PASSWORD = ?";
             pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1, password);
+            pStmt.setString(1, userId);
+            pStmt.setString(2, password);
             rs = pStmt.executeQuery();
-            if (rs.next() && rs.getInt(1) > 0) {
-                return true;
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                System.out.println("Password match count for userId " + userId + ": " + count); // 매칭되는 비밀번호 개수 확인
+                return count > 0;
             }
         } catch (Exception e) {
             e.printStackTrace();

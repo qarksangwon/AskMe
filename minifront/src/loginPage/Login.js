@@ -46,8 +46,7 @@ function Login() {
       localStorage.setItem("userId", id);
       localStorage.setItem("userNickname", nickname);
       alert("로그인에 성공했습니다");
-      console.log(id);
-      console.log(nickname);
+
       navigate("/askme/mypage");
     }
   }, [isLogin]);

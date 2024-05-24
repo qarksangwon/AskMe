@@ -311,8 +311,10 @@ public class MemberController {
     // 정보수정 진입시 비밀번호 확인
     @PostMapping("/verify-password")
     public ResponseEntity<Boolean> verifyPassword(@RequestBody Map<String, String> request) {
+        String userId = request.get("userId");
         String password = request.get("password");
-        boolean isMatch = dao.verifyPassword(password); // 비밀번호 확인 로직
+        System.out.println("Verifying password for userId: " + userId); // userId를 확인합니다.
+        boolean isMatch = dao.verifyPassword(userId, password); // 비밀번호 확인 로직
         return new ResponseEntity<>(isMatch, HttpStatus.OK);
     }
     @PostMapping("/update-user-info")
