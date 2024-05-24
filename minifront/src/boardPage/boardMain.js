@@ -9,21 +9,31 @@ import Toggle from "../customComponent/Toggle";
 import Pagination from "react-js-pagination";
 import BoardModal from "./boardModal";
 import { ScaleLoader } from "react-spinners";
+import imgLogo from "../images/boardlogo.png";
 
 const Container = styled.div`
   display: flex;
   height: auto;
   width: 90vw;
-  margin: 10vh auto auto auto;
-  padding: 120px;
-  background-color: white;
+  margin: 10vh auto;
+  padding: 20px;
+  background-color: rgba(255, 219, 1, 0.2);
   border-radius: 10px;
-
   text-align: center;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-family: "DoHyeon-Regular", sans-serif;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+`;
+
+const Logo = styled.img`
+  width: 100px;
+  height: 100px;
+  @media (max-width: 390px) {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 const Searchlogo = styled.img`
@@ -84,7 +94,7 @@ const Btn = styled.div`
 
   &:hover {
     cursor: pointer;
-    background-color: white;
+    background-color: rgb(255, 219, 1);
     color: black;
     font-weight: 300;
     transition: all 0.2s ease-in-out;
@@ -102,7 +112,7 @@ const Tdfont = styled.div`
   }
 
   tbody tr:hover {
-    background-color: #ececec;
+    background-color: rgb(255, 219, 1);
     cursor: pointer;
   }
 
@@ -117,6 +127,7 @@ const Tdfont = styled.div`
     height: 50px;
     border-bottom: 3px solid black;
     font-size: 30px;
+
     min-width: 220px;
   }
 `;
@@ -297,6 +308,7 @@ const Board = ({ roomId, setRoomId }) => {
         transition={{ duration: 1.5 }}
       >
         <Container>
+          <Logo src={imgLogo} />
           <Title>게시판</Title>
 
           <Boardhead>
