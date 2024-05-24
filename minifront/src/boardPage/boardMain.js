@@ -164,7 +164,7 @@ const BtnWrite = styled.div``;
 
 const BtnMyWrite = styled.div``;
 
-const Board = () => {
+const Board = ({ roomId, setRoomId }) => {
   console.log(localStorage.getItem("userId"));
   console.log(localStorage.getItem("userNickname"));
   const [boards, setBoards] = useState([]);
@@ -376,7 +376,12 @@ const Board = () => {
         </PageStyle>
         <button onClick={delStorage}>11</button>
         {isModalOpen && (
-          <BoardModal board={selectedBoard} onClose={closeModal} />
+          <BoardModal
+            roomId={roomId}
+            setRoomId={setRoomId}
+            board={selectedBoard}
+            onClose={closeModal}
+          />
         )}
       </motion.div>
     </>

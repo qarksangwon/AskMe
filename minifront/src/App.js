@@ -30,7 +30,13 @@ function App() {
           <Route path="/askme" element={<Home />} />
           <Route
             path="/askme/board"
-            element={isMobile ? <BoardM /> : <Board />}
+            element={
+              isMobile ? (
+                <BoardM />
+              ) : (
+                <Board roomId={roomId} setRoomId={setRoomId} />
+              )
+            }
           />
           <Route path="/askme/board/write" element={<BoardWrite />} />
           <Route path="/askme/board/success" element={<Writesucces />} />

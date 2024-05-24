@@ -342,7 +342,7 @@ const BoardM = () => {
           <BoardModal board={selectedBoard} onClose={closeModal} />
         )}
       </motion.div>
-      <Footer top={1000} mtop={800} />
+      <Footer top={1000} mtop={930} />
     </>
   );
 };

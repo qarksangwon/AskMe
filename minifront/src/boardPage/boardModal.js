@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import { motion, useScroll } from "framer-motion";
 import AxiosApi from "../api/AxiosApi";
 import ImageUploader from "../firebase/ImageUploader";
 import ImageDisplayByName from "../api/ImageDisplayByName";
-
+import { Link } from "react-router-dom";
 const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -93,6 +93,22 @@ const NicknameBox = styled.div`
   }
 `;
 
+const Room = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  width: 16.35vh;
+  height: 7vh;
+  border: 3px solid black;
+  color: white;
+  background-color: black;
+  @media (max-width: 430px) {
+    font-size: 20px;
+    width: 17vh;
+    height: 4vh;
+  }
+`;
+
 const ContentBox = styled.div`
   display: flex;
   margin: auto; //중앙 정렬을 위해
@@ -131,13 +147,14 @@ const IsMyPost2 = styled.div`
   display: ${(props) => (props.isMyPost ? "block" : "none")};
 `;
 
-const BoardModal = ({ board, onClose }) => {
+const BoardModal = ({ board, onClose, roomId, setRoomId }) => {
   const isMyPost = localStorage.getItem("userNickname") === board.nickname;
   const isMyPost2 = localStorage.getItem("userNickname") !== board.nickname;
   console.log(`클래스넘버${board.classNo}`);
 
   const [isDel, setIsDel] = useState(false);
   const [findid, setFindid] = useState();
+  const linkRef = useRef(null);
 
   const handleBoardDelete = async () => {
     try {
@@ -167,16 +184,25 @@ const BoardModal = ({ board, onClose }) => {
     try {
       const rsp = await AxiosApi.findRoomId(board.id);
       setFindid(rsp.data);
+      console.log(roomId);
     } catch (e) {
       console.log(e);
     }
   };
+
   useEffect(() => {
     FindRoomId();
   }, []);
+
   useEffect(() => {
     console.log(findid); // findid 값이 업데이트될 때마다 콘솔에 출력
+    if (findid !== undefined)
+      setRoomId([findid[0], findid[1], findid[2], findid[3], findid[4]]);
   }, [findid]);
+
+  const linkToChat = () => {
+    linkRef.current.click();
+  };
 
   return (
     <motion.div
@@ -194,9 +220,10 @@ const BoardModal = ({ board, onClose }) => {
           </TitleBox>
           <NicknameBox>
             <p>닉네임 : {board.nickname}</p>
-            {findid && findid}
           </NicknameBox>
-
+          <Room>
+            <p>채팅방 번호 : {findid && findid}</p>
+          </Room>
           <ContentBox>
             <p>{board.content}</p>
           </ContentBox>
@@ -206,7 +233,10 @@ const BoardModal = ({ board, onClose }) => {
               {isMyPost && <Btn>삭제하기</Btn>}
             </IsMyPost>
             <IsMyPost2 isMyPost={isMyPost2}>
-              {isMyPost2 && <Btn>채팅 입장</Btn>}
+              <Link to="/askme/chat" ref={linkRef} style={{ display: "none" }}>
+                Hidden Link
+              </Link>
+              {isMyPost2 && <Btn onClick={linkToChat}>채팅 입장</Btn>}
             </IsMyPost2>
             <Btn onClick={onClose} className="close">
               닫기
