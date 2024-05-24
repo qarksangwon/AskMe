@@ -19,6 +19,7 @@ function FindId() {
   const [isVerified, setIsVerified] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
+  const [isEmailDisabled, setIsEmailDisabled] = useState(false);
 
   const [foundId, setFoundId] = useState("");
   const [isIdFound, setIsIdFound] = useState(false);
@@ -102,6 +103,7 @@ function FindId() {
         setEmailVerify(true);
         setIsVerified(true);
         setIsEmailVerified(true);
+        setIsEmailDisabled(true);
       } else {
         alert("인증 코드가 올바르지 않습니다.");
       }
@@ -181,6 +183,7 @@ function FindId() {
                   placeholder="test@gmail.com"
                   value={email}
                   onChange={findHandleEmail}
+                  disabled={isEmailDisabled}
                 />
               </div>
               {!emailVerify && (
@@ -217,7 +220,6 @@ function FindId() {
                 <div>올바른 이메일을 입력해주세요.</div>
               )}
             </div>
-
             <div className="findId">
               <button className="findIdButton" onClick={findIdClick}>
                 아이디 찾기
