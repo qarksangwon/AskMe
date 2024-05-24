@@ -18,6 +18,14 @@ const AxiosApi = {
     return await axios.get(Askme_Domain + "/askme/board");
   },
 
+  findRoomId: async (val) => {
+    return await axios.get(Askme_Domain + "/askme/board/chat", {
+      params: {
+        id: val,
+      },
+    });
+  },
+
   boardWrite: async (data) => {
     const userInfo = {
       id: localStorage.getItem("userId"), // 여기에 사용자의 id를 넣어주세요. 예를 들면 localStorage.getItem("userId")를 사용하여 사용자의 id를 가져올 수 있습니다.
