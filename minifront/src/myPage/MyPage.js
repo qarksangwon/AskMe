@@ -40,12 +40,12 @@ const Body = styled.div`
 const Btn = styled.div`
   background-color: black;
   width: 220px;
-  height: 70px;
+  height: 60px;
   font-size: 24px;
   color: white;
   margin: 20px;
   margin-top: 20px;
-  margin-bottom: 80px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,11 +72,11 @@ const Btn = styled.div`
 
 const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 30px;
+  margin-top: 10px;
 `;
 
 const Exit = styled.img`
@@ -103,9 +103,6 @@ const MyPage = () => {
           <ButtonContainer>
             <Link to="/askme/mypage/confirm">
               <Btn>정보 수정</Btn>
-            </Link>
-            <Link to="/askme">
-              <Btn>내가 쓴 글</Btn>
             </Link>
             <Link to="/askme">
               <Btn>채팅방 목록</Btn>

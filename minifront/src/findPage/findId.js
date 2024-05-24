@@ -20,7 +20,6 @@ function FindId() {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
 
-  // 추가된 상태
   const [foundId, setFoundId] = useState("");
   const [isIdFound, setIsIdFound] = useState(false);
 

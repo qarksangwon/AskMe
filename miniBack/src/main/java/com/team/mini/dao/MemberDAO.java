@@ -293,6 +293,7 @@ public class MemberDAO {
         }
         return member;
     }
+
     // 이메일 중복 체크
     public boolean checkEmail(String email) {
         boolean isEmailUsed = false;
@@ -315,6 +316,7 @@ public class MemberDAO {
         return isEmailUsed;
     }
 
+    // 이메일 입력시 해당 이메일 존재여부 확인
     public boolean checkEmailExists(String email) {
         boolean exists = false;
         try {
@@ -356,6 +358,7 @@ public class MemberDAO {
         }
         return isMatch;
     }
+
     // 정보수정 진입시 비밀번호 검사
     public boolean verifyPassword(String password) {
         try {
@@ -376,6 +379,7 @@ public class MemberDAO {
         }
         return false;
     }
+
     public boolean updateMemberInfo(MemberVO member) {
         try {
             conn = Common.getConnection();
@@ -396,7 +400,4 @@ public class MemberDAO {
         }
         return false;
     }
-
-
-
 }
