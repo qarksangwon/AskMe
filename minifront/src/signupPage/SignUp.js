@@ -53,7 +53,7 @@ function SignUp() {
   };
 
   const ExitClick = () => {
-    navigate("/askme");
+    navigate("/askme/login");
   };
 
   const formatTime = (seconds) => {

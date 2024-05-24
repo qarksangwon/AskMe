@@ -21,6 +21,7 @@ function FindPw() {
   const [pwEmailMessage, setPwEmailMessage] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [resetPasswordVisible, setResetPasswordVisible] = useState(false);
+  const [isEmailDisabled, setIsEmailDisabled] = useState(false);
 
   useEffect(() => {
     let interval;
@@ -55,6 +56,7 @@ function FindPw() {
         alert("이메일 인증이 완료되었습니다.");
         setPwEmailVerify(true);
         setPwIsVerified(true);
+        setIsEmailDisabled(true);
       } else {
         alert("인증 코드가 올바르지 않습니다.");
       }
@@ -143,6 +145,7 @@ function FindPw() {
               placeholder="test@gmail.com"
               value={pwemail}
               onChange={(e) => setPwEmail(e.target.value)}
+              disabled={isEmailDisabled}
             />
           </div>
           {!pwEmailVerify && (
