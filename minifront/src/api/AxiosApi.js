@@ -158,6 +158,12 @@ const AxiosApi = {
   updateUserInfo: async (userInfo) => {
     return await axios.post(`${Askme_Domain}/askme/update-user-info`, userInfo);
   },
+
+  getRoomId: async (roomid) => {
+    return await axios.post(Askme_Domain + "/askme/getRoomid", null, {
+      params: { roomid },
+    });
+  },
 };
 
 export default AxiosApi;

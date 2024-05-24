@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import imgLogo from "../images/Logo.png";
 import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import exit from "../images/exit.png";
+import AxiosApi from "../api/AxiosApi";
 import Toggle from "../customComponent/Toggle";
 import Footer from "../customComponent/Footer";
 
@@ -93,27 +95,64 @@ const Exit = styled.img`
   }
 `;
 
+const FoundIdMessage = styled.div`
+  font-size: 30px;
+  font-weight: bold;
+  color: #262626;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  background-color: #f0f0f0;
+  span {
+    color: #d147e5;
+  }
+`;
+
 const MyPage = () => {
+  const [isIdFound, setIsIdFound] = useState(false);
+  const [roomNum, setroomNum] = useState("");
+  const [roomid, setRoomid] = useState("");
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+  }, []);
+
+  const handleButtonClick = async () => {
+    const userId = localStorage.getItem("userId");
+    try {
+      const response = await AxiosApi.getRoomId(userId);
+      setroomNum(response.data);
+      setIsIdFound(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const exitClick = () => {
+    setIsIdFound(false);
+  };
+
   return (
     <>
       <Container>
         <Toggle />
         <Body>
           <Logo src={imgLogo} />
-          <ButtonContainer>
-            <Link to="/askme/mypage/confirm">
-              <Btn>정보 수정</Btn>
-            </Link>
-            <Link to="/askme">
-              <Btn>채팅방 목록</Btn>
-            </Link>
-            <Link to="/askme/userdel">
-              <Btn>회원 탈퇴</Btn>
-            </Link>
-          </ButtonContainer>
-          <Link to="/askme">
-            <Exit src={exit} />
-          </Link>
+          {isIdFound ? (
+            <FoundIdMessage>
+              나의 채팅방 번호 : <span>{roomNum}</span>
+            </FoundIdMessage>
+          ) : (
+            <ButtonContainer>
+              <Link to="/askme/mypage/confirm">
+                <Btn>정보 수정</Btn>
+              </Link>
+              <Btn onClick={handleButtonClick}>나의 채팅방</Btn>
+              <Link to="/askme/userdel">
+                <Btn>회원 탈퇴</Btn>
+              </Link>
+            </ButtonContainer>
+          )}
+          <Exit onClick={exitClick} src={exit} />
         </Body>
         <Footer top={1000} mtop={732} />
       </Container>

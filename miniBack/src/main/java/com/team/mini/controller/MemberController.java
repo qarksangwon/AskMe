@@ -167,8 +167,6 @@ public class MemberController {
     }
 
     // 코드가 일치하면 사용자의 아이디 출력
-
- /// 기존 코드
     @PostMapping("/getId")
     public ResponseEntity<String> getId(@RequestBody Map<String, String> payload) {
         String name = payload.get("name");
@@ -322,6 +320,23 @@ public class MemberController {
         boolean isUpdated = dao.updateMemberInfo(member);
         return new ResponseEntity<>(isUpdated, HttpStatus.OK);
     }
+
+    // 마이페이지 내 채팅방 번호
+//    @PostMapping("/getRoomid")
+//    public ResponseEntity<String> getRoomId(@RequestParam String userId) {
+//        if (dao.getUserChatroomNum(userId)) {
+//            return new ResponseEntity<>("Verification email sent", HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>("Invalid name or email", HttpStatus.BAD_REQUEST);
+//        }
+//    }
+    @GetMapping("/getRoomid")
+    public ResponseEntity<String> getRoomId(@RequestParam String userid) {
+        String roomid = dao.getUserChatroomNum(userid);
+        System.out.println(roomid);
+        return ResponseEntity.ok(roomid);
+    }
+
 }
 
 
