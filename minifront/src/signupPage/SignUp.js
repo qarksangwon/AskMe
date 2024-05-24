@@ -23,6 +23,10 @@ function SignUp() {
   const [pwValid, setPwValid] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
 
+  const [isNicknameDisabled, setIsNicknameDisabled] = useState(false);
+  const [isIdDisabled, setIsIdDisabled] = useState(false);
+  const [isEmailDisabled, setIsEmailDisabled] = useState(false);
+
   const [nicknameMessage, setNickNameMessage] = useState("");
   const [nicknameCheck, setNickNameCheck] = useState(false);
 
@@ -36,7 +40,7 @@ function SignUp() {
   const [isVerified, setIsVerified] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
 
-  const [uploadTrigger, setUploadTrigger] = useState(false); //이미지 업로드용 트리거
+  const [uploadTrigger, setUploadTrigger] = useState(false); // 이미지 업로드용 트리거
 
   const ClearClick = () => {
     setName("");
@@ -96,12 +100,12 @@ function SignUp() {
   };
 
   const handleNickName = (e) => {
-    const value = e.target.value;
+    const nicknamevalue = e.target.value;
     const regex = /^[가-힣A-Za-z0-9]{0,8}$/;
-    if (regex.test(value)) {
-      setNickName(value);
+    if (regex.test(nicknamevalue)) {
+      setNickName(nicknamevalue);
       setNickNameMessage("");
-      if (value.length >= 2) {
+      if (nicknamevalue.length >= 2) {
         setNickNameValid(true);
       } else {
         setNickNameValid(false);
@@ -112,18 +116,18 @@ function SignUp() {
   };
 
   const handleId = (e) => {
-    const value = e.target.value;
+    const idvalue = e.target.value;
     const regex = /^[가-힣A-Za-z0-9]{0,8}$/;
-    if (regex.test(value)) {
-      setId(value);
+    if (regex.test(idvalue)) {
+      setId(idvalue);
       setIdMessage("");
-      if (value.length >= 2) {
+      if (idvalue.length >= 2) {
         setIdValid(true);
       } else {
         setIdValid(false);
       }
     } else {
-      setIdMessage("한글, 영어, 숫자로만 입력 가능합니다.");
+      setIdMessage("영어, 숫자로만 입력 가능합니다.");
     }
   };
 
@@ -161,6 +165,7 @@ function SignUp() {
       } else {
         setNickNameMessage("사용 가능한 닉네임 입니다.");
         setNickNameCheck(true);
+        setIsNicknameDisabled(true);
       }
     } catch (error) {
       console.error(error);
@@ -180,6 +185,7 @@ function SignUp() {
       } else {
         setIdMessage("사용 가능한 아이디 입니다.");
         setIdCheck(true);
+        setIsIdDisabled(true);
       }
     } catch (error) {
       console.error(error);
@@ -218,6 +224,7 @@ function SignUp() {
         setEmailVerify(true);
         setIsVerified(true);
         setIsEmailVerified(true);
+        setIsEmailDisabled(true);
       } else {
         alert("인증 코드가 올바르지 않습니다.");
       }
@@ -227,7 +234,6 @@ function SignUp() {
     }
   };
 
-  // 확인버튼
   const onClickConfirmButton = async () => {
     if (notAllow) return;
     const userData = { id, password: pw, name, nickname, email };
@@ -246,9 +252,11 @@ function SignUp() {
       alert("회원가입 중 오류가 발생했습니다");
     }
   };
+
   const test = () => {
     setUploadTrigger(true);
   };
+
   return (
     <div className="page">
       <div className="imgContainer">
@@ -258,7 +266,6 @@ function SignUp() {
       <div className="titleWrap">정보를 입력해주세요</div>
       <br />
 
-      {/* ----------- 사진등록 */}
       <div>
         <ImageUploader
           setUrl={setUrl}
@@ -268,7 +275,6 @@ function SignUp() {
         {url && <img src={url} alt="uploaded" />}
       </div>
 
-      {/* ------------이름 */}
       <div className="contentWrap">
         <div className="inputTitle">이름</div>
         <div className="inputWrap">
@@ -286,7 +292,6 @@ function SignUp() {
           )}
         </div>
 
-        {/* -----------닉네임 */}
         <div className="nicknameBox">
           <div className="contentWrap">
             <div className="inputTitle">닉네임</div>
@@ -297,6 +302,7 @@ function SignUp() {
                 placeholder="한글, 영어, 숫자 입력가능"
                 value={nickname}
                 onChange={handleNickName}
+                disabled={isNicknameDisabled}
               />
             </div>
             <div className="errorMessageWrap">
@@ -316,7 +322,6 @@ function SignUp() {
           )}
         </div>
 
-        {/* ------------------아이디 */}
         <div className="idBox">
           <div className="contentWrap">
             <div className="inputTitle">아이디</div>
@@ -327,6 +332,7 @@ function SignUp() {
                 placeholder="아이디"
                 value={id}
                 onChange={handleId}
+                disabled={isIdDisabled}
               />
             </div>
             <div className="errorMessageWrap">
@@ -343,7 +349,6 @@ function SignUp() {
           )}
         </div>
 
-        {/* ---------- 비밀번호 */}
         <div className="pwBox">
           <div style={{ marginTop: "26px" }} className="inputTitle">
             비밀번호
@@ -364,7 +369,6 @@ function SignUp() {
           </div>
         </div>
         <br />
-        {/* --------------- 이메일 */}
         <div className="inputTitle">이메일 주소</div>
         <div className="emailBox">
           <div className="inputWrap">
@@ -374,6 +378,7 @@ function SignUp() {
               placeholder="test@gmail.com"
               value={email}
               onChange={handleEmail}
+              disabled={isEmailDisabled}
             />
           </div>
           {!emailVerify && (

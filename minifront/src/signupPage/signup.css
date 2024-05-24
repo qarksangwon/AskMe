@@ -169,6 +169,7 @@
 }
 
 .input {
+  background-color: white;
   display: flex;
   width: 100%;
   outline: none;
