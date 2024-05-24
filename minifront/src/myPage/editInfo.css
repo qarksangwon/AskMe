@@ -1,0 +1,153 @@
+.Container {
+  width: 80vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.Logo {
+  width: 150px;
+  height: 150px;
+  margin-top: 10px;
+}
+
+@media (max-width: 390px) {
+  .Logo {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.Title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #262626;
+  margin-bottom: 100px;
+}
+
+.cotentWrap {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+@media (max-width: 430px) {
+  .cotentWrap {
+    width: 80vw;
+  }
+}
+
+.InputTitle {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.errorMessageWrap {
+  margin-top: 8px;
+  color: #ef0000;
+  font-size: 12px;
+}
+
+.idBox {
+  display: flex;
+  align-items: center;
+}
+
+.nicknameBox {
+  display: flex;
+  align-items: center;
+}
+
+.emailBox {
+  display: flex;
+  align-items: center;
+}
+
+.inputWrap {
+  flex: 1;
+  display: flex;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 8px;
+  background-color: white;
+  border: 1px solid #e2e0e0;
+}
+.inputWrap:focus-within {
+  border: 1px solid #9e30f4;
+}
+
+.Input {
+  width: 100%;
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e0e0;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.Btn {
+  background-color: black;
+  width: 220px;
+  height: 50px;
+  font-size: 20px;
+  color: white;
+  margin: 20px;
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  transition: all 0.5s ease-in-out;
+  border: 3px solid black;
+}
+
+.Btn:hover {
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  font-weight: 300;
+  transition: all 0.2s ease-in-out;
+  border: 2px solid black;
+}
+
+@media (max-width: 430px) {
+  .Btn {
+    width: 180px;
+    height: 50px;
+  }
+}
+
+.SuccessMessage {
+  color: green;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.ErrorMessage {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.Exit {
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+}
+
+.Exit:hover {
+  opacity: 0.5;
+  transition: all 0.2s ease-in;
+}
+
+@media (max-width: 430px) {
+  .Exit {
+    margin-top: 10px;
+  }
+}
