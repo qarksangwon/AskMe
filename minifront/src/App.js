@@ -14,6 +14,8 @@ import FindId from "./findPage/findId";
 import FindPw from "./findPage/findPw";
 import MyPage from "./myPage/MyPage";
 import UserDel from "./myPage/UserDel";
+import PasswordConfirm from "./myPage/PasswordConfirm";
+import EditInfo from "./myPage/EditInfo";
 
 function App() {
   const isMobile = window.innerWidth <= 430;
@@ -43,6 +45,8 @@ function App() {
           <Route path="/askme/findpw" element={<FindPw />} />
           <Route path="/askme/mypage" element={<MyPage />} />
           <Route path="/askme/userdel" element={<UserDel />} />
+          <Route path="/askme/mypage/confirm" element={<PasswordConfirm />} />
+          <Route path="/askme/mypage/edit-info" element={<EditInfo />} />
         </Routes>
       </Router>
     </>

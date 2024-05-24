@@ -111,6 +111,12 @@ const AxiosApi = {
     };
     return await axios.post(Askme_Domain + "/askme/getId", value);
   },
+  checkNameAndEmail: async (name, email) => {
+    return await axios.post(`${Askme_Domain}/askme/check-name-email`, null, {
+      params: { name, email },
+    });
+  },
+
   checkPwEmail: async (email) => {
     return await axios.get(Askme_Domain + "/askme/check-pw-email", {
       params: { email },
@@ -132,6 +138,16 @@ const AxiosApi = {
     return await axios.post(Askme_Domain + "/askme/resetPw", null, {
       params: { id, email, code, newPassword },
     });
+  },
+
+  // 정보수정할때 비밀번호 확인
+  verifyPassword: async (password) => {
+    return await axios.post(`${Askme_Domain}/askme/verify-password`, {
+      password,
+    });
+  },
+  updateUserInfo: async (userInfo) => {
+    return await axios.post(`${Askme_Domain}/askme/update-user-info`, userInfo);
   },
 };
 

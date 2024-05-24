@@ -101,7 +101,7 @@ const MyPage = () => {
         <Body>
           <Logo src={imgLogo} />
           <ButtonContainer>
-            <Link to="/askme">
+            <Link to="/askme/mypage/confirm">
               <Btn>정보 수정</Btn>
             </Link>
             <Link to="/askme">

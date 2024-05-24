@@ -356,6 +356,46 @@ public class MemberDAO {
         }
         return isMatch;
     }
+    // 정보수정 진입시 비밀번호 검사
+    public boolean verifyPassword(String password) {
+        try {
+            conn = Common.getConnection();
+            String sql = "SELECT COUNT(*) FROM USERTB WHERE PASSWORD = ?";
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, password);
+            rs = pStmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return false;
+    }
+    public boolean updateMemberInfo(MemberVO member) {
+        try {
+            conn = Common.getConnection();
+            String sql = "UPDATE USERTB SET NAME = ?, NICKNAME = ?, EMAIL = ? WHERE ID = ?";
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, member.getName());
+            pStmt.setString(2, member.getNickname());
+            pStmt.setString(3, member.getEmail());
+            pStmt.setString(4, member.getId());
+            int rowsUpdated = pStmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return false;
+    }
 
 
 
