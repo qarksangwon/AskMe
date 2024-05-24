@@ -187,10 +187,17 @@ const Board = () => {
     checkLoginStatus(); // 페이지가 로드될 때마다 로그인 상태 확인
   }, []);
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      console.log("로그인 안함");
+    }
+  }, [isLoggedIn]); // isLoggedIn 상태가 변경될 때마다 실행
+
   // "글 쓰기" 버튼 클릭 핸들러
   const handleWriteButtonClick = () => {
     if (!isLoggedIn) {
       alert("로그인 후 사용 가능합니다!");
+      console.log("로그인 안함");
     }
     // 여기에 글 쓰기 버튼을 클릭했을 때의 로직을 추가할 수 있습니다.
   };
@@ -230,6 +237,13 @@ const Board = () => {
     const endIndex = startIndex + itemsPerPage;
     setBoards(originalBoards.slice(startIndex, endIndex));
   }, [page, originalBoards]);
+
+  const Lodingwait = () => {
+    setLoading(true); // 로딩 상태를 true로 설정
+    setTimeout(() => {
+      setLoading(false); // 700ms 후에 로딩 상태를 false로 설정
+    }, 700);
+  };
 
   const handleSearch = () => {
     setLoading(true); // 검색이 시작될 때 로딩 상태 활성화
@@ -335,7 +349,7 @@ const Board = () => {
                     <tr
                       key={board.classNo}
                       onClick={() => {
-                        handleSearch();
+                        Lodingwait();
                         openModal(board);
                       }}
                     >

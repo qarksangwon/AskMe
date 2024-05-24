@@ -2,7 +2,6 @@ package com.team.mini.controller;
 
 import com.team.mini.dao.BoardDAO;
 import com.team.mini.vo.BoardVO;
-import com.team.mini.vo.MemberVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +27,13 @@ public class BoardController {
         List<BoardVO> list = dao.Boardselect();
         System.out.println(list);
         return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/board/chat")
+    public ResponseEntity<String> findchat(@RequestParam String id) {
+        String chatroom = dao.Findchatid(id);
+        System.out.println(chatroom);
+        return ResponseEntity.ok(chatroom);
     }
 
     @PostMapping("/board/write")

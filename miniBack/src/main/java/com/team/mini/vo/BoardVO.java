@@ -17,3 +17,4 @@ public class BoardVO {
     private String id;
     private String profile;
 }
+

@@ -15,7 +15,7 @@ const ModalWrapper = styled.div`
   background-color: #ececec;
   padding: 20px;
   position: fixed;
-  top: 60%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
@@ -30,7 +30,6 @@ const ModalWrapper = styled.div`
 `;
 const Profile = styled.div`
   display: flex;
-  align-items: left;
 `;
 
 const TitleBox = styled.div`
@@ -96,7 +95,7 @@ const NicknameBox = styled.div`
 
 const ContentBox = styled.div`
   display: flex;
-  flex-direction: column;
+  margin: auto; //중앙 정렬을 위해
   background-color: white;
   width: 90vh;
   height: 80vh;
@@ -125,8 +124,6 @@ const ModalBack = styled.div`
   background: rgba(0, 0, 0, 0.6);
 `;
 
-const Image = styled.img``;
-
 const IsMyPost = styled.div`
   display: ${(props) => (props.isMyPost ? "block" : "none")};
 `;
@@ -137,9 +134,10 @@ const IsMyPost2 = styled.div`
 const BoardModal = ({ board, onClose }) => {
   const isMyPost = localStorage.getItem("userNickname") === board.nickname;
   const isMyPost2 = localStorage.getItem("userNickname") !== board.nickname;
-
   console.log(`클래스넘버${board.classNo}`);
+
   const [isDel, setIsDel] = useState(false);
+  const [findid, setFindid] = useState();
 
   const handleBoardDelete = async () => {
     try {
@@ -165,11 +163,26 @@ const BoardModal = ({ board, onClose }) => {
     }
   }, [isDel]);
 
+  const FindRoomId = async () => {
+    try {
+      const rsp = await AxiosApi.findRoomId(board.id);
+      setFindid(rsp.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    FindRoomId();
+  }, []);
+  useEffect(() => {
+    console.log(findid); // findid 값이 업데이트될 때마다 콘솔에 출력
+  }, [findid]);
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 0 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5, delay: 0.8 }} // 2초 후에 애니메이션 시작
+      transition={{ duration: 0.3, delay: 1.3 }} // 딜레이 주는 이유 : 이미지 업로드하느라 살짝 버벅거리는 거 안 보이게 할라고
     >
       <ModalBack>
         <ModalWrapper>
@@ -181,10 +194,13 @@ const BoardModal = ({ board, onClose }) => {
           </TitleBox>
           <NicknameBox>
             <p>닉네임 : {board.nickname}</p>
+            {findid && findid}
           </NicknameBox>
+
           <ContentBox>
             <p>{board.content}</p>
           </ContentBox>
+
           <ButtonWrapper>
             <IsMyPost isMyPost={isMyPost} onClick={confirmDeleteBoard}>
               {isMyPost && <Btn>삭제하기</Btn>}

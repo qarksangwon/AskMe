@@ -3,7 +3,7 @@ package com.team.mini.dao;
 import com.team.mini.vo.BoardVO;
 
 import com.team.mini.utils.Common;
-import com.team.mini.vo.MemberVO;
+
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -53,6 +53,28 @@ public class BoardDAO {
             System.out.println(e);
         }
         return list;
+    }
+    public String Findchatid(String id) {
+        String rst= "";
+        try {
+            conn = Common.getConnection(); // 데이터베이스 연결
+            stmt = conn.createStatement(); // Statement 객체 생성
+            String sql = "SELECT * FROM CHATROOM WHERE ID = '"+ id + "'";
+            rs = stmt.executeQuery(sql); // 쿼리 실행
+            while (rs.next()) {
+         rst = rs.getString("ROOMID");
+
+
+
+            }
+            Common.close(rs);
+            Common.close(stmt);
+            Common.close(conn);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return rst;
     }
 
     public boolean boardRegister(BoardVO board) {
