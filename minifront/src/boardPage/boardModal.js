@@ -184,7 +184,6 @@ const BoardModal = ({ board, onClose, roomId, setRoomId }) => {
     try {
       const rsp = await AxiosApi.findRoomId(board.id);
       setFindid(rsp.data);
-      console.log(roomId);
     } catch (e) {
       console.log(e);
     }
@@ -194,14 +193,14 @@ const BoardModal = ({ board, onClose, roomId, setRoomId }) => {
     FindRoomId();
   }, []);
 
-  useEffect(() => {
-    console.log(findid); // findid 값이 업데이트될 때마다 콘솔에 출력
-    if (findid !== undefined)
-      setRoomId([findid[0], findid[1], findid[2], findid[3], findid[4]]);
-  }, [findid]);
-
   const linkToChat = () => {
-    linkRef.current.click();
+    console.log("방번호잉", findid);
+    if (findid === "") {
+      alert("방 없어!");
+    } else {
+      setRoomId([findid[0], findid[1], findid[2], findid[3], findid[4]]);
+      linkRef.current.click();
+    }
   };
 
   return (
