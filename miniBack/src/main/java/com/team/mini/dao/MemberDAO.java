@@ -85,14 +85,12 @@ public class MemberDAO {
                 String pwd = rs.getString("PASSWORD");
                 String name = rs.getString("NAME");
                 String email = rs.getString("EMAIL");
-                Date join = rs.getDate("JOIN");
 
                 MemberVO vo = new MemberVO();
                 vo.setId(id);
                 vo.setPassword(pwd);
                 vo.setName(name);
                 vo.setEmail(email);
-                vo.setJoin(join);
                 list.add(vo);
             }
             Common.close(rs);
