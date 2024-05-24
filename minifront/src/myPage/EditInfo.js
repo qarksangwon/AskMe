@@ -25,6 +25,9 @@ const EditInfo = () => {
   const [isVerified, setIsVerified] = useState(false);
   const [verifyCode, setVerifyCode] = useState("");
 
+  const [isNicknameDisabled, setIsNicknameDisabled] = useState(false);
+  const [isEmailDisabled, setIsEmailDisabled] = useState(false);
+
   const [timer, setTimer] = useState(180);
   const [nicknameMessage, setNickNameMessage] = useState("");
   const [nicknameCheck, setNickNameCheck] = useState(false);
@@ -125,6 +128,7 @@ const EditInfo = () => {
       } else {
         setNickNameMessage("사용 가능한 닉네임 입니다.");
         setNickNameCheck(true);
+        setIsNicknameDisabled(true);
       }
     } catch (error) {
       console.error(error);
@@ -163,6 +167,7 @@ const EditInfo = () => {
         setEmailVerify(true);
         setIsVerified(true);
         setIsEmailVerified(true);
+        setIsEmailDisabled(true);
       } else {
         alert("인증 코드가 올바르지 않습니다.");
       }
@@ -230,6 +235,7 @@ const EditInfo = () => {
                 placeholder="한글, 영어, 숫자 입력가능"
                 value={nickname}
                 onChange={handleNickNameChange}
+                disabled={isNicknameDisabled}
               />
             </div>
             <div className="errorMessageWrap">
@@ -260,6 +266,7 @@ const EditInfo = () => {
               placeholder="test@gmail.com"
               value={email}
               onChange={handleEmailChange}
+              disabled={isEmailDisabled}
             />
           </div>
           {!emailVerify && (
