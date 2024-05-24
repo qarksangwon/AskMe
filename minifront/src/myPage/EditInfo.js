@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import imgLogo from "../images/Logo.png";
 import AxiosApi from "../api/AxiosApi"; // 서버와 통신을 위한 API 모듈 임포트
+import { Link } from "react-router-dom";
+import exit from "../images/exit.png";
 
 const Container = styled.div`
   width: 80vw;
@@ -96,6 +98,20 @@ const ErrorMessage = styled.div`
   font-size: 14px;
 `;
 
+const Exit = styled.img`
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  &:hover {
+    opacity: 0.5;
+    transition: all 0.2s ease-in;
+  }
+  @media (max-width: 430px) {
+    margin-top: 10px;
+  }
+`;
+
 const EditInfo = () => {
   const [name, setName] = useState("");
   const [nickname, setNickname] = useState("");
@@ -162,6 +178,9 @@ const EditInfo = () => {
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       {successMessage && <SuccessMessage>{successMessage}</SuccessMessage>}
       <Btn onClick={handleSubmit}>정보 수정</Btn>
+      <Link to="/askme/mypage">
+        <Exit src={exit} />
+      </Link>
     </Container>
   );
 };
