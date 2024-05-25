@@ -62,7 +62,7 @@ const Btn = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 22px;
+  font-size: 20px;
   transition: all 0.2s ease-in;
   &:hover {
     background-color: white;
@@ -72,7 +72,7 @@ const Btn = styled.div`
   @media (max-width: 430px) {
     width: 100px;
     height: 120px;
-    font-size: 16px;
+    font-size: 14px;
   }
 `;
 const Exit = styled.img`

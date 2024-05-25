@@ -5,10 +5,9 @@ import Toggle from "../customComponent/Toggle";
 import Footer from "../customComponent/Footer";
 
 const LogoContainer = styled.div`
-  width: 150px;
+  width: auto;
   height: 200px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
@@ -21,6 +20,11 @@ const Logo = styled.img`
     width: 100px;
     height: 100px;
   }
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+  flex-flow: column;
 `;
 
 const Container = styled.div`
@@ -107,7 +111,17 @@ const Home = () => {
         <Body>
           <LogoContainer>
             <Logo src={imgLogo} />
-            <p style={{ fontSize: 38 }}>ASK ME</p>
+            <TextContainer>
+              <p style={{ fontSize: 38, marginBottom: 10, marginLeft: 6 }}>
+                ASK ME
+              </p>
+              <p style={{ fontSize: 20, marginBottom: 10, marginLeft: 10 }}>
+                실시간
+              </p>
+              <p style={{ fontSize: 20, marginBottom: 10, marginLeft: 10 }}>
+                채팅서비스
+              </p>
+            </TextContainer>
           </LogoContainer>
           <Link to="/askme/board">
             <Btn>

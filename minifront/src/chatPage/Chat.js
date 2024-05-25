@@ -261,27 +261,15 @@ const Chat = ({ roomId }) => {
         height: 600,
       });
 
-      newCanvas.on("mouse:wheel", function (opt) {
-        const delta = opt.e.deltaY;
-        let zoom = newCanvas.getZoom();
-        zoom *= 0.999 ** delta;
-        if (zoom > 20) zoom = 20;
-        if (zoom < 0.01) zoom = 0.01;
-        newCanvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
-        opt.e.preventDefault();
-        opt.e.stopPropagation();
-      });
-
-      newCanvas.on("object:added", (e) => {
+      newCanvas.on("object:added", () => {
         // 새로운 객체가 추가될 때마다 해당 객체 정보를 서버로 전송
-        const newObject = e.target.toJSON();
         // console.log(JSON.stringify(newObject));
         ws.current.send(
           JSON.stringify({
             type: "CANVAS",
             roomId: roomNum,
             nickName: myNickName,
-            drawing: JSON.stringify(newObject), // 새로운 객체만 전송
+            drawing: JSON.stringify(newCanvas.toJSON), // 새로운 객체만 전송
           })
         );
       });
