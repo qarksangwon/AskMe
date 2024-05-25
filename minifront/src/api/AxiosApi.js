@@ -2,6 +2,7 @@ import axios from "axios";
 
 const Askme_Domain = "http://localhost:8111";
 //  "http://192.168.10.17:8111";
+// "http://localhost:8111"
 
 const AxiosApi = {
   LoginMain: async (id, pwd) => {
@@ -162,6 +163,12 @@ const AxiosApi = {
   getRoomId: async (roomid) => {
     return await axios.post(Askme_Domain + "/askme/getRoomid", null, {
       params: { roomid },
+    });
+  },
+  // 정보수정 사용자 정보 가져오기
+  getUserInfo: async (id) => {
+    return await axios.get(Askme_Domain + "/askme/user", {
+      params: { id },
     });
   },
 };

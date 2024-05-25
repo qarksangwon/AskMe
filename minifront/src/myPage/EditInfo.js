@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Logoimg from "../images/Logo.png";
 import AxiosApi from "../api/AxiosApi"; // 서버와 통신을 위한 API 모듈 임포트
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import exit from "../images/exit.png";
 import "./editInfo.css";
 
@@ -32,16 +32,31 @@ const EditInfo = () => {
   const [nicknameMessage, setNickNameMessage] = useState("");
   const [nicknameCheck, setNickNameCheck] = useState(false);
 
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainSeconds = seconds % 60;
-    return `${minutes}:${
-      remainSeconds < 10 ? `0${remainSeconds}` : remainSeconds
-    }`;
-  };
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      getUserInfo(userId);
+    } else {
+      navigate("/askme/login");
+    }
+  }, [navigate]);
 
-  const ExitClick = () => {
-    navigate("/askme/mypage");
+  const getUserInfo = async (userId) => {
+    try {
+      const response = await AxiosApi.getUserInfo(userId);
+      const { name, nickname, email } = response.data;
+      setName(name);
+      setNickName(nickname);
+      setEmail(email);
+      setNameValid(true);
+      setNickNameValid(true);
+      setEmailValid(true);
+      setIsNicknameDisabled(true); // 사용자가 이미 있는 경우 닉네임 수정 불가
+      setIsEmailDisabled(true); // 사용자가 이미 있는 경우 이메일 수정 불가
+    } catch (error) {
+      console.error(error);
+      alert("사용자 정보를 불러오는 중 오류가 발생했습니다.");
+    }
   };
 
   useEffect(() => {
@@ -81,8 +96,8 @@ const EditInfo = () => {
   const handleNickNameChange = (e) => {
     const value = e.target.value;
     const regex = /^[가-힣A-Za-z0-9]{0,8}$/;
+    setNickName(value);
     if (regex.test(value)) {
-      setNickName(value);
       setNickNameMessage("");
       if (value.length >= 2) {
         setNickNameValid(true);
@@ -180,7 +195,9 @@ const EditInfo = () => {
   const handleSubmit = async () => {
     if (notAllow) return;
     try {
+      const userId = localStorage.getItem("userId");
       const response = await AxiosApi.updateUserInfo({
+        id: userId,
         name,
         nickname,
         email,
@@ -199,13 +216,25 @@ const EditInfo = () => {
     }
   };
 
+  const exitClick = () => {
+    navigate("/askme/mypage");
+  };
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainSeconds = seconds % 60;
+    return `${minutes}:${
+      remainSeconds < 10 ? `0${remainSeconds}` : remainSeconds
+    }`;
+  };
+
   return (
     <div className="Container">
       <div className="Logo">
         <img src={Logoimg} className="findidLogoimg" alt="로고" />
       </div>
       <div className="Title">정보 수정</div>
-      <div className="cotentWrap">
+      <div className="contentWrap">
         {/* ------------이름 */}
         <div className="nameBox">
           <div className="inputTitle">이름</div>
@@ -256,13 +285,12 @@ const EditInfo = () => {
         </div>
         <br />
         {/* --------------- 이메일 */}
-        <div></div>
         <div className="inputTitle">이메일</div>
         <div className="emailBox">
           <div className="inputWrap">
             <input
               className="input"
-              type="eamil"
+              type="email"
               placeholder="test@gmail.com"
               value={email}
               onChange={handleEmailChange}
@@ -320,14 +348,18 @@ const EditInfo = () => {
           </div>
         </div>
       </div>
-      {/* {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      {successMessage && <SuccessMessage>{successMessage}</SuccessMessage>} */}
+      {errorMessage && <div className="errorMessage">{errorMessage}</div>}
+      {successMessage && <div className="successMessage">{successMessage}</div>}
 
       <div className="findId">
-        <button className="findIdButton" onClick={handleSubmit}>
+        <button
+          className="findIdButton"
+          onClick={handleSubmit}
+          disabled={notAllow}
+        >
           회원정보 수정
         </button>
-        <button className="findExit" onClick={ExitClick}>
+        <button className="findExit" onClick={exitClick}>
           <img
             src={exit}
             alt="findExit"

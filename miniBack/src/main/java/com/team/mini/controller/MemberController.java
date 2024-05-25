@@ -336,7 +336,16 @@ public class MemberController {
         System.out.println(roomid);
         return ResponseEntity.ok(roomid);
     }
-
+    // 정보수정에서 사용자 정보가져오기
+    @GetMapping("/user")
+    public ResponseEntity<MemberVO> getUserInfo(@RequestParam String id) {
+        MemberVO member = dao.getMemberById(id);
+        if (member != null) {
+            return ResponseEntity.ok(member);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
 
 
