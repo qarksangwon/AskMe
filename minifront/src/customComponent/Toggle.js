@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import ImageDisplayByName from "../api/ImageDisplayByName";
 
 const ToggleContainer = styled.div`
   display: flex;
@@ -77,7 +78,7 @@ const BoxAnimation = {
       duration: 4,
       type: "spring",
       stiffness: 110,
-      delayChildren: 0.6,
+      delayChildren: 0.5,
       staggerChildren: 0.5,
     },
   },
@@ -136,6 +137,11 @@ const Toggle = () => {
   const [toggleBtn, setToggleBtn] = useState("flex");
   const [boxKey, setBoxKey] = useState(0);
   const [start, setStart] = useState(null);
+  const [userNickname, setUserNickname] = useState("");
+
+  useEffect(() => {
+    setUserNickname(localStorage.getItem("userNickname"));
+  }, []);
 
   const toggleClick = (status) => {
     if (status === 1) {
@@ -158,7 +164,11 @@ const Toggle = () => {
   return (
     <ToggleContainer size={containerSize} coordinate={coordinate}>
       <ToggleBtn display={toggleBtn} onClick={() => toggleClick(1)}>
-        Click
+        {userNickname === "" ? (
+          "Click"
+        ) : (
+          <ImageDisplayByName filename={userNickname} />
+        )}
       </ToggleBtn>
       <Box
         key={boxKey}
@@ -167,21 +177,47 @@ const Toggle = () => {
         variants={start ? BoxAnimation : BoxAnimation2}
         display={toggleDis}
       >
-        <Link to="/askme/login">
-          <Inner variants={InnerAnimation}>로그인</Inner>
-        </Link>
+        {userNickname === "" ? (
+          <>
+            <Link to="/askme/login">
+              <Inner variants={InnerAnimation}>로그인</Inner>
+            </Link>
 
-        <Link to="/askme/signup">
-          <Inner variants={InnerAnimation}>회원가입</Inner>
-        </Link>
-        <Link to="/askme/login">
-          <Inner variants={InnerAnimation} style={{ fontSize: "14px" }}>
-            ID/PW 찾기
-          </Inner>
-        </Link>
-        <Inner variants={InnerAnimation} onClick={() => toggleClick(2)}>
-          닫기
-        </Inner>
+            <Link to="/askme/signup">
+              <Inner variants={InnerAnimation}>회원가입</Inner>
+            </Link>
+            <Link to="/askme/login">
+              <Inner variants={InnerAnimation} style={{ fontSize: "14px" }}>
+                ID/PW 찾기
+              </Inner>
+            </Link>
+            <Inner variants={InnerAnimation} onClick={() => toggleClick(2)}>
+              닫기
+            </Inner>
+          </>
+        ) : (
+          <>
+            <Link to="/askme/mypage">
+              <Inner variants={InnerAnimation}>
+                마이
+                <br />
+                페이지
+              </Inner>
+            </Link>
+            <Inner
+              variants={InnerAnimation}
+              onClick={() => {
+                setUserNickname("");
+                localStorage.setItem("userNickname", "");
+              }}
+            >
+              로그아웃
+            </Inner>
+            <Inner variants={InnerAnimation} onClick={() => toggleClick(2)}>
+              닫기
+            </Inner>
+          </>
+        )}
       </Box>
     </ToggleContainer>
   );

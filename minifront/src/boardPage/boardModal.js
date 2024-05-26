@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import styled, { css } from "styled-components";
-import { motion, useScroll } from "framer-motion";
+import styled from "styled-components";
+import { motion } from "framer-motion";
 import AxiosApi from "../api/AxiosApi";
-import ImageUploader from "../firebase/ImageUploader";
 import ImageDisplayByName from "../api/ImageDisplayByName";
 import { Link } from "react-router-dom";
 const ModalWrapper = styled.div`
@@ -153,7 +152,7 @@ const Logincheck = styled.div`
   display: block;
 `;
 
-const BoardModal = ({ board, onClose, roomId, setRoomId }) => {
+const BoardModal = ({ board, onClose, setRoomId }) => {
   const isMyPost = localStorage.getItem("userNickname") === board.nickname; //같으면 삭제하기
   const isMyPost2 = localStorage.getItem("userNickname") !== board.nickname; //다르면 채팅입장
 

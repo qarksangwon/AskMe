@@ -47,7 +47,7 @@ function Login() {
       localStorage.setItem("userNickname", nickname);
       alert("로그인에 성공했습니다");
 
-      navigate("/askme/mypage");
+      navigate("/askme");
     }
   }, [isLogin]);
 

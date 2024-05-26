@@ -211,10 +211,7 @@ const Chat = ({ roomId }) => {
         // 캔버스 데이터를 받아서 처리하는 부분
         // 예를 들어, 받은 데이터를 파싱하고 캔버스에 그리는 작업을 수행할 수 있습니다.
         const canvasData = newMessage.drawing;
-        console.log(
-          "onmessage에서 받은 data의 drawing JSON.parse 값 :",
-          canvasData
-        );
+        console.log("onmessage 값 :", canvasData);
         if (canvas) {
           console.log("canvas : ", canvas);
           canvas.loadFromJSON(canvasData, () => {
@@ -295,9 +292,11 @@ const Chat = ({ roomId }) => {
     canvas.freeDrawingBrush.color = "black";
   };
   const handleEraser = () => {
-    const activeObject = canvas.getActiveObject();
-    if (activeObject) {
-      canvas.remove(activeObject);
+    const activeObjects = canvas.getActiveObjects();
+    if (activeObjects.length) {
+      activeObjects.forEach((object) => {
+        canvas.remove(object);
+      });
     }
   };
 
@@ -439,7 +438,6 @@ const Chat = ({ roomId }) => {
             <Exit src={exit} />
           </Link>
         </div>
-        <button onClick={onSaveCanvas}>test</button>
         <ChatBtnContainer>
           <ChatOpenBtn active={isActive ? "10px" : "0px"} onClick={openChat}>
             {btnText}
