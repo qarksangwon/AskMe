@@ -269,7 +269,7 @@ const Chat = ({ roomId }) => {
             type: "CANVAS",
             roomId: roomNum,
             nickName: myNickName,
-            drawing: JSON.stringify(newCanvas.toJSON), // 새로운 객체만 전송
+            drawing: JSON.stringify(newCanvas.toJSON()), // 새로운 객체만 전송
           })
         );
       });
