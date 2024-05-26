@@ -261,19 +261,6 @@ const Chat = ({ roomId }) => {
         height: 600,
       });
 
-      newCanvas.on("object:added", () => {
-        // 새로운 객체가 추가될 때마다 해당 객체 정보를 서버로 전송
-        // console.log(JSON.stringify(newObject));
-        ws.current.send(
-          JSON.stringify({
-            type: "CANVAS",
-            roomId: roomNum,
-            nickName: myNickName,
-            drawing: JSON.stringify(newCanvas.toJSON()), // 새로운 객체만 전송
-          })
-        );
-      });
-
       setCanvas(newCanvas);
 
       return () => {
@@ -283,14 +270,37 @@ const Chat = ({ roomId }) => {
     }
   }, [canvasRef.current]);
 
-  // 선택 도구를 골랐을 때, 펜 도구를 골랐을 때
+  const onSaveCanvas = () => {
+    // 현재 캔버스 데이터를 가져옵니다.
+    const canvasData = canvas.toJSON();
+
+    // 서버로 캔버스 데이터를 전송합니다.
+    ws.current.send(
+      JSON.stringify({
+        type: "CANVAS",
+        roomId: roomNum,
+        nickName: myNickName,
+        drawing: JSON.stringify(canvasData),
+      })
+    );
+  };
+
+  // 객체 선택도구, 펜 도구, 지우개 도구
   const handleSelectTool = () => {
     canvas.isDrawingMode = false;
   };
   const handlePenTool = () => {
     canvas.freeDrawingBrush.width = 3;
     canvas.isDrawingMode = true;
+    canvas.freeDrawingBrush.color = "black";
   };
+  const handleEraser = () => {
+    const activeObject = canvas.getActiveObject();
+    if (activeObject) {
+      canvas.remove(activeObject);
+    }
+  };
+
   // activeTool이 변할 때 실제 기능도 변하게 하는 useEffect 훅
   useEffect(() => {
     if (!canvasRef.current || !canvas) return;
@@ -317,18 +327,21 @@ const Chat = ({ roomId }) => {
   };
 
   const onClickMsgSend = (e) => {
-    // 메시지 전송
-    ws.current.send(
-      JSON.stringify({
-        type: "TALK",
-        roomId: roomNum,
-        nickName: myNickName,
-        message: inputMessage,
-      })
-    );
-    console.log("onClickMsgSend run");
-    console.log(inputMessage);
-    setInputMessage("");
+    if (inputMessage.trim() !== "") {
+      // 메시지 전송
+      ws.current.send(
+        JSON.stringify({
+          type: "TALK",
+          roomId: roomNum,
+          nickName: myNickName,
+          message: inputMessage,
+        })
+      );
+
+      console.log("onClickMsgSend run");
+      console.log(inputMessage);
+      setInputMessage("");
+    }
   };
 
   const openChat = () => {
@@ -415,10 +428,18 @@ const Chat = ({ roomId }) => {
               />
             </svg>
           </CanvasBtn>
+          <CanvasBtn onClick={handleEraser}>
+            <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+              <g id="Eraser">
+                <path d="M459.4407,221.4722,410.69,172.7192,228.9414,354.4675l28.25,28.2463-27.8308,27.83A90.4438,90.4438,0,0,1,101.4533,282.6368l27.8287-27.8287,81.1,81.0988L392.13,154.1618,290.529,52.5584a13.12,13.12,0,0,0-18.5532.001L108.7806,215.7536c-6.0519,5.9536-4.5138,15.4855,1.9418,20.4949L82.8959,264.0772a116.6913,116.6913,0,1,0,165.0259,165.027l27.8287-27.8286c5.0266,6.44,14.5221,8.0162,20.495,1.9418L459.4386,240.0233A13.1139,13.1139,0,0,0,459.4407,221.4722Z" />
+              </g>
+            </svg>
+          </CanvasBtn>
           <Link to="/askme">
             <Exit src={exit} />
           </Link>
         </div>
+        <button onClick={onSaveCanvas}>test</button>
         <ChatBtnContainer>
           <ChatOpenBtn active={isActive ? "10px" : "0px"} onClick={openChat}>
             {btnText}

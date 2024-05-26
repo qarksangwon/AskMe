@@ -16,6 +16,7 @@ import MyPage from "./myPage/MyPage";
 import UserDel from "./myPage/UserDel";
 import PasswordConfirm from "./myPage/PasswordConfirm";
 import EditInfo from "./myPage/EditInfo";
+import ChatM from "./chatPage/ChatM";
 
 function App() {
   const isMobile = window.innerWidth <= 430;
@@ -45,7 +46,12 @@ function App() {
             path="/askme/chatmain"
             element={<ChatMain roomId={roomId} setRoomId={setRoomId} />}
           />
-          <Route path="/askme/chat" element={<Chat roomId={roomId} />} />
+          <Route
+            path="/askme/chat"
+            element={
+              isMobile ? <ChatM roomId={roomId} /> : <Chat roomId={roomId} />
+            }
+          />
           <Route path="/askme/login" element={<Login />} />
           <Route path="/askme/findid" element={<FindId />} />
           <Route path="/askme/findpw" element={<FindPw />} />
