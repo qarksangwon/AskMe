@@ -25,12 +25,17 @@ const EditInfo = () => {
   const [isVerified, setIsVerified] = useState(false);
   const [verifyCode, setVerifyCode] = useState("");
 
-  const [isNicknameDisabled, setIsNicknameDisabled] = useState(false);
-  const [isEmailDisabled, setIsEmailDisabled] = useState(false);
+  const [isNicknameDisabled, setIsNicknameDisabled] = useState(true);
+  const [isEmailDisabled, setIsEmailDisabled] = useState(true);
+  const [isPwDisabled, setIsPwDisabled] = useState(true);
 
   const [timer, setTimer] = useState(180);
   const [nicknameMessage, setNickNameMessage] = useState("");
   const [nicknameCheck, setNickNameCheck] = useState(false);
+  const [isEditingNickname, setIsEditingNickname] = useState(false);
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [isEditingPw, setIsEditingPw] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -41,16 +46,37 @@ const EditInfo = () => {
     }
   }, [navigate]);
 
+  const handleEditClick = (field) => {
+    switch (field) {
+      case "nickname":
+        setIsEditingNickname(true);
+        setIsNicknameDisabled(false);
+        break;
+      case "email":
+        setIsEditingEmail(true);
+        setIsEmailDisabled(false);
+        break;
+      case "pw":
+        setIsEditingPw(true);
+        setIsPwDisabled(false);
+        break;
+      default:
+        break;
+    }
+  };
+
   const getUserInfo = async (userId) => {
     try {
       const response = await AxiosApi.getUserInfo(userId);
-      const { name, nickname, email } = response.data;
+      const { name, nickname, email, password } = response.data;
       setName(name);
       setNickName(nickname);
       setEmail(email);
+      setPw(password);
       setNameValid(true);
       setNickNameValid(true);
       setEmailValid(true);
+      setPwValid(true);
     } catch (error) {
       console.error(error);
       alert("사용자 정보를 불러오는 중 오류가 발생했습니다.");
@@ -62,14 +88,24 @@ const EditInfo = () => {
       nameValid &&
       nicknameValid &&
       emailValid &&
-      pwValid
-      // && isEmailVerified
+      pwValid &&
+      (isEmailVerified || !isEditingEmail) &&
+      (nicknameCheck || !isEditingNickname)
     ) {
       setNotAllow(false);
       return;
     }
     setNotAllow(true);
-  }, [nameValid, nicknameValid, emailValid, pwValid, isEmailVerified]);
+  }, [
+    nameValid,
+    nicknameValid,
+    emailValid,
+    pwValid,
+    isEmailVerified,
+    isEditingEmail,
+    nicknameCheck,
+    isEditingNickname,
+  ]);
 
   useEffect(() => {
     let interval;
@@ -142,6 +178,7 @@ const EditInfo = () => {
         setNickNameMessage("사용 가능한 닉네임 입니다.");
         setNickNameCheck(true);
         setIsNicknameDisabled(true);
+        setIsEditingNickname(false);
       }
     } catch (error) {
       console.error(error);
@@ -181,6 +218,7 @@ const EditInfo = () => {
         setIsVerified(true);
         setIsEmailVerified(true);
         setIsEmailDisabled(true);
+        setIsEditingEmail(false);
       } else {
         alert("인증 코드가 올바르지 않습니다.");
       }
@@ -191,7 +229,6 @@ const EditInfo = () => {
   };
 
   const editHandleSubmit = async () => {
-    if (notAllow) return;
     try {
       const userId = localStorage.getItem("userId");
       console.log("수정된 정보를 서버로 보냅니다: ", {
@@ -281,36 +318,55 @@ const EditInfo = () => {
               {nicknameMessage && <div>{nicknameMessage}</div>}
             </div>
           </div>
-          {!nicknameCheck && (
-            <button
-              onClick={handleNickNameCheck}
-              className="nickNameCheckButton"
-            >
+          {isEditingNickname ? (
+            <button onClick={handleNickNameCheck} className="editButton">
               중복 확인
+            </button>
+          ) : (
+            <button
+              onClick={() => handleEditClick("nickname")}
+              className="editButton"
+            >
+              수정하기
             </button>
           )}
         </div>
-        <br />
+
         {/* --------------- 이메일 */}
-        <div className="inputTitle">이메일</div>
         <div className="emailBox">
-          <div className="inputWrap">
-            <input
-              className="input"
-              type="email"
-              placeholder="test@gmail.com"
-              value={email}
-              onChange={handleEmailChange}
-              disabled={isEmailDisabled}
-            />
+          <div className="contentWrap">
+            <div className="inputTitle">이메일</div>
+            <div className="inputWrap">
+              <input
+                className="input"
+                type="email"
+                placeholder="test@gmail.com"
+                value={email}
+                onChange={handleEmailChange}
+                disabled={isEmailDisabled}
+              />
+            </div>
+            <div className="errorMessageWrap">
+              {!emailValid && email.length > 0 && (
+                <div>올바른 이메일을 입력해주세요.</div>
+              )}
+              {emailMessage && <div>{emailMessage}</div>}
+            </div>
           </div>
-          {!emailVerify && (
+          {isEditingEmail ? (
             <button onClick={handleEmailVerify} className="emailButton">
               이메일 인증
             </button>
+          ) : (
+            <button
+              onClick={() => handleEditClick("email")}
+              className="editButton"
+            >
+              수정하기
+            </button>
           )}
         </div>
-        {emailVerify && !isVerified && (
+        {emailVerify && !isVerified && isEditingEmail && (
           <div className="emailBox">
             <div className="inputWrap">
               <input
@@ -327,32 +383,45 @@ const EditInfo = () => {
             </button>
           </div>
         )}
-        <div className="errorMessageWrap">
-          {!emailValid && email.length > 0 && (
-            <div>올바른 이메일을 입력해주세요.</div>
-          )}
-          {emailMessage && <div>{emailMessage}</div>}
-        </div>
 
         {/* ---------- 비밀번호 */}
         <div className="pwBox">
-          <div style={{ marginTop: "26px" }} className="inputTitle">
-            비밀번호
+          <div className="contentWrap">
+            <div className="inputTitle">비밀번호</div>
+            <div className="inputWrap">
+              <input
+                className="input"
+                type="password"
+                placeholder="영문, 숫자, 특수문자 포함 8자 이상"
+                value={pw}
+                onChange={handlePwChange}
+                disabled={isPwDisabled}
+              />
+            </div>
+            <div className="errorMessageWrap">
+              {!pwValid && pw.length > 0 && (
+                <div>영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.</div>
+              )}
+            </div>
           </div>
-          <div className="inputWrap">
-            <input
-              className="input"
-              type="password"
-              placeholder="영문, 숫자, 특수문자 포함 8자 이상"
-              value={pw}
-              onChange={handlePwChange}
-            />
-          </div>
-          <div className="errorMessageWrap">
-            {!pwValid && pw.length > 0 && (
-              <div>영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.</div>
-            )}
-          </div>
+          {isEditingPw ? (
+            <button
+              onClick={() => {
+                setIsPwDisabled(true);
+                setIsEditingPw(false); // 비활성화 후 수정 모드도 종료
+              }}
+              className="editButton"
+            >
+              확인
+            </button>
+          ) : (
+            <button
+              onClick={() => handleEditClick("pw")}
+              className="editButton"
+            >
+              수정하기
+            </button>
+          )}
         </div>
         {errorMessage && <div className="errorMessage">{errorMessage}</div>}
         {successMessage && (
