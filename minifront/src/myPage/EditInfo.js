@@ -51,8 +51,6 @@ const EditInfo = () => {
       setNameValid(true);
       setNickNameValid(true);
       setEmailValid(true);
-      setIsNicknameDisabled(true); // 사용자가 이미 있는 경우 닉네임 수정 불가
-      setIsEmailDisabled(true); // 사용자가 이미 있는 경우 이메일 수정 불가
     } catch (error) {
       console.error(error);
       alert("사용자 정보를 불러오는 중 오류가 발생했습니다.");
@@ -64,8 +62,8 @@ const EditInfo = () => {
       nameValid &&
       nicknameValid &&
       emailValid &&
-      pwValid &&
-      isEmailVerified
+      pwValid
+      // && isEmailVerified
     ) {
       setNotAllow(false);
       return;
@@ -192,16 +190,25 @@ const EditInfo = () => {
     }
   };
 
-  const handleSubmit = async () => {
+  const editHandleSubmit = async () => {
     if (notAllow) return;
     try {
       const userId = localStorage.getItem("userId");
+      console.log("수정된 정보를 서버로 보냅니다: ", {
+        userId,
+        name,
+        nickname,
+        email,
+        password: pw,
+      }); // 디버깅 메시지
       const response = await AxiosApi.updateUserInfo({
         id: userId,
         name,
         nickname,
         email,
+        password: pw, // 추가된 부분: 비밀번호도 서버로 전송
       });
+      console.log("서버 응답: ", response.data); // 디버깅 메시지
       if (response.data) {
         setSuccessMessage("정보가 성공적으로 수정되었습니다.");
         setErrorMessage("");
@@ -210,7 +217,7 @@ const EditInfo = () => {
         setErrorMessage("정보 수정에 실패했습니다.");
       }
     } catch (error) {
-      console.error(error);
+      console.error("정보 수정 중 오류 발생: ", error); // 디버깅 메시지
       setSuccessMessage("");
       setErrorMessage("오류가 발생했습니다. 다시 시도해주세요.");
     }
@@ -347,25 +354,26 @@ const EditInfo = () => {
             )}
           </div>
         </div>
-      </div>
-      {errorMessage && <div className="errorMessage">{errorMessage}</div>}
-      {successMessage && <div className="successMessage">{successMessage}</div>}
-
-      <div className="findId">
-        <button
-          className="findIdButton"
-          onClick={handleSubmit}
-          disabled={notAllow}
-        >
-          회원정보 수정
-        </button>
-        <button className="findExit" onClick={exitClick}>
-          <img
-            src={exit}
-            alt="findExit"
-            style={{ width: "40px", height: "40px" }}
-          />
-        </button>
+        {errorMessage && <div className="errorMessage">{errorMessage}</div>}
+        {successMessage && (
+          <div className="successMessage">{successMessage}</div>
+        )}
+        <div className="editInfo">
+          <button
+            className="editInfoButton"
+            onClick={editHandleSubmit}
+            disabled={notAllow}
+          >
+            회원정보 수정
+          </button>
+          <button className="findExit" onClick={exitClick}>
+            <img
+              src={exit}
+              alt="findExit"
+              style={{ width: "40px", height: "40px" }}
+            />
+          </button>
+        </div>
       </div>
     </div>
   );

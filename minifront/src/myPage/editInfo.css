@@ -90,10 +90,38 @@
   margin-bottom: 20px;
 }
 
+.editInfo {
+  display: flex;
+  margin-left: 30px;
+}
+
+.editInfoButton {
+  background-color: black;
+  width: 170px;
+  height: 50px;
+  font-size: 20px;
+  color: white;
+  margin: 20px;
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  transition: all 0.5s ease-in-out;
+  border: 3px solid black;
+}
+
+.editInfoButton:hover {
+  cursor: pointer;
+  border: 3px solid black;
+  color: #000000;
+  background-color: white;
+}
+
 .Btn {
   background-color: black;
   width: 220px;
-  height: 50px;
+  height: 40px;
   font-size: 20px;
   color: white;
   margin: 20px;
@@ -137,13 +165,12 @@
 .Exit {
   width: 70px;
   height: 70px;
+
   cursor: pointer;
-  transition: all 0.2s ease-in;
 }
 
 .Exit:hover {
   opacity: 0.5;
-  transition: all 0.2s ease-in;
 }
 
 @media (max-width: 430px) {

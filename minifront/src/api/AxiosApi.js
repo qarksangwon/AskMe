@@ -171,6 +171,9 @@ const AxiosApi = {
       params: { id },
     });
   },
+  updateUserInformation: async (userInfo) => {
+    return await axios.post(`${Askme_Domain}/update-user-info`, userInfo);
+  },
 };
 
 export default AxiosApi;

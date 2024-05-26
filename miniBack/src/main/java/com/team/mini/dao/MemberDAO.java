@@ -6,6 +6,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.team.mini.utils.Common.getConnection;
+
 public class MemberDAO {
     private Connection conn = null;
     private Statement stmt = null;
@@ -15,7 +17,7 @@ public class MemberDAO {
     // 로그인
     public boolean loginCheck(String id, String password) {
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             stmt = conn.createStatement(); // Statement 객체 얻기
             String sql = "SELECT * FROM USERTB WHERE ID = " + "'" + id + "'";
 
@@ -46,7 +48,7 @@ public class MemberDAO {
         boolean isTrue = false;
 
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             stmt = conn.createStatement();
             String sql;
             if(check.equals("id")) sql = "SELECT ID, NICKNAME FROM USERTB WHERE ID = '" + value + "'";
@@ -72,7 +74,7 @@ public class MemberDAO {
         String sql = null;
         System.out.println("NAME : " + getName);
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             stmt = conn.createStatement();
             if(getName.equals("ALL")) sql = "SELECT * FROM USERTB";
             else sql = "SELECT * FROM USERTB WHERE NAME = " + "'" + getName + "'";
@@ -105,7 +107,7 @@ public class MemberDAO {
     public boolean isNameAndEmailMatch(String name, String email) {
         boolean isMatch = false;
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             String sql = "SELECT COUNT(*) FROM USERTB WHERE NAME = ? AND EMAIL = ?";
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, name);
@@ -127,7 +129,7 @@ public class MemberDAO {
     public String getUserIdByNameAndEmail(String name, String email) {
         String userId = null;
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             String sql = "SELECT ID FROM USERTB WHERE NAME = ? AND EMAIL = ?";
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, name);
@@ -151,7 +153,7 @@ public class MemberDAO {
     public boolean isEmailExist(String email) {
         boolean exist = false;
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             String sql = "SELECT COUNT(*) FROM USERTB WHERE EMAIL = ?";
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, email);
@@ -173,7 +175,7 @@ public class MemberDAO {
     public boolean updatePassword(String id, String newPassword) {
         boolean isUpdated = false;
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             String sql = "UPDATE USERTB SET PASSWORD = ? WHERE ID = ?";
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, newPassword);
@@ -196,7 +198,7 @@ public class MemberDAO {
         int result = 0;
         String sql = "INSERT INTO USERTB(ID, PASSWORD, NAME, NICKNAME, EMAIL) VALUES(?, ?, ?, ?, ?)";
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, member.getId());
             pStmt.setString(2, member.getPassword());
@@ -221,7 +223,7 @@ public class MemberDAO {
         int result = 0;
         String sql = "UPDATE USERTB SET PASSWORD = ?, NICKNAME = ? WHERE ID = ?";
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, password);
             pStmt.setString(2, nickname);
@@ -242,7 +244,7 @@ public class MemberDAO {
     public boolean memberDelete(String id) {
         int result = 0;
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
 
             // 보드 테이블에서 해당 사용자의 ID와 관련된 레코드를 삭제
             String deleteBoardSql = "DELETE FROM BOARDTB WHERE ID = ?";
@@ -270,7 +272,7 @@ public class MemberDAO {
         MemberVO member = null;
         String sql = "SELECT * FROM USERTB WHERE ID = ?";
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, id);
             rs = pStmt.executeQuery();
@@ -296,7 +298,7 @@ public class MemberDAO {
     public boolean checkEmail(String email) {
         boolean isEmailUsed = false;
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             String sql = "SELECT COUNT(*) FROM USERTB WHERE EMAIL = ?";
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, email);
@@ -318,7 +320,7 @@ public class MemberDAO {
     public boolean checkEmailExists(String email) {
         boolean exists = false;
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             String sql = "SELECT COUNT(*) FROM USERTB WHERE EMAIL = ?";
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, email);
@@ -338,7 +340,7 @@ public class MemberDAO {
     public boolean isIdAndEmailMatch(String id, String email) {
         boolean isMatch = false;
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             String sql = "SELECT COUNT(*) FROM USERTB WHERE ID = ? AND EMAIL = ?";
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, id);
@@ -360,7 +362,7 @@ public class MemberDAO {
     // 정보수정 진입시 비밀번호 검사
     public boolean verifyPassword(String userId, String password) {
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             String sql = "SELECT COUNT(*) FROM USERTB WHERE ID = ? AND PASSWORD = ?";
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, userId);
@@ -383,14 +385,21 @@ public class MemberDAO {
 
     public boolean updateMemberInfo(MemberVO member) {
         try {
-            conn = Common.getConnection();
-            String sql = "UPDATE USERTB SET NAME = ?, NICKNAME = ?, EMAIL = ? WHERE ID = ?";
+            conn = getConnection();
+            String sql = "UPDATE USERTB SET NAME = ?, NICKNAME = ?, EMAIL = ?, PASSWORD = ? WHERE ID = ?";
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, member.getName());
             pStmt.setString(2, member.getNickname());
             pStmt.setString(3, member.getEmail());
-            pStmt.setString(4, member.getId());
+            pStmt.setString(4, member.getPassword());
+            pStmt.setString(5, member.getId());
+
+            System.out.println("Executing SQL: " + sql);
+            System.out.println("With parameters: " + member.getName() + ", " + member.getNickname() + ", " + member.getEmail() + ", " + member.getPassword() + ", " + member.getId());
+
             int rowsUpdated = pStmt.executeUpdate();
+            System.out.println("Rows updated: " + rowsUpdated);
+
             return rowsUpdated > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -402,7 +411,8 @@ public class MemberDAO {
         return false;
     }
 
-//    public boolean getUserChatroomNum(String userid) {
+
+    //    public boolean getUserChatroomNum(String userid) {
 //        try {
 //            conn = Common.getConnection();
 //            String sql = "SELECT ROOMID FROM CHATROOM WHERE ID = ?";
@@ -421,7 +431,7 @@ public class MemberDAO {
     public String getUserChatroomNum(String userid) {
         String rst= "";
         try {
-            conn = Common.getConnection(); // 데이터베이스 연결
+            conn = getConnection(); // 데이터베이스 연결
             stmt = conn.createStatement(); // Statement 객체 생성
             String sql = "SELECT ROOMID FROM CHATROOM WHERE ID = '"+ userid + "'";
             rs = stmt.executeQuery(sql); // 쿼리 실행
@@ -437,4 +447,20 @@ public class MemberDAO {
         }
         return rst;
     }
+    public boolean updateUserInfo(String userId, String name, String nickname, String email, String password) {
+        String sql = "UPDATE USERTB SET NAME = ?, NICKNAME = ?, EMAIL = ?, PASSWORD = ? WHERE ID = ?";
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, nickname);
+            pstmt.setString(3, email);
+            pstmt.setString(4, password);
+            pstmt.setString(5, userId);
+            int updatedRows = pstmt.executeUpdate();
+            return updatedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
