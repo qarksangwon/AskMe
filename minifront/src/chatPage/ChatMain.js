@@ -44,9 +44,10 @@ const BtnContainer = styled.div`
   align-items: center;
   width: 800px;
   height: 400px;
-  @media (max-width: 430px) {
+  @media (max-width: 431px) {
     width: 400px;
     height: 400px;
+    flex-direction: column;
   }
 `;
 
@@ -69,10 +70,10 @@ const Btn = styled.div`
     color: black;
     transition: all 0.2s ease-in;
   }
-  @media (max-width: 430px) {
-    width: 100px;
+  @media (max-width: 431px) {
+    width: 180px;
     height: 120px;
-    font-size: 14px;
+    margin: auto 0px;
   }
 `;
 const Exit = styled.img`
@@ -93,6 +94,9 @@ const EntranceContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media (max-width: 431px) {
+    font-size: 10px;
+  }
 `;
 
 const InputRoomContainer = styled.div`
@@ -109,6 +113,10 @@ const InputRoom = styled.input`
   border: 0px;
   border-radius: 4px;
   box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
+  @media (max-width: 431px) {
+    width: 24px;
+    height: 26px;
+  }
 `;
 
 const EntranceBtn = styled.button`
@@ -130,6 +138,11 @@ const EntranceBtn = styled.button`
     color: black;
     transition: all 0.2s ease-in;
   }
+  @media (max-width: 431px) {
+    width: 100px;
+    height: 20px;
+    font-size: 14px;
+  }
 `;
 
 const ChatMain = ({ roomId, setRoomId }) => {
@@ -141,6 +154,7 @@ const ChatMain = ({ roomId, setRoomId }) => {
   const [isDel, setIsDel] = useState();
   const roomRefs = useRef([]);
   const linkRef = useRef(null);
+  const isMobile = window.innerWidth <= 430;
 
   //자기 채팅방 삭제하는 핸들러
   const handleChatDelete = async () => {
@@ -256,7 +270,9 @@ const ChatMain = ({ roomId, setRoomId }) => {
     if (chatMake === "채팅방 만들기") {
       setChatMake(
         <EntranceContainer>
-          <p>채팅방 번호 입력</p>
+          <p style={isMobile ? { fontSize: 14 } : { fontSize: 20 }}>
+            채팅방 번호 입력
+          </p>
           <InputRoomContainer>
             {roomId.map((value, index) => (
               <InputRoom
@@ -293,7 +309,9 @@ const ChatMain = ({ roomId, setRoomId }) => {
     if (chatEntrance === "채팅방 입장하기") {
       setChatEntrance(
         <EntranceContainer>
-          <p>채팅방 번호 입력</p>
+          <p style={isMobile ? { fontSize: 14 } : { fontSize: 20 }}>
+            채팅방 번호 입력
+          </p>
           <InputRoomContainer>
             {roomId.map((value, index) => (
               <InputRoom

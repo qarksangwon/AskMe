@@ -8,13 +8,13 @@ const FooterContainer = styled.div`
   height: 200px;
   position: absolute;
   top: ${(p) => p.top}px;
-  @media (max-width: 430px) {
+  @media (max-width: 431px) {
     top: ${(p) => p.mtop}px;
   }
 `;
 const FooterContent = styled.p`
   margin: 20px auto auto 200px;
-  @media (max-width: 430px) {
+  @media (max-width: 431px) {
     margin: 20px auto auto auto;
     text-align: center;
   }

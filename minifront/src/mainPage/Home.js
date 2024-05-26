@@ -74,7 +74,7 @@ const Btn = styled.div`
     color: white;
     transition: all 0.1s ease-in;
   }
-  @media (max-width: 430px) {
+  @media (max-width: 431px) {
     width: 160px;
     height: 60px;
     font-size: 20px;

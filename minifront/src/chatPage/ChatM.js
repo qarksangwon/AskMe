@@ -124,7 +124,6 @@ const ChatM = ({ roomId }) => {
   const ws = useRef(null); // 웹소켓 객체
   const [msgContent, setMsgContent] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
-  const [errorMsg, setErrorMsg] = useState(false);
   const [myNickName, setMyNickName] = useState("");
 
   //웹소켓 연결
@@ -216,9 +215,6 @@ const ChatM = ({ roomId }) => {
     const regex = new RegExp(`^.{0,${maxLength}}$`);
     if (regex.test(value)) {
       setInputMessage(value);
-      setErrorMsg(false);
-    } else {
-      setErrorMsg(true);
     }
   };
   // 채팅 하단 자동 스크롤
