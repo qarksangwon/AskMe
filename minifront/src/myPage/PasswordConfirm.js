@@ -113,18 +113,21 @@ const PasswordConfirm = () => {
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
-    // console.log("Current userId:", userId); 현재 userId 확인
+    console.log("Current userId:", userId); // 현재 userId 확인
   }, []);
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
+    // console.log("Password:", e.target.value); // 입력한 비밀번호를 콘솔에 출력
   };
 
   const handleSubmit = async () => {
     const userId = localStorage.getItem("userId");
+    console.log("Sending to server:", { userId, password });
 
     try {
       const response = await AxiosApi.verifyPassword(userId, password); // 서버에 비밀번호 확인 요청
+      console.log("Server response:", response.data);
 
       if (response.data) {
         navigate("/askme/mypage/edit-info"); // 비밀번호가 일치하면 정보 수정 페이지로 이동
@@ -136,6 +139,19 @@ const PasswordConfirm = () => {
       setErrorMessage("오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === "Enter") {
+        handleSubmit();
+      }
+    };
+
+    window.addEventListener("keypress", handleKeyPress);
+    return () => {
+      window.removeEventListener("keypress", handleKeyPress);
+    };
+  }, [password]); // password가 변경될 때마다 효과를 재실행
 
   return (
     <Container>

@@ -275,7 +275,7 @@ public class MemberController {
             e.printStackTrace();
         }
         mailSender.send(mimeMessage);
-        System.out.println("인증번호: " + verificationCode);
+
         return verificationCode;
     }
 

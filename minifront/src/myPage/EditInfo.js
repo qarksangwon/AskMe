@@ -247,7 +247,10 @@ const EditInfo = () => {
         setSuccessMessage("정보가 성공적으로 수정되었습니다.");
         setErrorMessage("");
         alert("정보가 성공적으로 수정되었습니다.");
-        editNavigate("/askme");
+
+        // 로컬스토리지 값을 모두 없애고 로그인 페이지로 리디렉션
+        localStorage.clear();
+        navigate("/askme/login");
       } else {
         setSuccessMessage("");
         setErrorMessage("정보 수정에 실패했습니다.");
