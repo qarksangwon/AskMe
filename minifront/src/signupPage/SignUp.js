@@ -8,6 +8,7 @@ import AxiosApi from "../api/AxiosApi";
 
 function SignUp() {
   let navigate = useNavigate();
+  let loginNavigate = useNavigate();
 
   const [name, setName] = useState("");
   const [nickname, setNickName] = useState("");
@@ -246,6 +247,7 @@ function SignUp() {
       if (response.data) {
         alert("회원가입에 성공했습니다");
         test();
+        loginNavigate("/askme/login");
       } else {
         alert("회원가입에 실패했습니다");
       }
@@ -385,7 +387,7 @@ function SignUp() {
             />
           </div>
           {!emailVerify && (
-            <button onClick={handleEmailVerify} className="emailButton">
+            <button onClick={handleEmailVerify} className="signupEmailButton">
               이메일 인증
             </button>
           )}

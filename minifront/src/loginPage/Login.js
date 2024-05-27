@@ -58,10 +58,10 @@ function Login() {
       }
     };
 
-    window.addEventListener("keypress", handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
 
     return () => {
-      window.removeEventListener("keypress", handleKeyPress);
+      window.removeEventListener("keydown", handleKeyPress);
     };
   }, [id, pw]); // id와 pw가 변경될 때마다 효과를 재실행
 

@@ -62,7 +62,7 @@
 }
 
 .nickNameCheckButton {
-  margin-top: 45px;
+  margin-top: 40px;
   margin-left: 10px;
   font-size: 15px;
   border-radius: 10px;
@@ -87,7 +87,7 @@
 }
 
 .idCheckButton {
-  margin-top: 50px;
+  margin-top: 40px;
   margin-left: 10px;
   font-size: 15px;
   border-radius: 10px;
@@ -115,7 +115,20 @@
   align-items: center;
 }
 
-.emailButton,
+.signupEmailButton {
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 15px;
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  background-color: #000000;
+  color: white;
+  cursor: pointer;
+  border: 2px solid black;
+  transition: all 0.3s ease-in;
+}
+
 .verifyButton {
   margin-top: 10px;
   margin-left: 10px;
