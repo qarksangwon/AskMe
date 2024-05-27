@@ -21,7 +21,15 @@ const ImageDisplayByName = ({ filename }) => {
   return (
     <div>
       {imageUrl && (
-        <img src={imageUrl} alt="Uploaded" style={{ maxWidth: "100%" }} />
+        <img
+          src={imageUrl}
+          alt="Uploaded"
+          style={{
+            maxWidth: "100px",
+            border: "1px solid white",
+            borderRadius: "100%",
+          }}
+        />
       )}
     </div>
   );

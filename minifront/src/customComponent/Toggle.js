@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ImageDisplayByName from "../api/ImageDisplayByName";
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage } from "../api/Fb";
 
 const ToggleContainer = styled.div`
   display: flex;
@@ -130,6 +132,14 @@ const InnerAnimation = {
   end: { opacity: 1, y: 0 },
 };
 
+const ProfileImage = styled.img`
+  display: ${(props) => props.display};
+  max-width: 100px;
+  border: 1px solid white;
+  border-radius: 100%;
+  cursor: pointer;
+`;
+
 const Toggle = () => {
   const [containerSize, setContainerSize] = useState(70);
   const [coordinate, setCoordinate] = useState(12);
@@ -138,6 +148,7 @@ const Toggle = () => {
   const [boxKey, setBoxKey] = useState(0);
   const [start, setStart] = useState(null);
   const [userNickname, setUserNickname] = useState("");
+  const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
     setUserNickname(localStorage.getItem("userNickname"));
@@ -161,15 +172,34 @@ const Toggle = () => {
       }, 350);
     }
   };
+
+  useEffect(() => {
+    if (userNickname) {
+      const imageRef = ref(storage, `images/${userNickname}`);
+      getDownloadURL(imageRef)
+        .then((url) => {
+          setImageUrl(url);
+        })
+        .catch((error) => {
+          console.error("이미지 다운로드 URL 가져오기 실패:", error);
+        });
+    }
+  }, [userNickname]);
+
   return (
     <ToggleContainer size={containerSize} coordinate={coordinate}>
-      <ToggleBtn display={toggleBtn} onClick={() => toggleClick(1)}>
-        {userNickname === "" ? (
-          "Click"
-        ) : (
-          <ImageDisplayByName filename={userNickname} />
-        )}
-      </ToggleBtn>
+      {userNickname === "" ? (
+        <ToggleBtn display={toggleBtn} onClick={() => toggleClick(1)}>
+          Click
+        </ToggleBtn>
+      ) : (
+        <ProfileImage
+          display={toggleBtn}
+          src={imageUrl}
+          filename={userNickname}
+          onClick={() => toggleClick(1)}
+        />
+      )}
       <Box
         key={boxKey}
         initial="start"
