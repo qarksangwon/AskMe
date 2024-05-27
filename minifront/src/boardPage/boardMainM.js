@@ -196,7 +196,7 @@ const BoardM = ({ roomId, setRoomId }) => {
   const [selectedBoard, setSelectedBoard] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [filteredBoards, setFilteredBoards] = useState([]);
   const itemsPerPage = 4;
 
   // 사용자가 로그인되어 있는지 확인하는 함수
@@ -248,22 +248,25 @@ const BoardM = ({ roomId, setRoomId }) => {
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    setBoards(originalBoards.slice(startIndex, endIndex));
-  }, [page, originalBoards]);
+    setBoards(filteredBoards.slice(startIndex, endIndex)); // filteredBoards를 기반으로 페이지네이션
+  }, [page, filteredBoards]);
 
   const handleSearch = () => {
-    if (searchTerm === "") {
-      setBoards(originalBoards.slice(0, itemsPerPage));
-      setTotalItemsCount(originalBoards.length);
-    } else {
-      const filteredBoards = originalBoards.filter(
-        (board) =>
-          board.title &&
-          board.title.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setBoards(filteredBoards.slice(0, itemsPerPage));
-      setTotalItemsCount(filteredBoards.length);
-    }
+    setTimeout(() => {
+      if (searchTerm === "") {
+        setFilteredBoards(originalBoards); // 검색어가 없으면 모든 게시글
+        setTotalItemsCount(originalBoards.length);
+      } else {
+        const searchResults = originalBoards.filter(
+          (board) =>
+            board.title &&
+            board.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredBoards(searchResults); // 검색 결과로 filteredBoards 업데이트
+        setTotalItemsCount(searchResults.length);
+      }
+      setPage(1); // 페이지 상태를 첫 페이지로 초기화
+    }, 700);
   };
 
   const handleKeyPress = (event) => {
@@ -272,16 +275,13 @@ const BoardM = ({ roomId, setRoomId }) => {
       handleSearch();
     }
   };
-
   const MyWrite = () => {
-    // 현재 로그인된 사용자의 아이디와 게시글 작성자의 아이디를 비교하여 필터링
     const myBoards = originalBoards.filter(
       (board) => board.nickname === localStorage.getItem("userNickname")
     );
-    console.log(1234);
-    console.log(localStorage.getItem("userNickname"));
-    setBoards(myBoards); // 필터링된 게시글로 상태(State) 업데이트
+    setFilteredBoards(myBoards); // filteredBoards를 업데이트
     setTotalItemsCount(myBoards.length); // 총 아이템 수 업데이트
+    setPage(1); // 페이지 상태를 첫 페이지로 초기화
   };
 
   return (

@@ -98,7 +98,8 @@ const Btn = styled.div`
   text-shadow: -1px -1px 0 #606060, 1px -1px 0 #606060, -1px 1px 0 #606060,
     1px 1px 0 #606060;
 
-  &:hover {
+  &:hover,
+  &:focus {
     cursor: pointer;
     background-color: white;
     color: black;
@@ -201,6 +202,7 @@ const Board = ({ roomId, setRoomId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [filteredBoards, setFilteredBoards] = useState([]);
 
   // 사용자가 로그인되어 있는지 확인하는 함수
   const checkLoginStatus = () => {
@@ -260,8 +262,8 @@ const Board = ({ roomId, setRoomId }) => {
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    setBoards(originalBoards.slice(startIndex, endIndex));
-  }, [page, originalBoards]);
+    setBoards(filteredBoards.slice(startIndex, endIndex)); // filteredBoards를 기반으로 페이지네이션
+  }, [page, filteredBoards]);
 
   const Lodingwait = () => {
     setLoading(true); // 로딩 상태를 true로 설정
@@ -273,22 +275,22 @@ const Board = ({ roomId, setRoomId }) => {
   const handleSearch = () => {
     setLoading(true); // 검색이 시작될 때 로딩 상태 활성화
 
-    // 임의의 로딩 시간 설정 (예: 2초)
     setTimeout(() => {
       if (searchTerm === "") {
-        setBoards(originalBoards.slice(0, itemsPerPage));
+        setFilteredBoards(originalBoards); // 검색어가 없으면 모든 게시글
         setTotalItemsCount(originalBoards.length);
       } else {
-        const filteredBoards = originalBoards.filter(
+        const searchResults = originalBoards.filter(
           (board) =>
             board.title &&
             board.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
-        setBoards(filteredBoards.slice(0, itemsPerPage));
-        setTotalItemsCount(filteredBoards.length);
+        setFilteredBoards(searchResults); // 검색 결과로 filteredBoards 업데이트
+        setTotalItemsCount(searchResults.length);
       }
       setLoading(false); // 검색이 완료되면 로딩 상태 비활성화
-    }, 700); // 2초로 설정
+      setPage(1); // 페이지 상태를 첫 페이지로 초기화
+    }, 700);
   };
 
   const handleKeyPress = (event) => {
@@ -298,14 +300,12 @@ const Board = ({ roomId, setRoomId }) => {
   };
 
   const MyWrite = () => {
-    // 현재 로그인된 사용자의 아이디와 게시글 작성자의 아이디를 비교하여 필터링
     const myBoards = originalBoards.filter(
       (board) => board.nickname === localStorage.getItem("userNickname")
     );
-    console.log(1234);
-    console.log(localStorage.getItem("userNickname"));
-    setBoards(myBoards); // 필터링된 게시글로 상태(State) 업데이트
+    setFilteredBoards(myBoards); // filteredBoards를 업데이트
     setTotalItemsCount(myBoards.length); // 총 아이템 수 업데이트
+    setPage(1); // 페이지 상태를 첫 페이지로 초기화
   };
 
   return (
