@@ -7,7 +7,7 @@ import GlobalStyle from "./GlobalStyle";
 import BoardM from "./boardPage/boardMainM";
 import Login from "./loginPage/Login";
 import Chat from "./chatPage/Chat";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BoardWrite from "./boardPage/boardWrite";
 import Writesucces from "./boardPage/writeSuccess";
 import FindId from "./findPage/findId";
@@ -24,6 +24,7 @@ function App() {
   // ChatMain에서 roomId를 set한뒤에
   // roomId에 맞는 chat 내역을 보여주기 위해 부모 컴포넌트에서 설정
   const [roomId, setRoomId] = useState(["", "", "", "", ""]);
+
   return (
     <>
       <GlobalStyle />

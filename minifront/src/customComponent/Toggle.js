@@ -154,8 +154,12 @@ const Toggle = () => {
   const [userNickname, setUserNickname] = useState("");
   const [imageUrl, setImageUrl] = useState(profileLogo);
   const [visible, setVisible] = useState(false);
+  const [firstIn, SetFirstIn] = useState(true);
 
   useEffect(() => {
+    if (localStorage.getItem("userId") === undefined) {
+      setUserNickname("");
+    }
     setUserNickname(localStorage.getItem("userId"));
   }, []);
 
@@ -186,6 +190,7 @@ const Toggle = () => {
       getDownloadURL(imageRef)
         .then((url) => {
           setImageUrl(url);
+          SetFirstIn(false);
           setTimeout(() => {
             setVisible(true); // 1초 후에 visible 상태를 true로 변경
           }, 700);
@@ -193,13 +198,14 @@ const Toggle = () => {
         .catch((error) => {
           console.error("이미지 다운로드 URL 가져오기 실패:", error);
           setVisible(true);
+          SetFirstIn(false);
         });
     }
   }, [userNickname]);
 
   return (
     <ToggleContainer size={containerSize} coordinate={coordinate}>
-      {userNickname === "" ? (
+      {firstIn ? (
         <ToggleBtn display={toggleBtn} onClick={() => toggleClick(1)}>
           Click
         </ToggleBtn>
@@ -219,7 +225,7 @@ const Toggle = () => {
         variants={start ? BoxAnimation : BoxAnimation2}
         display={toggleDis}
       >
-        {userNickname === "" ? (
+        {firstIn ? (
           <>
             <Link to="/askme/login">
               <Inner variants={InnerAnimation}>로그인</Inner>
