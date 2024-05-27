@@ -187,7 +187,7 @@ const Toggle = () => {
               <Inner variants={InnerAnimation}>회원가입</Inner>
             </Link>
             <Link to="/askme/login">
-              <Inner variants={InnerAnimation} style={{ fontSize: "14px" }}>
+              <Inner variants={InnerAnimation} style={{ fontSize: "12px" }}>
                 ID/PW 찾기
               </Inner>
             </Link>
