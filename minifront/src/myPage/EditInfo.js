@@ -249,7 +249,8 @@ const EditInfo = () => {
         alert("정보가 성공적으로 수정되었습니다.");
 
         // 로컬스토리지 값을 모두 없애고 로그인 페이지로 리디렉션
-        localStorage.clear();
+        localStorage.setItem("userId", "");
+        localStorage.setItem("userNickname", "");
         navigate("/askme/login");
       } else {
         setSuccessMessage("");

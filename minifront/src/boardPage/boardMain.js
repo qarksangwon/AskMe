@@ -382,7 +382,7 @@ const Board = ({ roomId, setRoomId }) => {
             onChange={handlePageChange}
           />
         </PageStyle>
-        \
+
         {isModalOpen && (
           <BoardModal
             roomId={roomId}
