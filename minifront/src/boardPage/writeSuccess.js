@@ -1,19 +1,28 @@
 import Toggle from "../customComponent/Toggle";
 import { motion } from "framer-motion";
 import styled from "styled-components";
-import imgLogo from "../images/Logo.png";
+import imgLogo from "../images/boardlogo.png";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
-  height: auto;
-  width: 90vw;
-  margin: 20vh auto auto auto;
+  height: 90vh;
+  width: 50vw;
+  margin: 5vh auto;
   background-color: white;
   text-align: center;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #fff8cc;
+  border-radius: 30px;
+  @media (max-width: 430px) {
+    width: 80vw;
+    height: 70vh;
+    margin: 15vh auto;
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const Comment = styled.div`
@@ -42,11 +51,11 @@ const Btn = styled.div`
   font-size: 25px;
   width: 300px;
   height: 60px;
-  background-color: black;
+  background-color: #ffdb01;
   color: white;
   border-radius: 30px;
   margin-top: 50px;
-  border: 2px solid black;
+  border: 2px solid #ffdb01;
 
   &:hover {
     cursor: pointer;
@@ -54,7 +63,7 @@ const Btn = styled.div`
     color: black;
     font-weight: 300;
     transition: all 0.2s ease-in-out;
-    border: 2px solid black;
+    border: 2px solid #ffdb01;
   }
 
   @media (max-width: 430px) {
