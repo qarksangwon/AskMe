@@ -111,6 +111,7 @@ const BoardBtn = styled.div`
   color: white;
   transition: all 0.2s ease-in;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  font-size: 20px;
   &:hover {
     color: #acb3fd;
     background-color: white;
@@ -153,6 +154,7 @@ const ChatBtn = styled.div`
   color: #acb3fd;
   transition: all 0.2s ease-in;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  font-size: 20px;
   cursor: pointer;
   &:hover {
     color: white;

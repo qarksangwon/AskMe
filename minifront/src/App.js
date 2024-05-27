@@ -17,6 +17,7 @@ import UserDel from "./myPage/UserDel";
 import PasswordConfirm from "./myPage/PasswordConfirm";
 import EditInfo from "./myPage/EditInfo";
 import ChatM from "./chatPage/ChatM";
+import HomeM from "./mainPage/HomeM";
 
 function App() {
   const isMobile = window.innerWidth <= 430;
@@ -28,7 +29,7 @@ function App() {
       <GlobalStyle />
       <Router>
         <Routes>
-          <Route path="/askme" element={<Home />} />
+          <Route path="/askme" element={isMobile ? <HomeM /> : <Home />} />
           <Route
             path="/askme/board"
             element={
