@@ -2,11 +2,13 @@ package com.team.mini.dao;
 
 import com.team.mini.utils.Common;
 import com.team.mini.vo.MemberVO;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class AdminDAO {
     private Connection conn = null;
     private PreparedStatement pStmt = null;
