@@ -28,8 +28,8 @@ const TextContainer = styled.div`
 `;
 
 const Container = styled.div`
-  width: 80vw;
-  height: 100vh;
+  width: 100vw;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -38,13 +38,31 @@ const Container = styled.div`
 `;
 
 const Body = styled.div`
-  position: absolute;
-  width: auto;
-  height: 80vh;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #acb3fd;
+`;
+const Body2 = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+`;
+const Body3 = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #c1c6fe;
 `;
 
 const Btn = styled.div`
@@ -136,7 +154,9 @@ const Home = () => {
             </Btn>
           </Link>
         </Body>
-        <Footer top={1000} mtop={732} />
+        <Body2></Body2>
+        <Body3></Body3>
+        <Footer />
       </Container>
     </>
   );

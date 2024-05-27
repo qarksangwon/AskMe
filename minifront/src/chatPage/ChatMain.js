@@ -364,8 +364,8 @@ const ChatMain = ({ roomId, setRoomId }) => {
             <Exit src={exit} />
           </Link>
         </Body>
-        <Footer top={900} mtop={732} />
       </Container>
+      <Footer />
     </>
   );
 };

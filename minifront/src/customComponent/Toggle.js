@@ -29,14 +29,14 @@ const ToggleBtn = styled.div`
   height: 70px;
   width: 70px;
   border-radius: 50%;
-  background-color: black;
-  color: white;
-  border: 2px solid black;
+  background-color: white;
+  color: #8187be;
+  border: 2px solid #d6d9fe;
   box-shadow: 0 2px 5px 3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.2s ease-in;
   &:hover {
-    background-color: white;
+    background-color: #d6d9fe;
     color: black;
     transition: all 0.2s ease-in;
   }
@@ -59,7 +59,7 @@ const Box = styled(motion.div)`
   width: 200px;
   border-radius: 30px;
   background-color: white;
-  border: 2px solid black;
+  border: 2px solid #d6d9fe;
   box-shadow: 0px 2px 5px 3px rgba(0, 0, 0, 0.1);
   opacity: ${(props) => props.opacity};
   transition: opacity 0.2s ease-in;
@@ -107,9 +107,9 @@ const Inner = styled(motion.div)`
   height: 70px;
   width: 70px;
   border-radius: 50%;
-  background-color: black;
-  color: white;
-  border: 2px solid black;
+  background-color: #d6d9fe;
+  color: #8187be;
+  border: 2px solid #d6d9fe;
   box-shadow: 0 2px 5px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease-in;
   cursor: pointer;
