@@ -151,7 +151,7 @@ const Logincheck = styled.div`
   display: block;
 `;
 
-const BoardModal = ({ board, onClose, setRoomId }) => {
+const BoardModal = ({ board, onClose, roomId, setRoomId }) => {
   const isMyPost = localStorage.getItem("userId") === board.id; //같으면 삭제하기
   const isMyPost2 = localStorage.getItem("userId") !== board.id; //다르면 채팅입장
 
@@ -160,7 +160,7 @@ const BoardModal = ({ board, onClose, setRoomId }) => {
   console.log(`클래스넘버${board.classNo}`);
 
   const [isDel, setIsDel] = useState(false);
-  const [findid, setFindid] = useState();
+  const [findid, setFindid] = useState([]);
   const linkRef = useRef(null);
 
   const handleBoardDelete = async () => {
@@ -202,10 +202,25 @@ const BoardModal = ({ board, onClose, setRoomId }) => {
 
   const linkToChat = () => {
     console.log("방번호잉", findid);
+    console.log(typeof findid);
+    let arrayRoomId;
+    if (typeof findid === "number") {
+      console.log("넘버");
+      arrayRoomId = findid.toString();
+    } else {
+      console.log("문자열");
+      arrayRoomId = findid;
+    }
     if (findid === "") {
       alert("방 없어!");
     } else {
-      setRoomId([findid[0], findid[1], findid[2], findid[3], findid[4]]);
+      setRoomId([
+        arrayRoomId[0],
+        arrayRoomId[1],
+        arrayRoomId[2],
+        arrayRoomId[3],
+        arrayRoomId[4],
+      ]);
       linkRef.current.click();
     }
   };

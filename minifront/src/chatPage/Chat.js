@@ -177,16 +177,19 @@ const Chat = ({ roomId }) => {
   const [isActive, setIsActive] = useState(true);
   const [inputMessage, setInputMessage] = useState("");
   const [errorMsg, setErrorMsg] = useState(false);
-  const [myNickName, setMyNickName] = useState("test");
+  const [myNickName, setMyNickName] = useState(
+    localStorage.getItem("userNickname")
+  );
   const canvasRef = useRef(null); // 캔버스 객체, 반환할 HTML canvas 객체에 대한 참조로 사용
   const [canvas, setCanvas] = useState(null); // Fabric.js 사용한 캔버스 객체 상태 저장 용도
   const [activeTool, setActiveTool] = useState("select");
 
   //웹소켓 연결
   useEffect(() => {
+    console.log("roomId : " + roomId);
     if (!ws.current) {
-      // ws.current = new WebSocket(`ws://192.168.10.17:8111/ws/chat`);
-      ws.current = new WebSocket(`ws://localhost:8111/ws/chat`);
+      ws.current = new WebSocket(`ws://192.168.10.17:8111/ws/chat`);
+      // ws.current = new WebSocket(`ws://localhost:8111/ws/chat`);
       console.log(ws.current);
       ws.current.onopen = () => {
         console.log("웹 소켓 connection established");
@@ -247,7 +250,7 @@ const Chat = ({ roomId }) => {
       }
     };
     currentMsg();
-    // setMyNickName(localStorage.getItem("userNickname"));
+    setMyNickName(localStorage.getItem("userNickname"));
   }, []);
 
   //canvas 구현
