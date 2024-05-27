@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import ImageDisplayByName from "../api/ImageDisplayByName";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../api/Fb";
+import profileLogo from "../images/profileLogo.png";
 
 const ToggleContainer = styled.div`
   display: flex;
@@ -133,11 +133,12 @@ const InnerAnimation = {
 };
 
 const ProfileImage = styled.img`
-  display: ${(props) => props.display};
-  max-width: 100px;
+  width: 100px;
+  height: 100px;
   border: 1px solid white;
   border-radius: 100%;
   cursor: pointer;
+  opacity: ${(props) => (props.visible ? 1 : 0)};
 `;
 
 const Toggle = () => {
@@ -148,7 +149,8 @@ const Toggle = () => {
   const [boxKey, setBoxKey] = useState(0);
   const [start, setStart] = useState(null);
   const [userNickname, setUserNickname] = useState("");
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState(profileLogo);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     setUserNickname(localStorage.getItem("userId"));
@@ -161,6 +163,7 @@ const Toggle = () => {
       setCoordinate(4);
       setToggleBtn("none");
       setToggleDis("flex");
+      setVisible(false);
       setBoxKey((prevKey) => prevKey + 1);
     } else {
       setStart(null);
@@ -168,6 +171,7 @@ const Toggle = () => {
         setContainerSize(70);
         setCoordinate(12);
         setToggleBtn("flex");
+        setVisible(true);
         setToggleDis("none");
       }, 350);
     }
@@ -179,9 +183,13 @@ const Toggle = () => {
       getDownloadURL(imageRef)
         .then((url) => {
           setImageUrl(url);
+          setTimeout(() => {
+            setVisible(true); // 1초 후에 visible 상태를 true로 변경
+          }, 700);
         })
         .catch((error) => {
           console.error("이미지 다운로드 URL 가져오기 실패:", error);
+          setVisible(true);
         });
     }
   }, [userNickname]);
@@ -198,6 +206,7 @@ const Toggle = () => {
           src={imageUrl}
           filename={userNickname}
           onClick={() => toggleClick(1)}
+          visible={visible}
         />
       )}
       <Box

@@ -1,4 +1,3 @@
-import { setUserId } from "firebase/analytics";
 import Logoimg from "../images/Logo.png";
 import Exitimg from "../images/exit.png";
 import "./login.css";
@@ -151,7 +150,7 @@ function Login() {
         </div>
       </div>
 
-      <div className="login-bottomContainer">
+      <div className="login-bottomonClickLoginButtonContainer">
         <button onClick={onClickLoginButton} className="login-bottomButton">
           로그인
         </button>
