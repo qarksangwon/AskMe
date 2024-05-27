@@ -313,6 +313,7 @@ const Home = () => {
       navigate("/askme/chatmain");
     } else {
       alert("로그인이 필요한 페이지 입니다.");
+      navigate("/askme/login");
     }
   };
 
