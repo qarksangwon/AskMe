@@ -6,6 +6,7 @@ import exit from "../images/exit.png";
 import "./editInfo.css";
 
 const EditInfo = () => {
+  let editNavigate = useNavigate();
   let navigate = useNavigate();
   const [name, setName] = useState("");
   const [nickname, setNickName] = useState("");
@@ -245,6 +246,8 @@ const EditInfo = () => {
       if (response.data) {
         setSuccessMessage("정보가 성공적으로 수정되었습니다.");
         setErrorMessage("");
+        alert("정보가 성공적으로 수정되었습니다.");
+        editNavigate("/askme");
       } else {
         setSuccessMessage("");
         setErrorMessage("정보 수정에 실패했습니다.");

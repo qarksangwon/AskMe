@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import imgLogo from "../images/Logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import exit from "../images/exit.png";
 import AxiosApi from "../api/AxiosApi";
@@ -127,8 +127,10 @@ const MyPage = () => {
     }
   };
 
+  let editExit = useNavigate();
   const exitClick = () => {
     setIsIdFound(false);
+    editExit("/askme");
   };
 
   return (
