@@ -96,13 +96,13 @@ const Room = styled.div`
   display: flex;
   align-items: center;
   font-size: 20px;
-  width: 16.35vh;
+  width: 17.35vh;
   height: 7vh;
 
   background-color: rgb(255, 219, 1);
   @media (max-width: 430px) {
     font-size: 20px;
-    width: 17vh;
+    width: 17.35vh;
     height: 4vh;
   }
 `;
