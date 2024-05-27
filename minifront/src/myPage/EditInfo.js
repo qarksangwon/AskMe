@@ -47,21 +47,17 @@ const EditInfo = () => {
   }, [navigate]);
 
   const handleEditClick = (field) => {
-    switch (field) {
-      case "nickname":
-        setIsEditingNickname(true);
-        setIsNicknameDisabled(false);
-        break;
-      case "email":
-        setIsEditingEmail(true);
-        setIsEmailDisabled(false);
-        break;
-      case "pw":
-        setIsEditingPw(true);
-        setIsPwDisabled(false);
-        break;
-      default:
-        break;
+    if (field === "nickname") {
+      setIsNicknameDisabled(false);
+      setIsEditingNickname(true);
+    } else if (field === "email") {
+      setIsEmailDisabled(false);
+      setIsEditingEmail(true);
+    } else if (field === "pw") {
+      setIsPwDisabled(false);
+      setIsEditingPw(true);
+    } else if (field === "name") {
+      alert("이름 변경은 고객센터로 문의해주세요.");
     }
   };
 
@@ -281,22 +277,27 @@ const EditInfo = () => {
       <div className="contentWrap">
         {/* ------------이름 */}
         <div className="nameBox">
-          <div className="inputTitle">이름</div>
-          <div className="inputWrap">
-            <input
-              className="input"
-              type="text"
-              placeholder="이름을 입력하세요."
-              value={name}
-              onChange={handleNameChange}
-            />
+          <div className="contentWrap">
+            <div className="inputTitle">이름</div>
+            <div className="inputWrap">
+              <input
+                className="input"
+                type="text"
+                placeholder="이름을 입력하세요."
+                value={name}
+                onChange={handleNameChange}
+                disabled
+              />
+            </div>
           </div>
-          <div className="errorMessageWrap">
-            {!nameValid && name.length > 0 && (
-              <div>올바른 이름을 입력해주세요.</div>
-            )}
-          </div>
+          <button
+            onClick={() => handleEditClick("name")}
+            className="editButton"
+          >
+            수정하기
+          </button>
         </div>
+
         {/* -----------닉네임 */}
         <div className="nicknameBox">
           <div className="contentWrap">
@@ -385,7 +386,7 @@ const EditInfo = () => {
         )}
 
         {/* ---------- 비밀번호 */}
-        <div className="pwBox">
+        <div className="editPwBox">
           <div className="contentWrap">
             <div className="inputTitle">비밀번호</div>
             <div className="inputWrap">
