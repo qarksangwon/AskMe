@@ -142,13 +142,14 @@ const PageStyle = styled.div`
 
   .pagination li a {
     text-decoration: none;
-    color: black;
+    color: rgb(255, 219, 1);
+    text-shadow: -1px -1px 0 #606060, 1px -1px 0 #606060, -1px 1px 0 #606060,
+      1px 1px 0 #606060;
   }
 
   .pagination li.active a {
     border-radius: 4px;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 6px;
     color: white;
     background-color: rgb(255, 219, 1);
   }

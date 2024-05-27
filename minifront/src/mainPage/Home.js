@@ -219,9 +219,9 @@ const Dots = ({ currentPage }) => {
 
 const Outer = styled.div`
   height: 100vh;
-  overflow-y: auto;
+  overflow-y: hidden; /* 스크롤바를 숨깁니다 */
   ::-webkit-scrollbar {
-    display: none;
+    display: none; /* 웹킷 브라우저에서 스크롤바를 숨깁니다 */
   }
 `;
 

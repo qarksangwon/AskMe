@@ -165,7 +165,9 @@ const PageStyle = styled.div`
 
   .pagination li a {
     text-decoration: none;
-    color: black;
+    color: rgb(255, 219, 1);
+    text-shadow: -1px -1px 0 #606060, 1px -1px 0 #606060, -1px 1px 0 #606060,
+      1px 1px 0 #606060;
   }
 
   .pagination li.active a {
