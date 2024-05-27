@@ -51,6 +51,20 @@ function Login() {
     }
   }, [isLogin]);
 
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === "Enter") {
+        onClickLoginButton();
+      }
+    };
+
+    window.addEventListener("keypress", handleKeyPress);
+
+    return () => {
+      window.removeEventListener("keypress", handleKeyPress);
+    };
+  }, [id, pw]); // id와 pw가 변경될 때마다 효과를 재실행
+
   const onClickLoginButton = async () => {
     try {
       const rsp = await AxiosApi.LoginMain(id, pw);
