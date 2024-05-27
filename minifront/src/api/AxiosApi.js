@@ -60,7 +60,7 @@ const AxiosApi = {
   insertChatRoom: async (arrayRoomId) => {
     const roomInfo = {
       roomId: arrayRoomId.join(""),
-      Id: localStorage.getItem("userId"),
+      id: localStorage.getItem("userId"),
     };
     return await axios.post(Askme_Domain + "/askme/chatmain", roomInfo);
   },
