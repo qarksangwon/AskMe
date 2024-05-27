@@ -5,6 +5,7 @@ import Toggle from "../customComponent/Toggle";
 import Footer from "../customComponent/Footer";
 import boardMain from "../images/boardMain.png";
 import chatMain from "../images/chatMain.png";
+import { useEffect, useRef, useState } from "react";
 
 const LogoContainer = styled.div`
   width: auto;
@@ -179,50 +180,181 @@ const Content = styled.p`
     font-size: 20px;
   }
 `;
+const Dot = ({ num, currentPage }) => {
+  return (
+    <div
+      style={{
+        width: 10,
+        height: 10,
+        border: "1px solid black",
+        borderRadius: 999,
+        backgroundColor: currentPage === num ? "black" : "transparent",
+        transitionDuration: 1000,
+        transition: "background-color 0.5s",
+      }}
+    ></div>
+  );
+};
+
+const Dots = ({ currentPage }) => {
+  return (
+    <div style={{ position: "fixed", top: "50%", right: 20 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: 20,
+          height: 100,
+        }}
+      >
+        <Dot num={1} currentPage={currentPage}></Dot>
+        <Dot num={2} currentPage={currentPage}></Dot>
+        <Dot num={3} currentPage={currentPage}></Dot>
+      </div>
+    </div>
+  );
+};
+
+const Outer = styled.div`
+  height: 100vh;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 const Home = () => {
+  const DIVIDER_HEIGHT = 5;
+  const outerDivRef = useRef();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    const wheelHandler = (e) => {
+      e.preventDefault();
+      const { deltaY } = e;
+      const { scrollTop } = outerDivRef.current; // 스크롤 위쪽 끝부분 위치
+      const pageHeight = window.innerHeight; // 화면 세로길이, 100vh와 같습니다.
+
+      if (deltaY > 0) {
+        // 스크롤 내릴 때
+        if (scrollTop >= 0 && scrollTop < pageHeight) {
+          //현재 1페이지
+          console.log("현재 1페이지, down");
+          outerDivRef.current.scrollTo({
+            top: pageHeight + DIVIDER_HEIGHT,
+            left: 0,
+            behavior: "smooth",
+          });
+          setCurrentPage(2);
+        } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
+          //현재 2페이지
+          console.log("현재 2페이지, down");
+          outerDivRef.current.scrollTo({
+            top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
+            left: 0,
+            behavior: "smooth",
+          });
+          setCurrentPage(3);
+        } else {
+          // 현재 3페이지
+          console.log("현재 3페이지, down");
+          outerDivRef.current.scrollTo({
+            top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
+            left: 0,
+            behavior: "smooth",
+          });
+        }
+      } else {
+        // 스크롤 올릴 때
+        if (scrollTop >= 0 && scrollTop < pageHeight) {
+          //현재 1페이지
+          console.log("현재 1페이지, up");
+          outerDivRef.current.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth",
+          });
+        } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
+          //현재 2페이지
+          console.log("현재 2페이지, up");
+          outerDivRef.current.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth",
+          });
+          setCurrentPage(1);
+        } else {
+          // 현재 3페이지
+          console.log("현재 3페이지, up");
+          outerDivRef.current.scrollTo({
+            top: pageHeight + DIVIDER_HEIGHT,
+            left: 0,
+            behavior: "smooth",
+          });
+          setCurrentPage(2);
+        }
+      }
+    };
+    const outerDivRefCurrent = outerDivRef.current;
+    outerDivRefCurrent.addEventListener("wheel", wheelHandler);
+    return () => {
+      outerDivRefCurrent.removeEventListener("wheel", wheelHandler);
+    };
+  }, []);
+
   return (
     <>
-      <Container>
-        <Toggle />
-        <Body>
-          <BodyContent>
-            <LogoContainer>
-              <Logo src={imgLogo} />
+      <Toggle />
+
+      <Dots currentPage={currentPage} />
+      <Outer ref={outerDivRef}>
+        <Container>
+          <Body>
+            <BodyContent>
+              <LogoContainer>
+                <Logo src={imgLogo} />
+                <TextContainer>
+                  <ContentTitle style={{ color: "white" }}>ASK ME</ContentTitle>
+                  <br />
+                  <Content style={{ color: "white" }}>실시간</Content>
+                  <br />
+                  <Content style={{ color: "white" }}>채팅서비스</Content>
+                </TextContainer>
+              </LogoContainer>
+            </BodyContent>
+          </Body>
+        </Container>
+        <Container>
+          <Body2>
+            <Body2Content>
               <TextContainer>
-                <ContentTitle style={{ color: "white" }}>ASK ME</ContentTitle>
+                <Content style={{ color: "#acb3fd" }}>질문하고 </Content>
                 <br />
-                <Content style={{ color: "white" }}>실시간</Content>
-                <br />
-                <Content style={{ color: "white" }}>채팅서비스</Content>
+                <Content style={{ color: "#acb3fd" }}>답을 구해보세요 </Content>
+                <Link to="/askme/board">
+                  <BoardBtn>게시판 이동하기</BoardBtn>
+                </Link>
               </TextContainer>
-            </LogoContainer>
-          </BodyContent>
-        </Body>
-        <Body2>
-          <Body2Content>
-            <TextContainer>
-              <Content style={{ color: "#acb3fd" }}>지식을 공유하세요 </Content>
-              <Link to="/askme/board">
-                <BoardBtn>게시판 이동하기</BoardBtn>
-              </Link>
-            </TextContainer>
-            <Body2Img src={boardMain} />
-          </Body2Content>
-        </Body2>
-        <Body3>
-          <BodyContent>
-            <Body3Img src={chatMain} />
-            <TextContainer>
-              <Content style={{ color: "white" }}>실시간으로</Content>
-              <br />
-              <Content style={{ color: "white" }}>정보를 교환하세요</Content>
-              <ChatBtn>채팅방 이동하기</ChatBtn>
-            </TextContainer>
-          </BodyContent>
-        </Body3>
-        <Footer />
-      </Container>
+              <Body2Img src={boardMain} />
+            </Body2Content>
+          </Body2>
+        </Container>
+        <Container>
+          <Body3>
+            <BodyContent>
+              <Body3Img src={chatMain} />
+              <TextContainer>
+                <Content style={{ color: "white" }}>실시간으로</Content>
+                <br />
+                <Content style={{ color: "white" }}>정보를 교환하세요</Content>
+                <ChatBtn>채팅방 이동하기</ChatBtn>
+              </TextContainer>
+            </BodyContent>
+          </Body3>
+        </Container>
+      </Outer>
     </>
   );
 };
