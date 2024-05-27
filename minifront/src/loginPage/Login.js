@@ -19,10 +19,10 @@ function Login() {
     setPw(e.target.value);
   };
 
-  let navigate = useNavigate();
-  let signUpNav = useNavigate();
-  let findIdNav = useNavigate();
-  let findPwNav = useNavigate();
+  const navigate = useNavigate();
+  const signUpNav = useNavigate();
+  const findIdNav = useNavigate();
+  const findPwNav = useNavigate();
 
   const findIdClick = () => {
     findIdNav("/askme/findid");

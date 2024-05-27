@@ -7,8 +7,8 @@ import ImageUploader from "../firebase/ImageUploader";
 import AxiosApi from "../api/AxiosApi";
 
 function SignUp() {
-  let navigate = useNavigate();
-  let loginNavigate = useNavigate();
+  const navigate = useNavigate();
+  const loginNavigate = useNavigate();
 
   const [name, setName] = useState("");
   const [nickname, setNickName] = useState("");

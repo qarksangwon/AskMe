@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
 
 function FindPw() {
-  let findPwNavigate = useNavigate();
+  const findPwNavigate = useNavigate();
 
   const findPwExitClick = () => {
     findPwNavigate("/askme");

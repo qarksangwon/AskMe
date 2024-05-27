@@ -6,7 +6,7 @@ import AxiosApi from "../api/AxiosApi";
 import { useNavigate } from "react-router-dom";
 
 function FindId() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const code = "";

@@ -6,8 +6,8 @@ import exit from "../images/exit.png";
 import "./editInfo.css";
 
 const EditInfo = () => {
-  let editNavigate = useNavigate();
-  let navigate = useNavigate();
+  const editNavigate = useNavigate();
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [nickname, setNickName] = useState("");
   const [email, setEmail] = useState("");

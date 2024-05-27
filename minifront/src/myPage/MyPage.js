@@ -18,21 +18,20 @@ const Logo = styled.img`
 
 const Container = styled.div`
   width: 80vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between; /* Change to space-between */
   align-items: center;
   margin: 0 auto;
   @media (max-width: 430px) {
-    height: 90vh;
+    height: auto;
   }
 `;
 
 const Body = styled.div`
-  position: absolute;
-  width: auto;
-  height: 80vh;
+  width: 100%; /* Change to 100% to take full width */
+  flex: 1; /* Add flex-grow to take available space */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -127,7 +126,7 @@ const MyPage = () => {
     }
   };
 
-  let editExit = useNavigate();
+  const editExit = useNavigate();
   const exitClick = () => {
     setIsIdFound(false);
     editExit("/askme");
@@ -156,7 +155,7 @@ const MyPage = () => {
           )}
           <Exit onClick={exitClick} src={exit} />
         </Body>
-        <Footer top={1000} mtop={732} />
+        <Footer />
       </Container>
     </>
   );
