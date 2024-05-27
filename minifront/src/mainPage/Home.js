@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import imgLogo from "../images/Logotest.gif";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Toggle from "../customComponent/Toggle";
 import Footer from "../customComponent/Footer";
 import boardMain from "../images/boardMain.png";
@@ -226,10 +226,12 @@ const Outer = styled.div`
 `;
 
 const Home = () => {
+  const navigate = useNavigate();
   const DIVIDER_HEIGHT = 5;
   const outerDivRef = useRef();
   const [currentPage, setCurrentPage] = useState(1);
 
+  /** 스크롤 동작 */
   useEffect(() => {
     const wheelHandler = (e) => {
       e.preventDefault();
@@ -304,6 +306,16 @@ const Home = () => {
     };
   }, []);
 
+  /** 채팅방 이동  */
+  const onClickChat = () => {
+    const isLogin = localStorage.getItem("userId");
+    if (isLogin !== "" || isLogin.length > 2) {
+      navigate("/askme/chatmain");
+    } else {
+      alert("로그인이 필요한 페이지 입니다.");
+    }
+  };
+
   return (
     <>
       <Toggle />
@@ -349,7 +361,7 @@ const Home = () => {
                 <Content style={{ color: "white" }}>실시간으로</Content>
                 <br />
                 <Content style={{ color: "white" }}>정보를 교환하세요</Content>
-                <ChatBtn>채팅방 이동하기</ChatBtn>
+                <ChatBtn onClick={onClickChat}>채팅방 이동하기</ChatBtn>
               </TextContainer>
             </BodyContent>
           </Body3>
