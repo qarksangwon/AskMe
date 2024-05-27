@@ -136,9 +136,11 @@ const InnerAnimation = {
 const ProfileImage = styled.img`
   width: 100px;
   height: 100px;
-  border: 1px solid white;
+  border: 1px solid #d6d9fe;
   border-radius: 100%;
+  background-color: white;
   cursor: pointer;
+  box-shadow: 0 2px 5px 3px rgba(0, 0, 0, 0.1);
   opacity: ${(props) => (props.visible ? 1 : 0)};
 `;
 

@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
 const FooterContainer = styled.div`
+  color: #acb3fd;
   display: flex;
   flex-direction: column;
-  background-color: #ececec;
+  background-color: white;
   width: 100vw;
   height: 300px;
   @media (max-width: 431px) {
@@ -12,7 +13,7 @@ const FooterContainer = styled.div`
 const FooterContent = styled.p`
   margin: 20px auto auto 200px;
   @media (max-width: 431px) {
-    margin: 20px 0 0 0;
+    margin: 10px 0 0 0;
     text-align: center;
   }
 `;
