@@ -42,6 +42,8 @@ function SignUp() {
 
   const [uploadTrigger, setUploadTrigger] = useState(false); // 이미지 업로드용 트리거
 
+  const [nicknameBtn, setNickNameBtn] = useState(true);
+
   const ClearClick = () => {
     setName("");
     setNickName("");
@@ -102,12 +104,13 @@ function SignUp() {
   const handleNickName = (e) => {
     const nicknamevalue = e.target.value;
     const regex = /^[가-힣A-Za-z0-9]{0,8}$/;
+    setNickName(nicknamevalue);
     if (regex.test(nicknamevalue)) {
-      setNickName(nicknamevalue);
       setNickNameMessage("");
       if (nicknamevalue.length >= 2) {
         setNickNameValid(true);
       } else {
+        setNickNameBtn(false);
         setNickNameValid(false);
       }
     } else {
@@ -316,6 +319,7 @@ function SignUp() {
             <button
               onClick={handleNicknameCheck}
               className="nickNameCheckButton"
+              disabled={nicknameBtn}
             >
               중복 확인
             </button>
