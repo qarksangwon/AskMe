@@ -238,6 +238,7 @@ const Toggle = () => {
               variants={InnerAnimation}
               onClick={() => {
                 setUserNickname("");
+                localStorage.setItem("userId", "");
                 localStorage.setItem("userNickname", "");
               }}
             >
