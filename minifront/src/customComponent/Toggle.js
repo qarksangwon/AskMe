@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../api/Fb";
@@ -157,9 +157,6 @@ const Toggle = () => {
   const [firstIn, SetFirstIn] = useState(true);
 
   useEffect(() => {
-    if (localStorage.getItem("userId") === undefined) {
-      setUserNickname("");
-    }
     setUserNickname(localStorage.getItem("userId"));
   }, []);
 
@@ -256,6 +253,7 @@ const Toggle = () => {
                 setUserNickname("");
                 localStorage.setItem("userId", "");
                 localStorage.setItem("userNickname", "");
+                window.location.reload();
               }}
             >
               로그아웃

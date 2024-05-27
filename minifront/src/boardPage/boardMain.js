@@ -262,8 +262,9 @@ const Board = ({ roomId, setRoomId }) => {
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    setBoards(filteredBoards.slice(startIndex, endIndex)); // filteredBoards를 기반으로 페이지네이션
-  }, [page, filteredBoards]);
+    const newFilteredBoards = originalBoards.slice(startIndex, endIndex);
+    setBoards(newFilteredBoards);
+  }, [page, originalBoards]); // originalBoards도 의존성 배열에 추가합니다.
 
   const Lodingwait = () => {
     setLoading(true); // 로딩 상태를 true로 설정
