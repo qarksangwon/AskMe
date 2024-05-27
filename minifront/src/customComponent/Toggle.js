@@ -151,7 +151,7 @@ const Toggle = () => {
   const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
-    setUserNickname(localStorage.getItem("userNickname"));
+    setUserNickname(localStorage.getItem("userId"));
   }, []);
 
   const toggleClick = (status) => {

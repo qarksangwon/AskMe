@@ -271,7 +271,7 @@ function SignUp() {
       <div>
         <ImageUploader
           setUrl={setUrl}
-          usernickname={nickname}
+          usernickname={id}
           uploadTrigger={uploadTrigger}
         />
         {url && <img src={url} alt="uploaded" />}
