@@ -155,7 +155,7 @@ const BoardModal = ({ board, onClose, roomId, setRoomId }) => {
   const isMyPost = localStorage.getItem("userId") === board.id; //같으면 삭제하기
   const isMyPost2 = localStorage.getItem("userId") !== board.id; //다르면 채팅입장
 
-  const logincheck = localStorage.getItem("userId") !== "null";
+  const logincheck = localStorage.getItem("userId") !== "";
   console.log(localStorage.getItem("userId"));
   console.log(`클래스넘버${board.classNo}`);
 
