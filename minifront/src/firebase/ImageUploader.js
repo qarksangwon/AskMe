@@ -34,7 +34,7 @@ const ImageUploader = ({ setUrl, usernickname, uploadTrigger }) => {
         canvas.width = 100;
         canvas.height = 100;
         ctx.drawImage(img, 0, 0, 100, 100);
-
+        console.log("헤응");
         canvas.toBlob(
           (blob) => {
             if (blob) {

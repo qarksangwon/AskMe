@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -317,8 +318,9 @@ public class MemberController {
         return new ResponseEntity<>(isMatch, HttpStatus.OK);
     }
     @PostMapping("/update-user-info")
-    public ResponseEntity<Boolean> updateUserInfo(@RequestBody MemberVO member) {
+    public ResponseEntity<Boolean> updateUserInfo(@RequestBody MemberVO member) throws SQLException {
         boolean isUpdated = dao.updateMemberInfo(member);
+        dao.updateBoardTb(member);
         return new ResponseEntity<>(isUpdated, HttpStatus.OK);
     }
 

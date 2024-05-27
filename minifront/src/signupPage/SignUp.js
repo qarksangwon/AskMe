@@ -246,7 +246,6 @@ function SignUp() {
       if (response.data) {
         alert("회원가입에 성공했습니다");
         test();
-        navigate("/askme/login");
       } else {
         alert("회원가입에 실패했습니다");
       }

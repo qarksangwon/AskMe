@@ -411,6 +411,29 @@ public class MemberDAO {
         return false;
     }
 
+    public void updateBoardTb(MemberVO member){
+        int rowsUpdated = 0;
+        try {
+            conn = getConnection();
+            String sql = "UPDATE BOARDTB SET NICKNAME = ? WHERE ID = ?";
+            pStmt = conn.prepareStatement(sql);
+            System.out.println(member.getNickname());
+            System.out.println(member.getId());
+            pStmt.setString(1, member.getNickname());
+            pStmt.setString(2, member.getId());
+
+            System.out.println("Executing SQL: " + sql);
+            rowsUpdated = pStmt.executeUpdate();
+            System.out.println("Rows updated: " + rowsUpdated);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        System.out.println(rowsUpdated);
+    }
 
     //    public boolean getUserChatroomNum(String userid) {
 //        try {

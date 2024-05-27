@@ -276,11 +276,7 @@ const Board = ({ roomId, setRoomId }) => {
       setLoading(false); // 검색이 완료되면 로딩 상태 비활성화
     }, 700); // 2초로 설정
   };
-  const delStorage = () => {
-    localStorage.setItem("userId", null);
-    localStorage.setItem("userNickname", null);
-    window.location.reload();
-  };
+
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       handleSearch();
@@ -386,7 +382,7 @@ const Board = ({ roomId, setRoomId }) => {
             onChange={handlePageChange}
           />
         </PageStyle>
-        <button onClick={delStorage}>11</button>
+        \
         {isModalOpen && (
           <BoardModal
             roomId={roomId}
