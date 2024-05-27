@@ -10,19 +10,24 @@ const Container = styled.div`
   display: flex;
   height: auto;
   width: 90vw;
-  margin: 10vh auto auto auto;
-  background-color: white;
+  margin: 5vh auto auto auto;
+  background-color: #fff8cc;
   text-align: center;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border-radius: 30px;
+  margin-bottom: 40px;
 `;
 
 const Title = styled.div`
-  width: 110px;
-  border-bottom: 3px solid black;
-  font-size: 40px;
-  margin-bottom: 0px;
+  width: 140px;
+  border-bottom: 3px solid #ffdb01;
+  font-size: 50px;
+  margin-top: 20px;
+  color: #ffdb01;
+  text-shadow: -1px -1px 0 #606060, 1px -1px 0 #606060, -1px 1px 0 #606060,
+    1px 1px 0 #606060;
 
   @media (max-width: 430px) {
     width: 100px;
@@ -35,9 +40,9 @@ const TitleName = styled.input.attrs({ type: "text" })`
   width: 600px;
   height: 100px;
   border-radius: 30px;
-  border: 1px solid #ececec;
+  border: 1px solid #fff8cc;
   padding: 20px;
-  background-color: #ececec;
+  background-color: white;
   font-size: 30px;
   margin-top: 30px;
   margin-bottom: 30px;
@@ -56,8 +61,8 @@ const TitleName = styled.input.attrs({ type: "text" })`
 const Content = styled.textarea`
   display: flex;
   padding: 20px;
-  border: 1px solid #ececec;
-  background-color: #ececec;
+  border: 1px solid #fff8cc;
+  background-color: white;
   width: 600px;
   height: 500px;
   border-radius: 30px;
@@ -86,19 +91,19 @@ const Btn = styled.div`
   font-size: 35px;
   width: 200px;
   height: 60px;
-  background-color: black;
+  background-color: #ffdb01;
   color: white;
   border-radius: 30px;
   margin-right: 10px;
-  border: 2px solid black;
-
+  border: 2px solid #fff8cc;
+  margin-bottom: 40px;
   &:hover {
+    text-shadow: none;
     cursor: pointer;
     background-color: white;
     color: black;
     font-weight: 300;
-    transition: all 0.2s ease-in-out;
-    border: 2px solid black;
+    border: 2px solid #ffdb01;
   }
 
   @media (max-width: 430px) {
@@ -212,7 +217,7 @@ const BoardWrite = () => {
         </Container>
       </motion.div>
       <FooterWrapper>
-        <Footer mtop={750} />
+        <Footer />
       </FooterWrapper>
     </>
   );

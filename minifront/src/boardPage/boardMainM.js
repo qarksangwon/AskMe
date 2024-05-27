@@ -18,7 +18,6 @@ const Container = styled.div`
   margin: 10vh auto auto auto; /* 위아래는 100px, 좌우는 자동으로 중앙에 정렬됩니다. */
   padding: 0px; //그냥 여백
 
-  border-radius: 10px;
   text-align: center; /* 내용을 가운데 정렬합니다. */
   flex-direction: column;
   align-items: center; /* 가로 방향 중앙 정렬 */
@@ -29,15 +28,18 @@ const Container = styled.div`
     border-collapse: separate; /* 셀 사이의 경계를 분리합니다. */
     border-spacing: 0 10px; /* 셀 사이의 간격을 조절합니다. */
     width: 100%;
-    margin: 0px;
-    border-top: 3px solid black;
+    color: #fff;
+    text-shadow: -1px -1px 0 #606060, 1px -1px 0 #606060, -1px 1px 0 #606060,
+      1px 1px 0 #606060;
+
+    border-top: 3px solid rgb(255, 219, 1);
   }
   th {
     font-size: 30px;
   }
   td {
-    font-size: 20px;
-    border-bottom: 3px solid black;
+    font-size: 22px;
+    border-bottom: 3px solid rgb(255, 219, 1);
     padding-bottom: 10px; /* 보더 라인과 콘텐츠 간의 간격을 조절합니다. */
   }
 `;
@@ -60,10 +62,17 @@ const Exit = styled.img`
   }
 `;
 const Title = styled.div`
-  width: 100px;
-  border-bottom: 3px solid black; /* 밑줄을 추가합니다. */
-  font-size: 40px;
+  width: 130px;
+  margin-top: 10px;
+  border-bottom: 3px solid rgb(255, 219, 1); /* 밑줄을 추가합니다. */
+  padding-bottom: 50px;
+  font-size: 50px;
   height: 40px;
+
+  color: #ffdb01;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+    1px 1px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff,
+    2px 2px 0 #fff;
 `;
 
 const ContentWrapper = styled.div`
@@ -82,32 +91,33 @@ const SearchInput = styled.input.attrs({ type: "text" })`
   height: 40px;
   padding: 5px;
   margin-right: 10px;
-  border: 3px solid black;
+  border: 3px solid rgb(255, 219, 1);
   font-family: "DoHyeon-Regular", sans-serif;
+  font-size: 20px;
 `;
 
 const Btn = styled.div`
   display: flex;
   align-items: center;
   justify-content: center; /* 중앙 정렬 */
-
-  font-size: 18px;
-  width: 100px;
-  height: 40px;
-  background-color: black;
+  color: #ffdb01;
+  text-shadow: -1px -1px 0 #606060, 1px -1px 0 #606060, -1px 1px 0 #606060,
+    1px 1px 0 #606060;
+  font-size: 25px;
+  width: 120px;
+  height: 50px;
+  background-color: rgb(255, 219, 1);
   color: white;
   border-radius: 30px;
   margin-top: 10px;
   margin-bottom: 10px;
-  border: 2px solid black;
 
   &:hover {
     cursor: pointer;
     background-color: white;
-    color: black;
+    color: #ffdb01;
     font-weight: 300;
     transition: all 0.2s ease-in-out;
-    border: 2px solid black;
   }
 `;
 
@@ -136,13 +146,17 @@ const PageStyle = styled.div`
   }
 
   .pagination li.active a {
-    border: 2px solid black;
     border-radius: 4px;
     padding-left: 5px;
     padding-right: 5px;
     color: white;
-    background-color: black;
+    background-color: rgb(255, 219, 1);
   }
+`;
+
+const TableCon = styled.div`
+  width: 100vw;
+  height: 345px;
 `;
 
 // const Tdfont = styled.div`
@@ -278,6 +292,7 @@ const BoardM = ({ roomId, setRoomId }) => {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -100 }}
         transition={{ duration: 1.5 }}
+        style={{ backgroundColor: "rgba(255, 219, 1, 0.2)" }}
       >
         <Container>
           <Title>게시판</Title>
@@ -308,24 +323,25 @@ const BoardM = ({ roomId, setRoomId }) => {
               <Exit src={exit} />
             </Link>
           </Boardhead1>
-
-          <table>
-            {boards &&
-              boards.map((board) => (
-                <>
-                  <tr key={board.classNo} onClick={() => openModal(board)}>
-                    <th>{board.title}</th>
-                  </tr>
-                  <tr
-                    key={`${board.classNo}_info`}
-                    onClick={() => openModal(board)}
-                  >
-                    <td>{board.nickname}</td>
-                    <td>{board.join}</td>
-                  </tr>
-                </>
-              ))}
-          </table>
+          <TableCon>
+            <table>
+              {boards &&
+                boards.map((board) => (
+                  <>
+                    <tr key={board.classNo} onClick={() => openModal(board)}>
+                      <th>{board.title}</th>
+                    </tr>
+                    <tr
+                      key={`${board.classNo}_info`}
+                      onClick={() => openModal(board)}
+                    >
+                      <td>{board.nickname}</td>
+                      <td>{board.join}</td>
+                    </tr>
+                  </>
+                ))}
+            </table>
+          </TableCon>
         </Container>
         <PageStyle>
           <Pagination
@@ -347,7 +363,7 @@ const BoardM = ({ roomId, setRoomId }) => {
           />
         )}
       </motion.div>
-      <Footer top={1000} mtop={930} />
+      <Footer />
     </>
   );
 };

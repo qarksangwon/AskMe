@@ -11,7 +11,7 @@ const ModalWrapper = styled.div`
   justify-content: center;
   width: 100vh;
   height: 65vh;
-  background-color: #ececec;
+  background-color: #fff8cc;
   padding: 20px;
   position: fixed;
   top: 50%;
@@ -61,10 +61,10 @@ const Btn = styled.div`
   font-size: 18px;
   width: 120px;
   height: 40px;
-  background-color: black;
+  background-color: #ffdb01;
   color: white;
   border-radius: 30px;
-  border: 2px solid black;
+  border: 2px solid #ffdb01;
   margin-left: 20px;
 
   &:hover {
@@ -73,7 +73,7 @@ const Btn = styled.div`
     color: black;
     font-weight: 300;
     transition: all 0.2s ease-in-out;
-    border: 2px solid black;
+    border: 2px solid #ffdb01;
   }
 
   &:last-child {
@@ -98,9 +98,8 @@ const Room = styled.div`
   font-size: 20px;
   width: 16.35vh;
   height: 7vh;
-  border: 3px solid black;
-  color: white;
-  background-color: black;
+
+  background-color: rgb(255, 219, 1);
   @media (max-width: 430px) {
     font-size: 20px;
     width: 17vh;

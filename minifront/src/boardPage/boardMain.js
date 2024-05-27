@@ -55,9 +55,13 @@ const Exit = styled.img`
 `;
 const Title = styled.div`
   display: flex;
-  width: 100px;
-  border-bottom: 3px solid black;
-  font-size: 40px;
+  width: 130px;
+  border-bottom: 3px solid rgb(255, 219, 1);
+  font-size: 50px;
+  color: #ffdb01;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+    1px 1px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff,
+    2px 2px 0 #fff;
 `;
 
 const Boardhead = styled.div`
@@ -65,16 +69,16 @@ const Boardhead = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 `;
 
 const SearchInput = styled.input.attrs({ type: "text" })`
   display: flex;
-  width: 220px;
-  height: 40px;
+  width: 230px;
+  height: 50px;
   padding: 5px;
   margin-right: 10px;
-  border: 3px solid black;
+  border: 3px solid rgb(255, 219, 1);
   font-family: "DoHyeon-Regular", sans-serif;
   font-size: 20px;
 `;
@@ -83,22 +87,24 @@ const Btn = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  width: 120px;
-  height: 40px;
-  background-color: black;
-  color: white;
+  font-size: 25px;
+  width: 150px;
+  height: 50px;
+  background-color: rgb(255, 219, 1);
+  border: 2px solid rgb(255, 219, 1);
   border-radius: 30px;
   margin-right: 10px;
-  border: 2px solid black;
+  color: white;
+  text-shadow: -1px -1px 0 #606060, 1px -1px 0 #606060, -1px 1px 0 #606060,
+    1px 1px 0 #606060;
 
   &:hover {
     cursor: pointer;
-    background-color: rgb(255, 219, 1);
+    background-color: white;
     color: black;
-    font-weight: 300;
+    border: 2px solid rgb(255, 219, 1);
+    text-shadow: none;
     transition: all 0.2s ease-in-out;
-    border: 2px solid black;
   }
 `;
 
@@ -109,6 +115,9 @@ const Tdfont = styled.div`
     border-collapse: collapse;
     width: 100%;
     margin: 10px;
+    color: white;
+    text-shadow: -1px -1px 0 #606060, 1px -1px 0 #606060, -1px 1px 0 #606060,
+      1px 1px 0 #606060;
   }
 
   tbody tr:hover {
@@ -118,16 +127,19 @@ const Tdfont = styled.div`
 
   td {
     padding: 20px;
-    border-bottom: 1px solid #cdcdcd;
-    font-size: 20px;
+    border-bottom: 1px solid rgb(255, 219, 1);
+    font-size: 25px;
     min-width: 220px;
   }
 
   th {
     height: 50px;
-    border-bottom: 3px solid black;
-    font-size: 30px;
-
+    border-bottom: 3px solid rgb(255, 219, 1);
+    font-size: 35px;
+    color: #ffdb01;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+      1px 1px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff,
+      2px 2px 0 #fff;
     min-width: 220px;
   }
 `;
@@ -157,12 +169,12 @@ const PageStyle = styled.div`
   }
 
   .pagination li.active a {
-    border: 2px solid black;
     border-radius: 4px;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 7px;
     color: white;
-    background-color: black;
+    text-shadow: -1px -1px 0 #606060, 1px -1px 0 #606060, -1px 1px 0 #606060,
+      1px 1px 0 #606060;
+    background-color: rgb(255, 219, 1);
   }
 `;
 
@@ -370,18 +382,18 @@ const Board = ({ roomId, setRoomId }) => {
               </tbody>
             </table>
           </Tdfont>
+          <PageStyle>
+            <Pagination
+              activePage={page}
+              itemsCountPerPage={itemsPerPage}
+              totalItemsCount={totalItemsCount}
+              pageRangeDisplayed={100}
+              prevPageText={"‹"}
+              nextPageText={"›"}
+              onChange={handlePageChange}
+            />
+          </PageStyle>
         </Container>
-        <PageStyle>
-          <Pagination
-            activePage={page}
-            itemsCountPerPage={itemsPerPage}
-            totalItemsCount={totalItemsCount}
-            pageRangeDisplayed={100}
-            prevPageText={"‹"}
-            nextPageText={"›"}
-            onChange={handlePageChange}
-          />
-        </PageStyle>
 
         {isModalOpen && (
           <BoardModal
