@@ -2,7 +2,6 @@ import styled from "styled-components";
 import imgLogo from "../images/Logotest.gif";
 import { Link, useNavigate } from "react-router-dom";
 import Toggle from "../customComponent/Toggle";
-import Footer from "../customComponent/Footer";
 import boardMain from "../images/boardMain.png";
 import chatMain from "../images/chatMain.png";
 import { useEffect, useRef, useState } from "react";

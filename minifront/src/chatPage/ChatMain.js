@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import imgLogo from "../images/Logo.png";
+import imgLogo from "../images/Logotest.gif";
 import Toggle from "../customComponent/Toggle";
 import Footer from "../customComponent/Footer";
 import exit from "../images/exit.png";
@@ -10,6 +10,7 @@ import AxiosApi from "../api/AxiosApi";
 const Logo = styled.img`
   width: 150px;
   height: 150px;
+  border-radius: 30px;
   @media (max-width: 430px) {
     width: 100px;
     height: 100px;
@@ -55,9 +56,9 @@ const Btn = styled.div`
   width: 160px;
   height: 180px;
   margin: 0px auto;
-  background-color: black;
+  background-color: #acb3fd;
   color: white;
-  border: 3px solid black;
+  border: 3px solid #acb3fd;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -65,9 +66,10 @@ const Btn = styled.div`
   align-items: center;
   font-size: 20px;
   transition: all 0.2s ease-in;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   &:hover {
     background-color: white;
-    color: black;
+    color: #acb3fd;
     transition: all 0.2s ease-in;
   }
   @media (max-width: 431px) {
@@ -127,15 +129,16 @@ const EntranceBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: black;
+  background-color: #acb3fd;
   color: white;
-  border: 2px solid black;
+  border: 2px solid #acb3fd;
   border-radius: 10px;
   transition: all 0.2s ease-in;
   cursor: pointer;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   &:hover {
     background-color: white;
-    color: black;
+    color: #acb3fd;
     transition: all 0.2s ease-in;
   }
   @media (max-width: 431px) {
