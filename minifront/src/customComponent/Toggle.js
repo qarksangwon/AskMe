@@ -113,6 +113,7 @@ const Inner = styled(motion.div)`
   box-shadow: 0 2px 5px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease-in;
   cursor: pointer;
+  font-size: 14px;
 
   &:hover {
     background-color: white;
@@ -123,7 +124,7 @@ const Inner = styled(motion.div)`
   @media (max-width: 430px) {
     width: 40px;
     height: 40px;
-    font-size: 11px;
+    font-size: 8px;
   }
 `;
 
@@ -226,9 +227,7 @@ const Toggle = () => {
               <Inner variants={InnerAnimation}>회원가입</Inner>
             </Link>
             <Link to="/askme/login">
-              <Inner variants={InnerAnimation} style={{ fontSize: "12px" }}>
-                ID/PW 찾기
-              </Inner>
+              <Inner variants={InnerAnimation}>ID/PW찾기</Inner>
             </Link>
             <Inner variants={InnerAnimation} onClick={() => toggleClick(2)}>
               닫기
