@@ -157,11 +157,12 @@ const AxiosApi = {
     return await axios.post(`${Askme_Domain}/askme/update-user-info`, userInfo);
   },
 
-  getRoomId: async (userid) => {
-    return await axios.get(Askme_Domain + "/askme/getRoomid", {
-      params: { userid },
+  getRoomId: async (id) => {
+    return await axios.get(Askme_Domain + "/askme/mypage/getRoomid", {
+      params: { id: id },
     });
   },
+
   // 정보수정 사용자 정보 가져오기
   getUserInfo: async (id) => {
     return await axios.get(Askme_Domain + "/askme/user", {

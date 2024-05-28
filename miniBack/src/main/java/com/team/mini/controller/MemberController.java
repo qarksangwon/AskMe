@@ -334,12 +334,13 @@ public class MemberController {
 //            return new ResponseEntity<>("Invalid name or email", HttpStatus.BAD_REQUEST);
 //        }
 //    }
-    @GetMapping("/getRoomid")
-    public ResponseEntity<String> getRoomId(@RequestParam String userid) {
-        String roomid = dao.getUserChatroomNum(userid);
+    @GetMapping("/mypage/getRoomid")
+    public ResponseEntity<String> getRoomId(@RequestParam String id) {
+        String roomid = dao.getUserChatroomNum(id);
         System.out.println(roomid);
         return ResponseEntity.ok(roomid);
     }
+
     // 정보수정에서 사용자 정보가져오기
     @GetMapping("/user")
     public ResponseEntity<MemberVO> getUserInfo(@RequestParam String id) {

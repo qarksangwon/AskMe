@@ -110,8 +110,9 @@ const MyPage = () => {
   const [isIdFound, setIsIdFound] = useState(false);
   const [roomNum, setroomNum] = useState("");
 
-  const handleButtonClick = async () => {
-    const userid = localStorage.getItem("userid");
+  const userid = localStorage.getItem("userId");
+
+  const getRoomId = async () => {
     try {
       const response = await AxiosApi.getRoomId(userid);
       setroomNum(response.data);
@@ -126,6 +127,10 @@ const MyPage = () => {
     setIsIdFound(false);
     editExit("/askme");
   };
+  const exitClick2 = () => {
+    setIsIdFound(false);
+    editExit("/askme/mypage");
+  };
 
   return (
     <>
@@ -134,21 +139,24 @@ const MyPage = () => {
         <Body>
           <Logo src={imgLogo} />
           {isIdFound ? (
-            <FoundIdMessage>
-              나의 채팅방 번호 : <span>{roomNum}</span>
-            </FoundIdMessage>
+            <>
+              <FoundIdMessage>
+                나의 채팅방 번호 : <span>{roomNum}</span>
+              </FoundIdMessage>
+              <Exit onClick={exitClick2} src={exit} />
+            </>
           ) : (
             <ButtonContainer>
               <Link to="/askme/mypage/confirm">
                 <Btn>정보 수정</Btn>
               </Link>
-              <Btn onClick={handleButtonClick}>나의 채팅방</Btn>
+              <Btn onClick={getRoomId}>나의 채팅방</Btn>
               <Link to="/askme/userdel">
                 <Btn>회원 탈퇴</Btn>
               </Link>
+              <Exit onClick={exitClick} src={exit} />
             </ButtonContainer>
           )}
-          <Exit onClick={exitClick} src={exit} />
         </Body>
         <Footer />
       </Container>

@@ -435,31 +435,17 @@ public class MemberDAO {
         System.out.println(rowsUpdated);
     }
 
-    //    public boolean getUserChatroomNum(String userid) {
-//        try {
-//            conn = Common.getConnection();
-//            String sql = "SELECT ROOMID FROM CHATROOM WHERE ID = ?";
-//            pStmt = conn.prepareStatement(sql);
-//            pStmt.setString(1, userid);
-//            rs = pStmt.executeQuery();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            Common.close(rs);
-//            Common.close(pStmt);
-//            Common.close(conn);
-//        }
-//        return true;
-//    }
-    public String getUserChatroomNum(String userid) {
+    public String getUserChatroomNum(String id) {
         String rst= "";
         try {
             conn = getConnection(); // 데이터베이스 연결
             stmt = conn.createStatement(); // Statement 객체 생성
-            String sql = "SELECT ROOMID FROM CHATROOM WHERE ID = '"+ userid + "'";
+            String sql = "SELECT * FROM CHATROOM WHERE ID = '"+ id + "'";
             rs = stmt.executeQuery(sql); // 쿼리 실행
-            while (rs.next()) {
+            if (rs.next()) {
                 rst = rs.getString("ROOMID");
+            } else {
+                rst = "채팅방이 존재하지 않습니다.";
             }
             Common.close(rs);
             Common.close(stmt);
@@ -470,6 +456,7 @@ public class MemberDAO {
         }
         return rst;
     }
+
     public boolean updateUserInfo(String userId, String name, String nickname, String email, String password) {
         String sql = "UPDATE USERTB SET NAME = ?, NICKNAME = ?, EMAIL = ?, PASSWORD = ? WHERE ID = ?";
         try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
