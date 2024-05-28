@@ -109,16 +109,11 @@ const FoundIdMessage = styled.div`
 const MyPage = () => {
   const [isIdFound, setIsIdFound] = useState(false);
   const [roomNum, setroomNum] = useState("");
-  const [roomid, setRoomid] = useState("");
-
-  useEffect(() => {
-    const userId = localStorage.getItem("userId");
-  }, []);
 
   const handleButtonClick = async () => {
-    const userId = localStorage.getItem("userId");
+    const userid = localStorage.getItem("userid");
     try {
-      const response = await AxiosApi.getRoomId(userId);
+      const response = await AxiosApi.getRoomId(userid);
       setroomNum(response.data);
       setIsIdFound(true);
     } catch (error) {
