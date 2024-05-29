@@ -256,6 +256,9 @@ function SignUp() {
       if (response.data) {
         alert("회원가입에 성공했습니다");
         test();
+        setTimeout(() => {
+          loginNavigate("/askme/login");
+        }, 1000); // 1000 밀리초(1초) 후에 내비게이션 실행
       } else {
         alert("회원가입에 실패했습니다");
       }

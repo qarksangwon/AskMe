@@ -264,12 +264,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 100vh;
+
+    height: 160vh;
     position: relative;
   }
   .pagebox {
     width: 80%;
-    height: 120vh;
+    height: auto;
   }
 
   .imgContainer {

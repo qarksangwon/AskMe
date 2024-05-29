@@ -8,8 +8,8 @@ const ImageUploader = ({ setUrl, usernickname, uploadTrigger }) => {
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [error, setError] = useState("");
-  const [signup, setsignup] = useState(false);
-  let navigate = useNavigate();
+  // const [signup, setsignup] = useState(false);
+  // let navigate = useNavigate();
 
   useEffect(() => {
     if (uploadTrigger === true) {
@@ -17,11 +17,11 @@ const ImageUploader = ({ setUrl, usernickname, uploadTrigger }) => {
     }
   }, [uploadTrigger]);
 
-  useEffect(() => {
-    if (signup === true) {
-      navigate("/askme");
-    }
-  }, [signup]);
+  // useEffect(() => {
+  //   if (signup === true) {
+  //     navigate("/askme");
+  //   }
+  // }, [signup]);
 
   const handleFileInputChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -69,7 +69,7 @@ const ImageUploader = ({ setUrl, usernickname, uploadTrigger }) => {
         getDownloadURL(snapshot.ref).then((url) => {
           console.log("저장경로 확인 : " + url);
           setUrl(url);
-          setsignup(true);
+          // setsignup(true);
         });
       })
       .catch((error) => {
