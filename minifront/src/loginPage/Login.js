@@ -1,4 +1,4 @@
-import Logoimg from "../images/touch.gif";
+import Logoimg from "../images/Logo.png";
 import Exitimg from "../images/exit.png";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ function Login() {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [isLogin, setIsLogin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [nickname, setNickname] = useState("");
 
   const handleIdChange = (e) => {
@@ -41,14 +42,18 @@ function Login() {
   };
 
   useEffect(() => {
-    if (isLogin) {
+    if (isAdmin) {
+      localStorage.setItem("userId", id);
+      localStorage.setItem("userNickname", nickname);
+      alert("관리자로 로그인했습니다");
+      navigate("/askme/admin"); // 관리자 페이지로 이동
+    } else if (isLogin) {
       localStorage.setItem("userId", id);
       localStorage.setItem("userNickname", nickname);
       alert("로그인에 성공했습니다");
-
-      navigate("/askme");
+      navigate("/askme"); // 일반 사용자 페이지로 이동
     }
-  }, [isLogin]);
+  }, [isLogin, isAdmin, navigate, id, nickname]);
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -62,19 +67,24 @@ function Login() {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [id, pw]); // id와 pw가 변경될 때마다 효과를 재실행
+  }, [id, pw]);
 
   const onClickLoginButton = async () => {
     try {
-      const rsp = await AxiosApi.LoginMain(id, pw);
-      if (rsp.data.success) {
-        setNickname(rsp.data.nickname);
-        setIsLogin(true);
+      if (id === "master" && pw === "master") {
+        // 관리자 로그인
+        setIsAdmin(true);
       } else {
-        alert("로그인에 실패했습니다");
-        setIsLogin(false);
-        setId("");
-        setPw("");
+        const rsp = await AxiosApi.LoginMain(id, pw);
+        if (rsp.data.success) {
+          setNickname(rsp.data.nickname);
+          setIsLogin(true);
+        } else {
+          alert("로그인에 실패했습니다");
+          setIsLogin(false);
+          setId("");
+          setPw("");
+        }
       }
     } catch (e) {
       console.log(e);
@@ -104,7 +114,7 @@ function Login() {
               placeholder="아이디"
               ref={idRef}
               onChange={handleIdChange}
-              value={id} // 레퍼런스 연결
+              value={id}
             />
           </div>
         </div>
@@ -135,16 +145,19 @@ function Login() {
             회원가입
           </button>
         </div>
-      </div>
-      <div className="clearExit">
-        <img
-          onClick={ExitClick}
-          src={Exitimg}
-          style={{
-            width: "60px",
-            height: "60px",
-          }}
-        />
+
+        <div className="clearExit">
+          <button className="exit" onClick={ExitClick}>
+            <img
+              src={Exitimg}
+              alt="Exit"
+              style={{
+                width: "60px",
+                height: "60px",
+              }}
+            />
+          </button>
+        </div>
       </div>
 
       <div className="login-bottomonClickLoginButtonContainer">
