@@ -46,11 +46,20 @@ const TableContainer = styled.div`
   width: 90%;
   border-radius: 10px; /* 테이블의 모서리를 둥글게 만듦 */
   overflow: hidden; /* 컨테이너가 테이블의 내용을 가리지 않도록 설정 */
+  overflow-x: auto; /* 테이블이 가로로 잘리지 않도록 스크롤 가능하게 함 */
+  overflow-y: auto;
+  @media (max-width: 430px) {
+    width: 100%;
+  }
 `;
 
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
+  @media (max-width: 430px) {
+    font-size: 0.6em; /* 모바일 화면에서 폰트 크기 조절 */
+    width: 90%;
+  }
 `;
 
 const TableHead = styled.thead`
@@ -77,13 +86,19 @@ const TableRow2 = styled.tr`
 `;
 
 const TableCell = styled.td`
-  padding: 15px 15px;
+  padding: 15px 8px;
   text-align: left;
+  @media (max-width: 430px) {
+    padding: 10px 8px;
+  }
 `;
 
 const TableHeaderCell = styled.th`
-  padding: 15px 15px;
+  padding: 15px 8px;
   text-align: left;
+  @media (max-width: 430px) {
+    padding: 10px 8px;
+  }
 `;
 
 const ListHead = styled.div`
@@ -98,6 +113,9 @@ const SearchInput = styled.input`
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  @media (max-width: 430px) {
+    width: 240px;
+  }
 `;
 
 const Searchlogo = styled.img`
@@ -105,6 +123,10 @@ const Searchlogo = styled.img`
   height: 30px;
   cursor: pointer;
   margin-left: 10px;
+  @media (max-width: 430px) {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 const Exit = styled.img`
