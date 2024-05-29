@@ -109,9 +109,9 @@
 
 .findExit {
   margin-top: 10px;
-  background-color: white;
+  background-color: #ebecff;
   cursor: pointer;
-  border: 2px solid white;
+  border: 2px solid #ebecff;
 }
 
 .verifyButton {
