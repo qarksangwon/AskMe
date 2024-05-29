@@ -1,4 +1,4 @@
-import Logoimg from "../images/Logo.png";
+import Logoimg from "../images/touch.gif";
 import Exitimg from "../images/exit.png";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
@@ -135,19 +135,16 @@ function Login() {
             회원가입
           </button>
         </div>
-
-        <div className="clearExit">
-          <button className="exit" onClick={ExitClick}>
-            <img
-              src={Exitimg}
-              alt="Exit"
-              style={{
-                width: "60px",
-                height: "60px",
-              }}
-            />
-          </button>
-        </div>
+      </div>
+      <div className="clearExit">
+        <img
+          onClick={ExitClick}
+          src={Exitimg}
+          style={{
+            width: "60px",
+            height: "60px",
+          }}
+        />
       </div>
 
       <div className="login-bottomonClickLoginButtonContainer">

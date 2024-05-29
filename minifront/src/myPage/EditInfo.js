@@ -4,6 +4,7 @@ import AxiosApi from "../api/AxiosApi"; // 서버와 통신을 위한 API 모듈
 import { useNavigate } from "react-router-dom";
 import exit from "../images/exit.png";
 import "./editInfo.css";
+import styled from "styled-components";
 
 const EditInfo = () => {
   const editNavigate = useNavigate();
@@ -277,179 +278,181 @@ const EditInfo = () => {
 
   return (
     <div className="Container">
-      <div className="Logo">
-        <img src={Logoimg} className="findidLogoimg" alt="로고" />
-      </div>
-      <div className="Title">정보 수정</div>
-      <div className="contentWrap">
-        {/* ------------이름 */}
-        <div className="nameBox">
-          <div className="contentWrap">
-            <div className="inputTitle">이름</div>
-            <div className="inputWrap">
-              <input
-                className="input"
-                type="text"
-                placeholder="이름을 입력하세요."
-                value={name}
-                onChange={handleNameChange}
-                disabled
-              />
-            </div>
-          </div>
-          <button
-            onClick={() => handleEditClick("name")}
-            className="editButton"
-          >
-            수정하기
-          </button>
-        </div>
+      <div className="ContainerBox">
+        <img src={Logoimg} className="Logo" alt="로고" />
 
-        {/* -----------닉네임 */}
-        <div className="nicknameBox">
-          <div className="contentWrap">
-            <div className="inputTitle">닉네임</div>
-            <div className="inputWrap">
-              <input
-                className="input"
-                type="text"
-                placeholder="한글, 영어, 숫자 입력가능"
-                value={nickname}
-                onChange={handleNickNameChange}
-                disabled={isNicknameDisabled}
-              />
+        <div className="Title">정보 수정</div>
+        <div className="contentWrap">
+          {/* ------------이름 */}
+          <div className="nameBox">
+            <div className="contentWrap">
+              <div className="inputTitle">이름</div>
+              <div className="inputWrap">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="이름을 입력하세요."
+                  value={name}
+                  onChange={handleNameChange}
+                  disabled
+                />
+              </div>
             </div>
-            <div className="errorMessageWrap">
-              {!nicknameValid && nickname.length > 0 && (
-                <div>올바른 닉네임을 입력해주세요.</div>
-              )}
-              {nicknameMessage && <div>{nicknameMessage}</div>}
-            </div>
-          </div>
-          {isEditingNickname ? (
-            <button onClick={handleNickNameCheck} className="editButton">
-              중복 확인
-            </button>
-          ) : (
             <button
-              onClick={() => handleEditClick("nickname")}
+              onClick={() => handleEditClick("name")}
               className="editButton"
             >
               수정하기
             </button>
-          )}
-        </div>
-
-        {/* --------------- 이메일 */}
-        <div className="emailBox">
-          <div className="contentWrap">
-            <div className="inputTitle">이메일</div>
-            <div className="inputWrap">
-              <input
-                className="input"
-                type="email"
-                placeholder="test@gmail.com"
-                value={email}
-                onChange={handleEmailChange}
-                disabled={isEmailDisabled}
-              />
-            </div>
-            <div className="errorMessageWrap">
-              {!emailValid && email.length > 0 && (
-                <div>올바른 이메일을 입력해주세요.</div>
-              )}
-              {emailMessage && <div>{emailMessage}</div>}
-            </div>
           </div>
-          {isEditingEmail ? (
-            <button onClick={handleEmailVerify} className="emailButton">
-              이메일 인증
-            </button>
-          ) : (
-            <button
-              onClick={() => handleEditClick("email")}
-              className="editButton"
-            >
-              수정하기
-            </button>
-          )}
-        </div>
-        {emailVerify && !isVerified && isEditingEmail && (
+
+          {/* -----------닉네임 */}
+          <div className="nicknameBox">
+            <div className="contentWrap">
+              <div className="inputTitle">닉네임</div>
+              <div className="inputWrap">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="한글, 영어, 숫자 입력가능"
+                  value={nickname}
+                  onChange={handleNickNameChange}
+                  disabled={isNicknameDisabled}
+                />
+              </div>
+              <div className="errorMessageWrap">
+                {!nicknameValid && nickname.length > 0 && (
+                  <div>올바른 닉네임을 입력해주세요.</div>
+                )}
+                {nicknameMessage && <div>{nicknameMessage}</div>}
+              </div>
+            </div>
+            {isEditingNickname ? (
+              <button onClick={handleNickNameCheck} className="editButton">
+                중복 확인
+              </button>
+            ) : (
+              <button
+                onClick={() => handleEditClick("nickname")}
+                className="editButton"
+              >
+                수정하기
+              </button>
+            )}
+          </div>
+
+          {/* --------------- 이메일 */}
           <div className="emailBox">
-            <div className="inputWrap">
-              <input
-                className="input"
-                type="text"
-                placeholder="인증번호 입력"
-                value={verifyCode}
-                onChange={handleVerifyCode}
-              />
+            <div className="contentWrap">
+              <div className="inputTitle">이메일</div>
+              <div className="inputWrap">
+                <input
+                  className="input"
+                  type="email"
+                  placeholder="test@gmail.com"
+                  value={email}
+                  onChange={handleEmailChange}
+                  disabled={isEmailDisabled}
+                />
+              </div>
+              <div className="errorMessageWrap">
+                {!emailValid && email.length > 0 && (
+                  <div>올바른 이메일을 입력해주세요.</div>
+                )}
+                {emailMessage && <div>{emailMessage}</div>}
+              </div>
             </div>
-            <div className="timerWrap">{formatTime(timer)}</div>
-            <button onClick={handleVerifyCodeSubmit} className="verifyButton">
-              인증 코드 확인
-            </button>
+            {isEditingEmail ? (
+              <button onClick={handleEmailVerify} className="emailButton">
+                이메일 인증
+              </button>
+            ) : (
+              <button
+                onClick={() => handleEditClick("email")}
+                className="editButton"
+              >
+                수정하기
+              </button>
+            )}
           </div>
-        )}
-
-        {/* ---------- 비밀번호 */}
-        <div className="editPwBox">
-          <div className="contentWrap">
-            <div className="inputTitle">비밀번호</div>
-            <div className="inputWrap">
-              <input
-                className="input"
-                type="password"
-                placeholder="영문, 숫자, 특수문자 포함 8자 이상"
-                value={pw}
-                onChange={handlePwChange}
-                disabled={isPwDisabled}
-              />
+          {emailVerify && !isVerified && isEditingEmail && (
+            <div className="emailBox">
+              <div className="inputWrap">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="인증번호 입력"
+                  value={verifyCode}
+                  onChange={handleVerifyCode}
+                />
+              </div>
+              <div className="timerWrap">{formatTime(timer)}</div>
+              <button onClick={handleVerifyCodeSubmit} className="verifyButton">
+                인증 코드 확인
+              </button>
             </div>
-            <div className="errorMessageWrap">
-              {!pwValid && pw.length > 0 && (
-                <div>영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.</div>
-              )}
-            </div>
-          </div>
-          {isEditingPw ? (
-            <button
-              onClick={() => {
-                setIsPwDisabled(true);
-                setIsEditingPw(false); // 비활성화 후 수정 모드도 종료
-              }}
-              className="editButton"
-            >
-              확인
-            </button>
-          ) : (
-            <button
-              onClick={() => handleEditClick("pw")}
-              className="editButton"
-            >
-              수정하기
-            </button>
           )}
-        </div>
-        {errorMessage && <div className="errorMessage">{errorMessage}</div>}
-        {successMessage && (
-          <div className="successMessage">{successMessage}</div>
-        )}
-        <div className="editInfo">
-          <button
-            className="editInfoButton"
-            onClick={editHandleSubmit}
-            disabled={notAllow}
-          >
-            회원정보 수정
-          </button>
-          <button className="findExit" onClick={exitClick}>
+
+          {/* ---------- 비밀번호 */}
+          <div className="editPwBox">
+            <div className="contentWrap">
+              <div className="inputTitle">비밀번호</div>
+              <div className="inputWrap">
+                <input
+                  className="input"
+                  type="password"
+                  placeholder="영문, 숫자, 특수문자 포함 8자 이상"
+                  value={pw}
+                  onChange={handlePwChange}
+                  disabled={isPwDisabled}
+                />
+              </div>
+              <div className="errorMessageWrap">
+                {!pwValid && pw.length > 0 && (
+                  <div>영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.</div>
+                )}
+              </div>
+            </div>
+            {isEditingPw ? (
+              <button
+                onClick={() => {
+                  setIsPwDisabled(true);
+                  setIsEditingPw(false); // 비활성화 후 수정 모드도 종료
+                }}
+                className="editButton"
+              >
+                확인
+              </button>
+            ) : (
+              <button
+                onClick={() => handleEditClick("pw")}
+                className="editButton"
+              >
+                수정하기
+              </button>
+            )}
+          </div>
+          {errorMessage && <div className="errorMessage">{errorMessage}</div>}
+          {successMessage && (
+            <div className="successMessage">{successMessage}</div>
+          )}
+          <div className="editInfo">
+            <button
+              className="editInfoButton"
+              onClick={editHandleSubmit}
+              disabled={notAllow}
+            >
+              회원정보 수정
+            </button>
+
             <img
               src={exit}
               alt="findExit"
-              style={{ width: "40px", height: "40px" }}
+              style={{ width: "60px", height: "60px" }}
+              onClick={exitClick}
+              className="Exit"
             />
-          </button>
+          </div>
         </div>
       </div>
     </div>

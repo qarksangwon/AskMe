@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import imgLogo from "../images/Logo.png";
+import imgLogo from "../images/jump.gif";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import exit from "../images/exit.png";
@@ -17,13 +17,17 @@ const Logo = styled.img`
 `;
 
 const Container = styled.div`
-  width: 80vw;
-  min-height: 100vh;
+  background-color: #acb3fd;
+  border-radius: 30px;
+  width: 70vw;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* Change to space-between */
   align-items: center;
-  margin: 0 auto;
+  margin: auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
   @media (max-width: 430px) {
     height: auto;
   }
@@ -39,11 +43,11 @@ const Body = styled.div`
 `;
 
 const Btn = styled.div`
-  background-color: black;
-  width: 220px;
-  height: 60px;
-  font-size: 24px;
-  color: white;
+  width: 20vh;
+  height: 6vh;
+  font-size: 2vh;
+  background-color: white;
+  color: black;
   margin: 20px;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -54,15 +58,15 @@ const Btn = styled.div`
   transition: all 0.5s ease-in-out;
   position: relative;
   transform-style: preserve-3d;
-  border: 3px solid black;
+  border: 3px solid #ebecff;
 
   &:hover {
     cursor: pointer;
     background-color: white;
     color: black;
     font-weight: 300;
-    transition: all 0.2s ease-in-out;
-    border: 2px solid black;
+    transition: all 0.3s ease-in-out;
+    border: 3px solid black;
   }
   @media (max-width: 430px) {
     margin-bottom: 20px;
@@ -109,12 +113,16 @@ const FoundIdMessage = styled.div`
 const MyPage = () => {
   const [isIdFound, setIsIdFound] = useState(false);
   const [roomNum, setroomNum] = useState("");
+  const [roomid, setRoomid] = useState("");
 
-  const userid = localStorage.getItem("userId");
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+  }, []);
 
-  const getRoomId = async () => {
+  const handleButtonClick = async () => {
+    const userId = localStorage.getItem("userId");
     try {
-      const response = await AxiosApi.getRoomId(userid);
+      const response = await AxiosApi.getRoomId(userId);
       setroomNum(response.data);
       setIsIdFound(true);
     } catch (error) {
@@ -127,10 +135,6 @@ const MyPage = () => {
     setIsIdFound(false);
     editExit("/askme");
   };
-  const exitClick2 = () => {
-    setIsIdFound(false);
-    editExit("/askme/mypage");
-  };
 
   return (
     <>
@@ -139,27 +143,24 @@ const MyPage = () => {
         <Body>
           <Logo src={imgLogo} />
           {isIdFound ? (
-            <>
-              <FoundIdMessage>
-                나의 채팅방 번호 : <span>{roomNum}</span>
-              </FoundIdMessage>
-              <Exit onClick={exitClick2} src={exit} />
-            </>
+            <FoundIdMessage>
+              나의 채팅방 번호 : <span>{roomNum}</span>
+            </FoundIdMessage>
           ) : (
             <ButtonContainer>
               <Link to="/askme/mypage/confirm">
                 <Btn>정보 수정</Btn>
               </Link>
-              <Btn onClick={getRoomId}>나의 채팅방</Btn>
+              <Btn onClick={handleButtonClick}>나의 채팅방</Btn>
               <Link to="/askme/userdel">
                 <Btn>회원 탈퇴</Btn>
               </Link>
-              <Exit onClick={exitClick} src={exit} />
             </ButtonContainer>
           )}
+          <Exit onClick={exitClick} src={exit} />
         </Body>
-        <Footer />
       </Container>
+      <Footer />
     </>
   );
 };

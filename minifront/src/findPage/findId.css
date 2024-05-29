@@ -2,12 +2,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  top: 100px;
-  bottom: 0;
+  height: 100vh;
   width: 100%;
   padding: 0 20px;
   flex-direction: column;
+  background-color: #ebecff;
 }
 
 .findidLogoimg {
@@ -16,10 +15,11 @@
   align-items: center;
   width: 150px;
   height: 150px;
+  margin-top: 150px;
   background-size: cover;
 }
-
 .findidTitleWrap {
+  margin-top: 20px;
   font-size: 30px;
   font-weight: bold;
   color: #262626;
@@ -31,6 +31,7 @@
   font-weight: 600;
   color: #262626;
   margin-right: 235px;
+  width: 100px;
 }
 
 .findidEmailBox {
@@ -68,10 +69,10 @@
   border-radius: 10px;
   width: 100px;
   height: 30px;
-  background-color: #000000;
+  background-color: #acb3fd;
   color: white;
   cursor: pointer;
-  border: 2px solid black;
+  border: 2px solid #acb3fd;
   transition: all 0.3s ease-in;
 }
 
@@ -92,10 +93,10 @@
   border-radius: 10px;
   width: 150px;
   height: 30px;
-  background-color: #000000;
+  background-color: #acb3fd;
   color: white;
   cursor: pointer;
-  border: 2px solid black;
+  border: 2px solid #acb3fd;
   transition: all 0.3s ease-in;
 }
 
@@ -111,6 +112,12 @@
   background-color: white;
   cursor: pointer;
   border: 2px solid white;
+}
+
+.verifyButton {
+  background-color: #acb3fd;
+  color: white;
+  border: 2px solid #acb3fd;
 }
 
 .findidNameBox {

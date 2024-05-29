@@ -196,6 +196,7 @@ const Board = ({ roomId, setRoomId }) => {
   const [boards, setBoards] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [originalBoards, setOriginalBoards] = useState([]);
+  const [activeBoards, setActiveBoards] = useState([]); // 현재 활성화된 데이터셋을 추적하는 상태 추가
   const [page, setPage] = useState(1);
   const [totalItemsCount, setTotalItemsCount] = useState(0);
   const [selectedBoard, setSelectedBoard] = useState(null);
@@ -248,6 +249,7 @@ const Board = ({ roomId, setRoomId }) => {
     try {
       const rsp = await AxiosApi.boardMain();
       setOriginalBoards(rsp.data);
+      setActiveBoards(rsp.data); // 초기에는 originalBoards를 activeBoards로 설정
       setTotalItemsCount(rsp.data.length);
       setBoards(rsp.data.slice(0, itemsPerPage)); // 처음 로드 시 첫 페이지 데이터로 설정
     } catch (e) {
@@ -262,9 +264,9 @@ const Board = ({ roomId, setRoomId }) => {
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const newFilteredBoards = originalBoards.slice(startIndex, endIndex);
-    setBoards(newFilteredBoards);
-  }, [page, originalBoards]); // originalBoards도 의존성 배열에 추가합니다.
+    const currentBoards = activeBoards.slice(startIndex, endIndex);
+    setBoards(currentBoards);
+  }, [page, activeBoards]);
 
   const Lodingwait = () => {
     setLoading(true); // 로딩 상태를 true로 설정
@@ -279,6 +281,7 @@ const Board = ({ roomId, setRoomId }) => {
     setTimeout(() => {
       if (searchTerm === "") {
         setFilteredBoards(originalBoards); // 검색어가 없으면 모든 게시글
+        setActiveBoards(originalBoards); // 검색어가 없으면 originalBoards를 activeBoards로 설정
         setTotalItemsCount(originalBoards.length);
       } else {
         const searchResults = originalBoards.filter(
@@ -287,6 +290,7 @@ const Board = ({ roomId, setRoomId }) => {
             board.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredBoards(searchResults); // 검색 결과로 filteredBoards 업데이트
+        setActiveBoards(searchResults); // 검색 결과로 activeBoards 업데이트
         setTotalItemsCount(searchResults.length);
       }
       setLoading(false); // 검색이 완료되면 로딩 상태 비활성화
@@ -305,6 +309,7 @@ const Board = ({ roomId, setRoomId }) => {
       (board) => board.nickname === localStorage.getItem("userNickname")
     );
     setFilteredBoards(myBoards); // filteredBoards를 업데이트
+    setActiveBoards(myBoards); // activeBoards를 업데이트
     setTotalItemsCount(myBoards.length); // 총 아이템 수 업데이트
     setPage(1); // 페이지 상태를 첫 페이지로 초기화
   };

@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import imgLogo from "../images/Logo.png";
+import imgLogo from "../images/jump.gif";
 import { useNavigate } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
 import { Link } from "react-router-dom";
 import exit from "../images/exit.png";
 
 const Container = styled.div`
-  width: 80vw;
-  height: 100vh;
+  width: 70vw;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  margin: auto;
+  margin-top: 50px;
+  border-radius: 30px;
+  background-color: #acb3fd;
   @media (max-width: 430px) {
     height: 90vh;
   }
@@ -39,7 +42,7 @@ const InputContainer = styled.div`
   flex-direction: column;
   margin-top: 20px;
   @media (max-width: 430px) {
-    width: 80vw;
+    width: 50vw;
   }
 `;
 
@@ -58,19 +61,19 @@ const Input = styled.input`
 `;
 
 const Btn = styled.button`
-  background-color: black;
+  background-color: white;
   width: 220px;
   height: 50px;
   font-size: 20px;
-  color: white;
+  color: black;
   margin: 20px;
   margin-top: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 30px;
-  transition: all 0.5s ease-in-out;
-  border: 3px solid black;
+  transition: all 0.3s ease-in-out;
+  border: 3px solid #ebecff;
 
   &:hover {
     cursor: pointer;
@@ -78,7 +81,7 @@ const Btn = styled.button`
     color: black;
     font-weight: 300;
     transition: all 0.2s ease-in-out;
-    border: 2px solid black;
+    border: 3px solid black;
   }
   @media (max-width: 430px) {
     width: 180px;

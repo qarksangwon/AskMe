@@ -3,14 +3,24 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  top: 100px;
-  bottom: 0;
   width: 100%;
-  padding: 0 20px;
-
-  /* background-color: #f7f7f7; */
-
+  background-color: #acb3fd;
   overflow: hidden;
+
+  flex-direction: column;
+}
+
+.pagebox {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background-color: #ebecff;
+  border-radius: 30px;
+  width: 76vh;
+  height: auto;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
 }
 
@@ -20,7 +30,7 @@
   align-items: center;
   width: 100px;
   height: 100px;
-  background-size: cover;
+  margin-top: 10px;
 }
 
 .imgContainer {
@@ -30,10 +40,9 @@
   height: 100px;
 }
 .titleWrap {
-  margin-top: auto;
-  font-size: 26px;
-  font-weight: bold;
-  color: #262626;
+  margin-top: 20px;
+  font-size: 28px;
+  color: black;
 }
 
 .photoButton {
@@ -51,7 +60,7 @@
 }
 
 .photoButton:hover {
-  background-color: white;
+  background-color: #ebecff;
   color: #000000;
   transition: all 0.3s ease-in;
 }
@@ -68,15 +77,16 @@
   border-radius: 10px;
   width: 100px;
   height: 30px;
-  background-color: #000000;
-  color: white;
+  background-color: #ebecff;
+  border: 2px solid #ebecff;
+  color: black;
   cursor: pointer;
-  border: 2px solid black;
+
   transition: all 0.3s ease-in;
 }
 
 .nickNameCheckButton:hover {
-  background-color: white;
+  background-color: black;
   color: #000000;
   transition: all 0.3s ease-in;
 }
@@ -93,16 +103,17 @@
   border-radius: 10px;
   width: 100px;
   height: 30px;
-  background-color: #000000;
-  color: white;
+  background-color: #ebecff;
+  color: black;
   cursor: pointer;
-  border: 2px solid black;
+  border: 2px solid #ebecff;
   transition: all 0.3s ease-in;
 }
 
 .idCheckButton:hover {
   background-color: white;
   color: #000000;
+  border: 1px solid black;
   transition: all 0.3s ease-in;
 }
 
@@ -122,10 +133,10 @@
   border-radius: 10px;
   width: 100px;
   height: 30px;
-  background-color: #000000;
-  color: white;
+  background-color: #ebecff;
+  color: black;
   cursor: pointer;
-  border: 2px solid black;
+  border: 2px solid #ebecff;
   transition: all 0.3s ease-in;
 }
 
@@ -136,10 +147,10 @@
   border-radius: 10px;
   width: 100px;
   height: 30px;
-  background-color: #000000;
-  color: white;
+  background-color: #ebecff;
+  color: black;
   cursor: pointer;
-  border: 2px solid black;
+  border: 2px solid #ebecff;
   transition: all 0.3s ease-in;
 }
 
@@ -148,6 +159,7 @@
   background-color: white;
   color: #000000;
   transition: all 0.3s ease-in;
+  border: 2px solid black;
 }
 
 .timerWrap {
@@ -163,9 +175,9 @@
 }
 
 .inputTitle {
-  font-size: 20px;
-  font-weight: 600;
-  color: #262626;
+  font-size: 25px;
+
+  color: black;
 }
 
 .inputWrap {
@@ -187,47 +199,47 @@
   width: 100%;
   outline: none;
   border: none;
-  height: 17px;
-  font-size: 14px;
+  height: auto;
+  font-size: 18px;
   font-weight: 400;
+  font-family: "DoHyeon-Regular", sans-serif;
 }
 
 .input::placeholder {
-  color: #dadada;
-  font-size: 11px;
+  color: gray;
+  font-size: 15px;
+  font-family: "DoHyeon-Regular", sans-serif;
 }
 
 .clearButton {
   font-size: 15px;
-  margin-top: 20px;
-  margin-left: 60px;
   border-radius: 10px;
-  width: 120px;
-  height: 30px;
-  background-color: #000000;
-  color: white;
+  width: 130px;
+  height: 40px;
+  background-color: #ebecff;
+  color: black;
   cursor: pointer;
-  border: 2px solid black;
+  border: 2px solid #ebecff;
   transition: all 0.3s ease-in;
 }
 
 .clearButton:hover {
   background-color: white;
-  color: #000000;
+  color: black;
+  border: 2px solid black;
   transition: all 0.3s ease-in;
-  cursor: pointer;
 }
 
 .bottomContainer {
   width: auto;
-  height: 100px;
+  height: 120px;
   display: flex;
   align-items: center;
 }
 
 .bottomButton {
   width: 130px;
-  height: 40px;
+  height: 50px;
   margin-bottom: 40px;
   font-weight: bold;
   border-radius: 64px;
@@ -247,10 +259,6 @@
   font-size: 12px;
 }
 
-.exit {
-  cursor: pointer;
-}
-
 @media (max-width: 430px) {
   .page {
     display: flex;
@@ -259,11 +267,14 @@
     min-height: 100vh;
     position: relative;
   }
+  .pagebox {
+    width: 80%;
+    height: 120vh;
+  }
 
   .imgContainer {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
   }
 
   .Logoimg {
@@ -283,13 +294,13 @@
   }
 
   .bottomContainer {
-    width: 100%;
+    width: 70%;
     padding: 0 10px 10px;
   }
 
   .bottomButton {
-    width: 100%;
-    padding: 15px 10px;
+    width: 40%;
+    margin: auto;
   }
 
   .clearExit {

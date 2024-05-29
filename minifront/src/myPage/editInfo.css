@@ -1,23 +1,46 @@
 .Container {
-  width: 80vw;
-  height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+  height: 100vh;
+  margin: auto;
+  flex-direction: column;
+  background-color: #acb3fd;
+}
+.ContainerBox {
   margin: 0 auto;
+  background-color: #ebecff;
+  border-radius: 30px;
+  width: 76vh;
+
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+@media (max-width: 430px) {
+  .ContainerBox {
+    width: 380px;
+    height: auto;
+  }
 }
 
 .Logo {
+  display: flex;
   width: 150px;
-  height: 150px;
   margin-top: 10px;
+  margin-bottom: 30px;
+  justify-content: center;
+  align-items: center;
 }
 
-@media (max-width: 390px) {
+@media (max-width: 430px) {
   .Logo {
     width: 100px;
-    height: 100px;
+    height: auto;
   }
 }
 
@@ -25,7 +48,6 @@
   font-size: 30px;
   font-weight: bold;
   color: #262626;
-  margin-bottom: 40px;
 }
 
 .contentWrap {
@@ -87,15 +109,15 @@
 
 .editInfo {
   display: flex;
-  margin-left: 30px;
+  margin: auto;
 }
 
 .editInfoButton {
-  background-color: black;
+  background-color: #ebecff;
   width: 170px;
-  height: 50px;
+  height: 5vh;
   font-size: 20px;
-  color: white;
+  color: black;
   margin: 20px;
   margin-top: 40px;
   display: flex;
@@ -103,7 +125,7 @@
   align-items: center;
   border-radius: 30px;
   transition: all 0.3s ease-in-out;
-  border: 3px solid black;
+  border: 3px solid #ebecff;
 }
 
 .editInfoButton:hover {
@@ -194,9 +216,9 @@
 }
 
 .editButton {
-  background-color: black;
-  color: white;
-  border: 1px solid #e2e0e0;
+  background-color: #ebecff;
+  color: black;
+  border: 1px solid #ebecff;
   border-radius: 8px;
   padding: 10px 20px;
   font-size: 16px;
@@ -211,9 +233,9 @@
 
 .emailButton {
   width: 100px;
-  background-color: black;
-  color: white;
-  border: 1px solid #e2e0e0;
+  background-color: #ebecff;
+  color: black;
+  border: 1px solid #ebecff;
   border-radius: 8px;
   padding: 10px 20px;
   font-size: 13px;

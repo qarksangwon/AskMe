@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
-import Logoimg from "../images/Logo.png";
+import Logoimg from "../images/hi.gif";
 import Exitimg from "../images/exit.png";
 import "./findId.css";
 import AxiosApi from "../api/AxiosApi";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+const Img = styled.div`
+  margin-left: 20px;
+
+  &&:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+`;
 
 function FindId() {
   const navigate = useNavigate();
@@ -224,13 +234,14 @@ function FindId() {
               <button className="findIdButton" onClick={findIdClick}>
                 아이디 찾기
               </button>
-              <button className="findExit" onClick={ExitClick}>
+              <Img>
                 <img
                   src={Exitimg}
                   alt="findExit"
-                  style={{ width: "40px", height: "40px" }}
+                  onClick={ExitClick}
+                  style={{ width: "50px", height: "50px" }}
                 />
-              </button>
+              </Img>
             </div>
           </>
         )}

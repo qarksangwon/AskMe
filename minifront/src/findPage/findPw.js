@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
-import Logoimg from "../images/Logo.png";
+import Logoimg from "../images/hi.gif";
 import Exitimg from "../images/exit.png";
 import "./findPw.css";
 import { useNavigate } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
+import styled from "styled-components";
+
+const Img = styled.div`
+  margin-left: 20px;
+
+  &&:hover {
+    cursor: pointer;
+    opacity: 0.3;
+  }
+`;
 
 function FindPw() {
   const findPwNavigate = useNavigate();
@@ -188,13 +198,14 @@ function FindPw() {
         >
           비밀번호 변경
         </button>
-        <button className="findExit" onClick={findPwExitClick}>
+        <Img>
           <img
             src={Exitimg}
             alt="findExit"
-            style={{ width: "40px", height: "40px" }}
+            onClick={findPwExitClick}
+            style={{ width: "50px", height: "50px" }}
           />
-        </button>
+        </Img>
       </div>
       <br />
       {resetPasswordVisible && (

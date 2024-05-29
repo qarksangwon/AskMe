@@ -18,6 +18,10 @@ const Container = styled.div`
   justify-content: center;
   border-radius: 30px;
   margin-bottom: 40px;
+
+  @media (max-width: 430px) {
+    margin-top: 10vh;
+  }
 `;
 
 const Title = styled.div`
