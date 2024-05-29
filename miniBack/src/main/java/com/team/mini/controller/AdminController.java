@@ -76,15 +76,24 @@ public class AdminController {
         return ResponseEntity.ok(users);
     }
 
+    //관리자 채팅방 목록 조회
     @GetMapping("/chatroom")
     public ResponseEntity<List<MemberVO>> getAllChat() {
         List<MemberVO> room = adminDAO.getAllChatroom();
         return ResponseEntity.ok(room);
     }
+    //관리자 채팅방 삭제
     @GetMapping("/roomdelete")
     public ResponseEntity<Boolean> delChat(@RequestParam String id){
         System.out.println("del id : " + id);
         boolean isTrue = adminDAO.deleteChat(id);
+        return ResponseEntity.ok(isTrue);
+    }
+    //관리자 유저 삭제
+    @GetMapping("/userAlldel")
+    public ResponseEntity<Boolean> delUser(@RequestParam String id){
+        System.out.println("del id : " + id);
+        boolean isTrue = adminDAO.deleteUserAll(id);
         return ResponseEntity.ok(isTrue);
     }
 

@@ -157,19 +157,15 @@ const UserList = () => {
   };
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
-    if (confirmDelete) {
+    const confirmed = window.confirm("해당 유저를 삭제하시겠습니까?");
+    if (confirmed) {
       try {
-        const response = await AxiosApi.deleteUserById(id);
-        if (response.data) {
-          alert("삭제되었습니다.");
-          setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
-        } else {
-          alert("삭제에 실패하였습니다.");
-        }
+        await AxiosApi.deleteUser(id);
+        alert("삭제가 완료되었습니다.");
+        window.location.reload();
       } catch (error) {
-        console.error("Error deleting user:", error);
-        alert("삭제 중 오류가 발생하였습니다.");
+        console.error("유저 삭제 중 오류 발생:", error);
+        alert("유저 삭제 중 오류가 발생했습니다.");
       }
     }
   };

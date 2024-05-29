@@ -257,5 +257,53 @@ public class AdminDAO {
         }
         return result==1;
     }
+    //관리자 유저 삭제하기
+//    public boolean deleteUserAll(String id){
+//        int result = 0;
+//        String q = "DELETE FROM USERTB WHERE ID = ?";
+//        try{
+//            conn = Common.getConnection();
+//            pStmt = conn.prepareStatement(q);
+//            pStmt.setString(1,id);
+//            result = pStmt.executeUpdate();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }finally {
+//            Common.close(rs);
+//            Common.close(pStmt);
+//            Common.close(conn);
+//        }
+//        return result==1;
+//    }
+    public boolean deleteUserAll(String id) {
+        int result = 0;
+        Connection conn = null;
+        PreparedStatement pStmt = null;
+        try {
+            conn = getConnection();
+            // 보드 테이블에서 해당 사용자의 ID와 관련된 레코드를 삭제
+            String deleteBoardSql = "DELETE FROM BOARDTB WHERE ID = ?";
+            pStmt = conn.prepareStatement(deleteBoardSql);
+            pStmt.setString(1, id);
+            pStmt.executeUpdate();
 
+            // 채팅방에서 해당 사용자와 관련된 데이터 삭제
+            String deleteChatSql = "DELETE FROM CHATROOM WHERE id = ?";
+            pStmt = conn.prepareStatement(deleteChatSql);
+            pStmt.setString(1, id);
+            pStmt.executeUpdate();
+
+            // 유저 테이블에서 해당 사용자 삭제
+            String deleteUserSql = "DELETE FROM USERTB WHERE ID = ?";
+            pStmt = conn.prepareStatement(deleteUserSql);
+            pStmt.setString(1, id);
+            result = pStmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return result > 0;
+    }
 }

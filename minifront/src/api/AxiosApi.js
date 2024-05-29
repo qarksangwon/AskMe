@@ -191,6 +191,15 @@ const AxiosApi = {
       },
     });
   },
+  // 관리자 유저 삭제
+  deleteUser: async (id) => {
+    console.log(id);
+    return await axios.get(Askme_Domain + "/askme/admin/userAlldel", {
+      params: {
+        id: id,
+      },
+    });
+  },
 };
 
 export default AxiosApi;
