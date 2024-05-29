@@ -188,9 +188,10 @@ const Chat = ({ roomId }) => {
   useEffect(() => {
     console.log("roomId : " + roomId);
     if (!ws.current) {
-      // ws.current = new WebSocket(`ws://192.168.10.17:8111/ws/chat`);
-      ws.current = new WebSocket(`ws://localhost:8111/ws/chat`);
+      ws.current = new WebSocket(`ws://192.168.10.17:8111/ws/chat`);
+      // ws.current = new WebSocket(`ws://localhost:8111/ws/chat`);
       console.log(ws.current);
+
       ws.current.onopen = () => {
         console.log("웹 소켓 connection established");
         setSocketConnected(true);

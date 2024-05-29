@@ -13,8 +13,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/askme/admin")
-@CrossOrigin(origins = "http://localhost:3000")
-//@CrossOrigin(origins = "http://192.168.10.17:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://192.168.10.17:3000")
 public class AdminController {
 
     @Autowired
@@ -97,3 +97,4 @@ public class AdminController {
         return ResponseEntity.ok(isTrue);
     }
 }
+

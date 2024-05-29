@@ -46,6 +46,8 @@ const TableContainer = styled.div`
   width: 90%;
   border-radius: 10px; /* 테이블의 모서리를 둥글게 만듦 */
   overflow: hidden; /* 컨테이너가 테이블의 내용을 가리지 않도록 설정 */
+  overflow-x: auto;
+  overflow-y: auto;
 `;
 
 const Table = styled.table`

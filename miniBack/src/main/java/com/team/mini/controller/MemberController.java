@@ -23,8 +23,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@CrossOrigin(origins = "http://localhost:3000")
-//@CrossOrigin(origins = "http://192.168.10.17:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://192.168.10.17:3000")
 @RestController
 @RequestMapping("/askme")
 public class MemberController {

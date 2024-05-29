@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-@CrossOrigin(origins ="http://localhost:3000" )
+//@CrossOrigin(origins ="http://localhost:3000" )
 @RestController
-//@CrossOrigin(origins = "http://192.168.10.17:3000")
+@CrossOrigin(origins = "http://192.168.10.17:3000")
 @RequestMapping("/askme")
 
 public class BoardController {

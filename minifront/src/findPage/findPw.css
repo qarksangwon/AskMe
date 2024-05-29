@@ -37,7 +37,7 @@
 
 .findpwEmailBox {
   align-items: center;
-  display: flex;
+  display: column;
 }
 
 .findpwInputWrap,

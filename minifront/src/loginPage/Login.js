@@ -71,7 +71,7 @@ function Login() {
 
   const onClickLoginButton = async () => {
     try {
-      if (id === "master" && pw === "master") {
+      if (id === "master" && pw === "master123!!") {
         // 관리자 로그인
         setIsAdmin(true);
       } else {

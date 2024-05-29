@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import exit from "../images/exit.png";
 import AxiosApi from "../api/AxiosApi";
 import Footer from "../customComponent/Footer";
+import Toggle from "../customComponent/Toggle";
 
 const Logo = styled.img`
   width: 150px;
@@ -94,6 +95,7 @@ const Admin = () => {
   return (
     <>
       <Container>
+        <Toggle />
         <Body>
           <Logo src={imgLogo} />
           <BtnContainer>
