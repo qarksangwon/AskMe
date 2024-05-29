@@ -215,4 +215,47 @@ public class AdminDAO {
         }
         return result;
     }
+
+    // 관리자 채팅방 불러오기
+    public List<MemberVO> getAllChatroom() {
+        List<MemberVO> room = new ArrayList<>();
+        String sql = "SELECT * FROM CHATROOM";
+        try {
+            conn = getConnection();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                MemberVO user = new MemberVO();
+                user.setId(rs.getString("ID"));
+                user.setRoomid(rs.getString("ROOMID"));
+                room.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(rs);
+            close(stmt);
+            close(conn);
+        }
+        return room;
+    }
+    // 관리자 채팅방 삭제하기
+    public boolean deleteChat(String id){
+        int result = 0;
+        String q = "DELETE FROM CHATROOM WHERE ID = ?";
+        try{
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(q);
+            pStmt.setString(1,id);
+            result = pStmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            Common.close(rs);
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+        return result==1;
+    }
+
 }

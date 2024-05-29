@@ -177,6 +177,20 @@ const AxiosApi = {
   getAllUsers: async () => {
     return await axios.get(`${Askme_Domain}/askme/admin/users`);
   },
+
+  // 관리자 채팅방 목록
+  getAllChat: async () => {
+    return await axios.get(`${Askme_Domain}/askme/admin/chatroom`);
+  },
+  // 관리자 채팅방 삭제
+  deleteChat: async (id) => {
+    console.log(id);
+    return await axios.get(Askme_Domain + "/askme/admin/roomdelete", {
+      params: {
+        id: id,
+      },
+    });
+  },
 };
 
 export default AxiosApi;

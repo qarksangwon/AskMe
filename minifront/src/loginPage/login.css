@@ -97,6 +97,7 @@
 .exit {
   border: none;
   cursor: pointer;
+  background-color: #ebecff;
 }
 
 .clearExit {

@@ -6,7 +6,6 @@
   width: 100%;
   background-color: #acb3fd;
   overflow: hidden;
-
   flex-direction: column;
 }
 
@@ -81,12 +80,11 @@
   border: 2px solid #ebecff;
   color: black;
   cursor: pointer;
-
   transition: all 0.3s ease-in;
 }
 
 .nickNameCheckButton:hover {
-  background-color: black;
+  background-color: white;
   color: #000000;
   transition: all 0.3s ease-in;
 }
@@ -154,12 +152,18 @@
   transition: all 0.3s ease-in;
 }
 
-.emailButton:hover,
+.emailButton:hover {
+  background-color: white;
+  color: #000000;
+  border: 1px solid black;
+  transition: all 0.3s ease-in;
+}
+
 .verifyButton:hover {
   background-color: white;
   color: #000000;
+  border: 1px solid black;
   transition: all 0.3s ease-in;
-  border: 2px solid black;
 }
 
 .timerWrap {
@@ -243,13 +247,21 @@
   margin-bottom: 40px;
   font-weight: bold;
   border-radius: 64px;
-  background-color: #000000;
-  color: white;
+  background-color: #ebecff;
+  border: 2px solid #ebecff;
+  color: black;
   cursor: pointer;
+}
+.bottomButton:hover {
+  background-color: white;
+  color: #000000;
+  border: 2px solid black;
+  transition: all 0.3s ease-in;
 }
 
 .bottomButton:disabled {
-  background-color: #dadada;
+  background-color: #ebecff;
+  border: 2px solid #ebecff;
   color: white;
 }
 

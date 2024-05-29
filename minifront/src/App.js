@@ -21,6 +21,7 @@ import HomeM from "./mainPage/HomeM";
 import Admin from "./admin/Admin";
 import UserList from "./admin/UserList";
 import AdminBoardList from "./admin/AdminBoardList";
+import ChatRoomList from "./admin/ChatRoomList";
 
 function App() {
   const isMobile = window.innerWidth <= 430;
@@ -67,6 +68,10 @@ function App() {
           <Route path="/askme/admin" element={<Admin />} />
           <Route path="/askme/admin/boardlist" element={<AdminBoardList />} />
           <Route path="/askme/admin/userlist" element={<UserList />} />
+          <Route
+            path="/askme/admin/chatroomlist"
+            element={<ChatRoomList />}
+          ></Route>
         </Routes>
       </Router>
     </>

@@ -1,6 +1,7 @@
 package com.team.mini.controller;
 
 import com.team.mini.dao.AdminDAO;
+import com.team.mini.dao.ChatDAO;
 import com.team.mini.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -75,7 +76,16 @@ public class AdminController {
         return ResponseEntity.ok(users);
     }
 
-
-
+    @GetMapping("/chatroom")
+    public ResponseEntity<List<MemberVO>> getAllChat() {
+        List<MemberVO> room = adminDAO.getAllChatroom();
+        return ResponseEntity.ok(room);
+    }
+    @GetMapping("/roomdelete")
+    public ResponseEntity<Boolean> delChat(@RequestParam String id){
+        System.out.println("del id : " + id);
+        boolean isTrue = adminDAO.deleteChat(id);
+        return ResponseEntity.ok(isTrue);
+    }
 
 }
