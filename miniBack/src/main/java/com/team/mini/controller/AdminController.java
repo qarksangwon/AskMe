@@ -96,5 +96,4 @@ public class AdminController {
         boolean isTrue = adminDAO.deleteUserAll(id);
         return ResponseEntity.ok(isTrue);
     }
-
 }

@@ -258,23 +258,6 @@ public class AdminDAO {
         return result==1;
     }
     //관리자 유저 삭제하기
-//    public boolean deleteUserAll(String id){
-//        int result = 0;
-//        String q = "DELETE FROM USERTB WHERE ID = ?";
-//        try{
-//            conn = Common.getConnection();
-//            pStmt = conn.prepareStatement(q);
-//            pStmt.setString(1,id);
-//            result = pStmt.executeUpdate();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }finally {
-//            Common.close(rs);
-//            Common.close(pStmt);
-//            Common.close(conn);
-//        }
-//        return result==1;
-//    }
     public boolean deleteUserAll(String id) {
         int result = 0;
         Connection conn = null;
