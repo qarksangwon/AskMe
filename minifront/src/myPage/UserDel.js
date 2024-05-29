@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import imgLogo from "../images/Logo.png";
+import imgLogo from "../images/cry.gif";
 import { Link } from "react-router-dom";
 import exit from "../images/exit.png";
 import Toggle from "../customComponent/Toggle";
@@ -8,8 +8,9 @@ import React, { useEffect, useState } from "react";
 import AxiosApi from "../api/AxiosApi";
 
 const Logo = styled.img`
-  width: 150px;
+  width: 200px;
   height: 150px;
+
   @media (max-width: 390px) {
     width: 100px;
     height: 100px;
@@ -17,15 +18,19 @@ const Logo = styled.img`
 `;
 
 const Container = styled.div`
+  background-color: #acb3fd;
   width: 80vw;
-  height: 100vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  border-radius: 30px;
   @media (max-width: 430px) {
-    height: 80vh;
+    height: 70vh;
   }
 `;
 
@@ -40,14 +45,12 @@ const Body = styled.div`
 `;
 
 const Btn = styled.div`
-  background-color: black;
+  background-color: white;
   width: 220px;
   height: 70px;
   font-size: 24px;
-  color: white;
+  color: black;
   margin: 20px;
-  margin-top: 40px;
-  margin-bottom: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,7 +58,7 @@ const Btn = styled.div`
   transition: all 0.5s ease-in-out;
   position: relative;
   transform-style: preserve-3d;
-  border: 3px solid black;
+  border: 3px solid #ebecff;
 
   &:hover {
     cursor: pointer;
@@ -63,7 +66,7 @@ const Btn = styled.div`
     color: black;
     font-weight: 300;
     transition: all 0.2s ease-in-out;
-    border: 2px solid black;
+    border: 3px solid black;
   }
   @media (max-width: 430px) {
     margin-bottom: 20px;
@@ -121,6 +124,7 @@ const UserDel = () => {
     <>
       <Container>
         <Toggle />
+
         <Body>
           <Logo src={imgLogo} />
           <Btn onClick={confirmDelete}>회원 탈퇴</Btn>
@@ -128,8 +132,8 @@ const UserDel = () => {
             <Exit src={exit} />
           </Link>
         </Body>
-        <Footer top={1000} mtop={732} />
       </Container>
+      <Footer />
     </>
   );
 };
