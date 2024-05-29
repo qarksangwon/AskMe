@@ -46,20 +46,11 @@ const TableContainer = styled.div`
   width: 90%;
   border-radius: 10px; /* 테이블의 모서리를 둥글게 만듦 */
   overflow: hidden; /* 컨테이너가 테이블의 내용을 가리지 않도록 설정 */
-  overflow-x: auto; /* 테이블이 가로로 잘리지 않도록 스크롤 가능하게 함 */
-  overflow-y: auto;
-  @media (max-width: 430px) {
-    width: 100%;
-  }
 `;
 
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-  @media (max-width: 430px) {
-    font-size: 0.6em; /* 모바일 화면에서 폰트 크기 조절 */
-    width: 90%;
-  }
 `;
 
 const TableHead = styled.thead`
@@ -86,19 +77,13 @@ const TableRow2 = styled.tr`
 `;
 
 const TableCell = styled.td`
-  padding: 15px 8px;
+  padding: 15px 15px;
   text-align: left;
-  @media (max-width: 430px) {
-    padding: 10px 8px;
-  }
 `;
 
 const TableHeaderCell = styled.th`
-  padding: 15px 8px;
+  padding: 15px 15px;
   text-align: left;
-  @media (max-width: 430px) {
-    padding: 10px 8px;
-  }
 `;
 
 const ListHead = styled.div`
@@ -113,9 +98,6 @@ const SearchInput = styled.input`
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  @media (max-width: 430px) {
-    width: 240px;
-  }
 `;
 
 const Searchlogo = styled.img`
@@ -123,9 +105,18 @@ const Searchlogo = styled.img`
   height: 30px;
   cursor: pointer;
   margin-left: 10px;
-  @media (max-width: 430px) {
-    width: 20px;
-    height: 20px;
+`;
+
+const DeleteButton = styled.button`
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darkred;
   }
 `;
 
@@ -165,6 +156,24 @@ const UserList = () => {
     editExit("/askme/admin");
   };
 
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+    if (confirmDelete) {
+      try {
+        const response = await AxiosApi.deleteUserById(id);
+        if (response.data) {
+          alert("삭제되었습니다.");
+          setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+        } else {
+          alert("삭제에 실패하였습니다.");
+        }
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        alert("삭제 중 오류가 발생하였습니다.");
+      }
+    }
+  };
+
   return (
     <Wrapper>
       <Container>
@@ -183,6 +192,7 @@ const UserList = () => {
                 <TableHeaderCell>이름</TableHeaderCell>
                 <TableHeaderCell>닉네임</TableHeaderCell>
                 <TableHeaderCell>이메일</TableHeaderCell>
+                <TableHeaderCell>삭제</TableHeaderCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -193,6 +203,11 @@ const UserList = () => {
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.nickname}</TableCell>
                   <TableCell>{user.email}</TableCell>
+                  <TableCell>
+                    <DeleteButton onClick={() => handleDelete(user.id)}>
+                      삭제
+                    </DeleteButton>
+                  </TableCell>
                 </TableRow2>
               ))}
             </TableBody>

@@ -94,6 +94,11 @@
   transition: all 0.3s ease-in;
 }
 
+.exit {
+  border: none;
+  cursor: pointer;
+}
+
 .clearExit {
   display: flex;
   justify-content: center;

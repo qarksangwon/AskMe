@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const Askme_Domain = "http://localhost:8111"; //"http://192.168.10.17:8111"; //
+const Askme_Domain = "http://localhost:8111";
+// "http://192.168.10.17:8111";
 
 const AxiosApi = {
   LoginMain: async (id, pwd) => {

@@ -74,4 +74,8 @@ public class AdminController {
         List<MemberVO> users = adminDAO.getUsersByRole(role);
         return ResponseEntity.ok(users);
     }
+
+
+
+
 }

@@ -2,12 +2,14 @@ package com.team.mini.dao;
 
 import com.team.mini.utils.Common;
 import com.team.mini.vo.MemberVO;
+import org.springframework.stereotype.Repository;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.team.mini.utils.Common.getConnection;
-
+@Repository
 public class MemberDAO {
     private Connection conn = null;
     private Statement stmt = null;
@@ -479,6 +481,33 @@ public class MemberDAO {
             e.printStackTrace();
             return false;
         }
+
+    }
+    // 사용자 삭제 메서드
+    public boolean deleteUserById(String id) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        boolean result = false;
+
+        try {
+            conn = Common.getConnection();
+
+            // 삭제 쿼리
+            String deleteSql = "DELETE FROM USERTB WHERE ID = ?";
+            pstmt = conn.prepareStatement(deleteSql);
+            pstmt.setString(1, id);
+            int rowsDeleted = pstmt.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Common.close(pstmt);
+            Common.close(conn);
+        }
+        return result;
     }
 
 }

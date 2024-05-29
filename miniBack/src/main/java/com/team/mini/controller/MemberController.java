@@ -350,7 +350,9 @@ public class MemberController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
     }
+
 }
 
 

@@ -14,4 +14,5 @@ public class MemberVO {
     private String nickname;
     private String email;
     private String roomid;
+    private String role;
 }

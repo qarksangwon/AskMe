@@ -8,6 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.team.mini.utils.Common.close;
+import static com.team.mini.utils.Common.getConnection;
+
 @Repository
 public class AdminDAO {
     private Connection conn = null;
@@ -19,7 +22,7 @@ public class AdminDAO {
     public boolean verifyPassword(String id, String password) {
         String sql = "SELECT COUNT(*) FROM USERTB WHERE ID = ? AND PASSWORD = ?";
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, id);
             pStmt.setString(2, password);
@@ -30,9 +33,9 @@ public class AdminDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Common.close(rs);
-            Common.close(pStmt);
-            Common.close(conn);
+            close(rs);
+            close(pStmt);
+            close(conn);
         }
         return false;
     }
@@ -42,7 +45,7 @@ public class AdminDAO {
         List<MemberVO> users = new ArrayList<>();
         String sql = "SELECT * FROM USERTB";
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -57,9 +60,9 @@ public class AdminDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Common.close(rs);
-            Common.close(stmt);
-            Common.close(conn);
+            close(rs);
+            close(stmt);
+            close(conn);
         }
         return users;
     }
@@ -69,7 +72,7 @@ public class AdminDAO {
         MemberVO user = null;
         String sql = "SELECT * FROM USERTB WHERE ID = ?";
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, id);
             rs = pStmt.executeQuery();
@@ -84,9 +87,9 @@ public class AdminDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Common.close(rs);
-            Common.close(pStmt);
-            Common.close(conn);
+            close(rs);
+            close(pStmt);
+            close(conn);
         }
         return user;
     }
@@ -95,7 +98,7 @@ public class AdminDAO {
     public boolean createUser(MemberVO user) {
         String sql = "INSERT INTO USERTB(ID, PASSWORD, NAME, NICKNAME, EMAIL) VALUES(?, ?, ?, ?, ?)";
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, user.getId());
             pStmt.setString(2, user.getPassword());
@@ -107,8 +110,8 @@ public class AdminDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Common.close(pStmt);
-            Common.close(conn);
+            close(pStmt);
+            close(conn);
         }
         return false;
     }
@@ -117,7 +120,7 @@ public class AdminDAO {
     public boolean updateUser(MemberVO user) {
         String sql = "UPDATE USERTB SET PASSWORD = ?, NAME = ?, NICKNAME = ?, EMAIL = ? WHERE ID = ?";
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, user.getPassword());
             pStmt.setString(2, user.getName());
@@ -129,8 +132,8 @@ public class AdminDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Common.close(pStmt);
-            Common.close(conn);
+            close(pStmt);
+            close(conn);
         }
         return false;
     }
@@ -139,7 +142,7 @@ public class AdminDAO {
     public boolean deleteUser(String id) {
         String sql = "DELETE FROM USERTB WHERE ID = ?";
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, id);
             int result = pStmt.executeUpdate();
@@ -147,8 +150,8 @@ public class AdminDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Common.close(pStmt);
-            Common.close(conn);
+            close(pStmt);
+            close(conn);
         }
         return false;
     }
@@ -158,7 +161,7 @@ public class AdminDAO {
         List<MemberVO> users = new ArrayList<>();
         String sql = "SELECT * FROM USERTB WHERE ROLE = ?";
         try {
-            conn = Common.getConnection();
+            conn = getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, role);
             rs = pStmt.executeQuery();
@@ -174,10 +177,42 @@ public class AdminDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Common.close(rs);
-            Common.close(pStmt);
-            Common.close(conn);
+            close(rs);
+            close(pStmt);
+            close(conn);
         }
         return users;
+    }
+    // 글 삭제 메서드
+    public boolean deleteBoard(int classNo) {
+        Connection conn = null;
+        PreparedStatement pStmt = null;
+        boolean result = false;
+
+        try {
+            conn = getConnection();
+
+            // 1. 글 삭제
+            String deleteSql = "DELETE FROM BOARDTB WHERE CLASSNO = ?";
+            pStmt = conn.prepareStatement(deleteSql);
+            pStmt.setInt(1, classNo);
+            int rows = pStmt.executeUpdate();
+
+            if (rows > 0) {
+                result = true;
+
+                // 2. 글번호 재조정
+                String updateSql = "UPDATE BOARDTB SET CLASSNO = CLASSNO - 1 WHERE CLASSNO > ?";
+                pStmt = conn.prepareStatement(updateSql);
+                pStmt.setInt(1, classNo);
+                pStmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(pStmt);
+            close(conn);
+        }
+        return result;
     }
 }

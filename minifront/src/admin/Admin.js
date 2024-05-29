@@ -1,15 +1,15 @@
 import styled from "styled-components";
-import imgLogo from "../images/Logo.png";
+import imgLogo from "../images/Logotest.gif";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import exit from "../images/exit.png";
 import AxiosApi from "../api/AxiosApi";
-import Toggle from "../customComponent/Toggle";
 import Footer from "../customComponent/Footer";
 
 const Logo = styled.img`
   width: 150px;
   height: 150px;
+  border-radius: 30px;
   @media (max-width: 390px) {
     width: 100px;
     height: 100px;
@@ -18,66 +18,59 @@ const Logo = styled.img`
 
 const Container = styled.div`
   width: 80vw;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Change to space-between */
+  justify-content: space-between;
   align-items: center;
   margin: 0 auto;
-  @media (max-width: 430px) {
-    height: auto;
-  }
 `;
 
 const Body = styled.div`
-  width: 100%; /* Change to 100% to take full width */
-  flex: 1; /* Add flex-grow to take available space */
+  width: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 
-const Btn = styled.div`
-  background-color: black;
-  width: 220px;
-  height: 60px;
-  font-size: 24px;
-  color: white;
-  margin: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+const BtnContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 30px;
-  transition: all 0.5s ease-in-out;
-  position: relative;
-  transform-style: preserve-3d;
-  border: 3px solid black;
-
-  &:hover {
-    cursor: pointer;
-    background-color: white;
-    color: black;
-    font-weight: 300;
-    transition: all 0.2s ease-in-out;
-    border: 2px solid black;
-  }
-  @media (max-width: 430px) {
-    margin-bottom: 20px;
-    width: 180px;
-    height: 50px;
+  width: 800px;
+  @media (max-width: 431px) {
+    width: 400px;
+    flex-direction: column;
   }
 `;
 
-const ButtonContainer = styled.div`
+const Btn = styled.div`
+  width: 220px;
+  height: 60px;
+  margin: 10px;
+  background-color: #acb3fd;
+  color: white;
+  border: 3px solid #acb3fd;
+  border-radius: 20px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  margin-top: 10px;
+  font-size: 20px;
+  transition: all 0.2s ease-in;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+  &:hover {
+    background-color: white;
+    color: #acb3fd;
+    transition: all 0.2s ease-in;
+  }
+  @media (max-width: 431px) {
+    width: 180px;
+    height: 50px;
+  }
 `;
 
 const Exit = styled.img`
@@ -89,31 +82,31 @@ const Exit = styled.img`
     opacity: 0.5;
     transition: all 0.2s ease-in;
   }
-  @media (max-width: 430px) {
-    margin-top: 10px;
-  }
 `;
 
 const Admin = () => {
-  const editExit = useNavigate();
+  const navigate = useNavigate();
+
   const exitClick = () => {
-    editExit("/askme");
+    navigate("/askme");
   };
 
   return (
     <>
       <Container>
-        <Toggle />
         <Body>
           <Logo src={imgLogo} />
-          <ButtonContainer>
+          <BtnContainer>
             <Link to="/askme/admin/userlist">
               <Btn>회원 관리</Btn>
             </Link>
-            <Link to="/askme/userdel">
-              <Btn>회원 통계</Btn>
+            <Link to="/askme/admin/boardlist">
+              <Btn>게시판 목록</Btn>
             </Link>
-          </ButtonContainer>
+            <Link to="/askme/admin/chatroomlist">
+              <Btn>채팅방 목록</Btn>
+            </Link>
+          </BtnContainer>
           <Exit onClick={exitClick} src={exit} />
         </Body>
         <Footer />

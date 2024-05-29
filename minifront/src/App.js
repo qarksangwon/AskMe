@@ -20,6 +20,7 @@ import ChatM from "./chatPage/ChatM";
 import HomeM from "./mainPage/HomeM";
 import Admin from "./admin/Admin";
 import UserList from "./admin/UserList";
+import AdminBoardList from "./admin/AdminBoardList";
 
 function App() {
   const isMobile = window.innerWidth <= 430;
@@ -64,6 +65,7 @@ function App() {
           <Route path="/askme/mypage/confirm" element={<PasswordConfirm />} />
           <Route path="/askme/mypage/edit-info" element={<EditInfo />} />
           <Route path="/askme/admin" element={<Admin />} />
+          <Route path="/askme/admin/boardlist" element={<AdminBoardList />} />
           <Route path="/askme/admin/userlist" element={<UserList />} />
         </Routes>
       </Router>
