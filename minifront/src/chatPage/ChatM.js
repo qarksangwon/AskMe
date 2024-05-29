@@ -14,7 +14,7 @@ const Container = styled.div`
 `;
 
 const Navbar = styled.div`
-  width: 100vw;
+  width: 98vw;
   height: 5vh;
   border-bottom: 2px solid black;
   display: flex;
@@ -24,14 +24,14 @@ const Navbar = styled.div`
 
 const ChatContainer = styled.div`
   width: 100vw;
-  height: 95vh;
+  height: 85vh;
   display: flex;
   flex-direction: column;
 `;
 
 const MessagesContainer = styled.div`
   width: 100%;
-  height: auto;
+  height: 882px;
   border: 2px solid black;
   border: 0px;
   display: flex;
@@ -41,15 +41,15 @@ const MessagesContainer = styled.div`
 `;
 
 const SendContainer = styled.div`
-  width: 100%;
-  height: 50px;
+  width: 98%;
+  height: 0px;
   border-top: 2px solid black;
   display: flex;
 `;
 
 const Input = styled.input`
-  width: 84%;
-  height: 46px;
+  width: 100%;
+  height: 40px;
   border: 0px;
   font-size: 14px;
   border-radius: 0px 0px 0px 30px;
