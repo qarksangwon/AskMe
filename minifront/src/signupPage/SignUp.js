@@ -24,7 +24,6 @@ function SignUp() {
   const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
-  const [url, setUrl] = useState("");
 
   const [nameValid, setNameValid] = useState(false);
   const [nicknameValid, setNickNameValid] = useState(false);
@@ -283,12 +282,7 @@ function SignUp() {
         <br />
 
         <div>
-          <ImageUploader
-            setUrl={setUrl}
-            usernickname={id}
-            uploadTrigger={uploadTrigger}
-          />
-          {url && <img src={url} alt="uploaded" />}
+          <ImageUploader usernickname={id} uploadTrigger={uploadTrigger} />
         </div>
 
         <div className="contentWrap">

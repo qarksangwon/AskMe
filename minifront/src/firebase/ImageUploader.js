@@ -4,7 +4,7 @@ import { storage } from "../api/Fb";
 import "./imgUpload.css";
 import { useNavigate } from "react-router-dom";
 
-const ImageUploader = ({ setUrl, usernickname, uploadTrigger }) => {
+const ImageUploader = ({ usernickname, uploadTrigger }) => {
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [error, setError] = useState("");
@@ -68,7 +68,7 @@ const ImageUploader = ({ setUrl, usernickname, uploadTrigger }) => {
         console.log("File uploaded successfully!");
         getDownloadURL(snapshot.ref).then((url) => {
           console.log("저장경로 확인 : " + url);
-          setUrl(url);
+
           // setsignup(true);
         });
       })
