@@ -41,6 +41,9 @@ const Searchlogo = styled.img`
   height: 30px;
   cursor: pointer;
   margin-right: 100px;
+  @media (max-width: 430px) {
+    margin-right: 0px;
+  }
 `;
 
 const Exit = styled.img`

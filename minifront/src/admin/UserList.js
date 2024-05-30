@@ -5,6 +5,7 @@ import AxiosApi from "../api/AxiosApi";
 import imgLogo from "../images/boardlogo.png";
 import exit from "../images/exit.png";
 import logosearch from "../images/search.png";
+import { ScaleLoader } from "react-spinners";
 
 const Wrapper = styled.div`
   display: flex;
@@ -100,6 +101,9 @@ const SearchInput = styled.input`
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  @media (max-width: 430px) {
+    width: 240px;
+  }
 `;
 
 const Searchlogo = styled.img`
@@ -107,6 +111,10 @@ const Searchlogo = styled.img`
   height: 30px;
   cursor: pointer;
   margin-left: 10px;
+  @media (max-width: 430px) {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 const DeleteButton = styled.button`
@@ -137,25 +145,39 @@ const Exit = styled.img`
   }
 `;
 
+const Loading = styled.div`
+  display: flex;
+  width: 150px;
+`;
+
 const UserList = () => {
   const [users, setUsers] = useState([]);
   const editExit = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [originalRooms, setOriginalRooms] = useState([]);
+  const [activeRooms, setActiveRooms] = useState([]); // 현재 활성화된 데이터셋을 추적하는 상태 추가
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [filteredrooms, setFilteredrooms] = useState([]);
+  const itemsPerPage = 4;
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await AxiosApi.getAllUsers();
-        setUsers(response.data);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-
-    fetchUsers();
+    RoomList();
   }, []);
 
   const exitClick = () => {
     editExit("/askme/admin");
+  };
+
+  const RoomList = async () => {
+    try {
+      const rsp = await AxiosApi.getAllUsers();
+      setOriginalRooms(rsp.data);
+      setActiveRooms(rsp.data); // 초기에는 originalRooms를 activeRooms로 설정
+      setUsers(rsp.data.slice(0, itemsPerPage)); // 처음 로드 시 첫 페이지 데이터로 설정
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleDelete = async (id) => {
@@ -172,15 +194,66 @@ const UserList = () => {
     }
   };
 
+  const Lodingwait = () => {
+    setLoading(true); // 로딩 상태를 true로 설정
+    setTimeout(() => {
+      setLoading(false); // 700ms 후에 로딩 상태를 false로 설정
+    }, 700);
+  };
+
+  const handleSearch = () => {
+    setLoading(true); // 검색이 시작될 때 로딩 상태 활성화
+
+    setTimeout(() => {
+      if (searchTerm === "") {
+        setFilteredrooms(originalRooms);
+        setActiveRooms(originalRooms);
+      } else {
+        const searchResults = originalRooms.filter(
+          (user) =>
+            user.id && user.id.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredrooms(searchResults);
+        setActiveRooms(searchResults);
+      }
+      setLoading(false); // 검색이 완료되면 로딩 상태 비활성화
+      setPage(1); // 페이지 상태를 첫 페이지로 초기화
+    }, 700);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  useEffect(() => {
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentrooms = activeRooms.slice(startIndex, endIndex);
+    setUsers(currentrooms);
+  }, [page, activeRooms]);
+
   return (
     <Wrapper>
       <Container>
         <Logo src={imgLogo} />
         <Title>회원 목록</Title>
         <ListHead>
-          <SearchInput placeholder="검색 제목 입력" />
-          <Searchlogo src={logosearch} />
+          <SearchInput
+            placeholder="사용자 ID 검색"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={handleKeyPress}
+          />
+          <Searchlogo
+            src={logosearch}
+            onClick={() => {
+              handleSearch();
+            }}
+          />
         </ListHead>
+        <Loading>{loading && <ScaleLoader width={5} color="black" />}</Loading>
         <TableContainer>
           <Table>
             <TableHead>
