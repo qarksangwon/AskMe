@@ -173,6 +173,7 @@ const ChatMain = ({ roomId, setRoomId }) => {
   const confirmDeleteChatRoom = () => {
     if (window.confirm("채팅방을 삭제하시겠습니까?")) {
       handleChatDelete(); // 확인 버튼을 누르면 삭제 함수를 호출합니다.
+      alert("삭제가 완료되었습니다");
     }
   };
   const chatExist = async () => {

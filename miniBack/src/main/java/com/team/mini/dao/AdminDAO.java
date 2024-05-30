@@ -43,7 +43,7 @@ public class AdminDAO {
     // 모든 사용자 조회
     public List<MemberVO> getAllUsers() {
         List<MemberVO> users = new ArrayList<>();
-        String sql = "SELECT * FROM USERTB WHERE ID <> 'MASTER'";
+        String sql = "SELECT * FROM USERTB WHERE ID <> 'master'";
         try {
             conn = getConnection();
             stmt = conn.createStatement();

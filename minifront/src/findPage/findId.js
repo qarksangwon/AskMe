@@ -133,6 +133,7 @@ function FindId() {
     } catch (error) {
       console.error(error);
       alert("아이디 찾기 중 오류가 발생했습니다");
+      window.location.reload();
     }
   };
 

@@ -324,7 +324,7 @@ const AdminBoardList = () => {
             <Loading>
               {loading && <ScaleLoader width={5} color="black" />}
             </Loading>
-            <Link to="/askme">
+            <Link to="/askme/admin">
               <Exit src={exit} />
             </Link>
           </Boardhead>

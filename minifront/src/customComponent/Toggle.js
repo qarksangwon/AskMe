@@ -181,6 +181,8 @@ const Toggle = () => {
     }
   };
 
+  const toggleNavigate = useNavigate();
+
   useEffect(() => {
     if (userNickname) {
       const imageRef = ref(storage, `images/${userNickname}`);
@@ -253,7 +255,7 @@ const Toggle = () => {
                 setUserNickname("");
                 localStorage.setItem("userId", "");
                 localStorage.setItem("userNickname", "");
-                window.location.reload();
+                toggleNavigate("/askme/login");
               }}
             >
               로그아웃

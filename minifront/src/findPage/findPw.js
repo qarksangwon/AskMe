@@ -116,6 +116,7 @@ function FindPw() {
         setPwEmailVerify(false);
         setPwIsVerified(false);
         setNewPassword("");
+        findPwNavigate("/askme/login");
       }
     } catch (error) {
       console.error(error);
