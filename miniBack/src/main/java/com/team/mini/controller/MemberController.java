@@ -100,6 +100,8 @@ public class MemberController {
             response.put("success", true);
             response.put("userId", member.getId());
             response.put("nickname", member.getNickname()); // 닉네임 포함
+            response.put("name", member.getName());
+            response.put("email", member.getEmail());
         } else {
             response.put("success", false);
         }

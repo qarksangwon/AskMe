@@ -1,20 +1,13 @@
 import styled from "styled-components";
-import imgLogo from "../images/jump.gif";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import exit from "../images/exit.png";
 import AxiosApi from "../api/AxiosApi";
 import Toggle from "../customComponent/Toggle";
 import Footer from "../customComponent/Footer";
-
-const Logo = styled.img`
-  width: 150px;
-  height: 150px;
-  @media (max-width: 390px) {
-    width: 100px;
-    height: 100px;
-  }
-`;
+import { ref, getDownloadURL } from "firebase/storage";
+import profileLogo from "../images/profileLogo.png";
+import { storage } from "../api/Fb";
 
 const Container = styled.div`
   background-color: #acb3fd;
@@ -110,21 +103,84 @@ const FoundIdMessage = styled.div`
   }
 `;
 
+const UserInfo = styled.div`
+  display: flex;
+`;
+
+const ProfileImage = styled.img`
+  width: 100px;
+  height: 100px;
+  border: 1px solid #d6d9fe;
+  border-radius: 10%;
+  background-color: white;
+  cursor: pointer;
+  box-shadow: 0 2px 5px 3px rgba(0, 0, 0, 0.1);
+  opacity: ${(props) => (props.visible ? 1 : 0)};
+  margin-right: 30px;
+  margin-left: 20px;
+  @media (max-width: 430px) {
+    margin-right: 10px;
+  }
+`;
+
+const UserName = styled.div`
+  margin-top: 25px;
+  span {
+    color: #b43cc2;
+  }
+  div {
+    margin-bottom: 6px;
+  }
+  div:last-child {
+    margin-bottom: 0;
+  }
+  @media (max-width: 430px) {
+    margin-top: 30px;
+    font-size: 13px;
+  }
+`;
+const UserNick = styled.div`
+  margin-top: 25px;
+  font-size: 23px;
+  span {
+    color: #d147e5;
+  }
+  @media (max-width: 430px) {
+    font-size: 20px;
+  }
+`;
+
 const MyPage = () => {
   const [isIdFound, setIsIdFound] = useState(false);
+  const [isClick, setIsClick] = useState(true);
   const [roomNum, setroomNum] = useState("");
-  const [roomid, setRoomid] = useState("");
+  const [userId, setUserId] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [UserNickname, setUserNickname] = useState("");
+  const [imageUrl, setImageUrl] = useState(profileLogo);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
+    setUserId(localStorage.getItem("userId"));
+    setUserNickname(localStorage.getItem("userNickname"));
+    setUserName(localStorage.getItem("userName"));
+    setUserEmail(localStorage.getItem("userEmail"));
   }, []);
 
   const handleButtonClick = async () => {
-    const userId = localStorage.getItem("userId");
     try {
       const response = await AxiosApi.getRoomId(userId);
       setroomNum(response.data);
       setIsIdFound(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const ImgClick = async () => {
+    try {
+      setIsClick(true);
     } catch (error) {
       console.error(error);
     }
@@ -135,29 +191,76 @@ const MyPage = () => {
     setIsIdFound(false);
     editExit("/askme");
   };
+  const exitClick2 = () => {
+    setIsIdFound(false);
+    editExit("/askme/mypage");
+  };
+
+  useEffect(() => {
+    if (userId) {
+      const imageRef = ref(storage, `images/${userId}`);
+      getDownloadURL(imageRef)
+        .then((url) => {
+          setImageUrl(url);
+          setTimeout(() => {
+            setVisible(true); // 1초 후에 visible 상태를 true로 변경
+          }, 300);
+        })
+        .catch((error) => {
+          console.error("이미지 다운로드 URL 가져오기 실패:", error);
+          setVisible(true);
+        });
+    }
+  }, [userId]);
 
   return (
     <>
       <Container>
         <Toggle />
         <Body>
-          <Logo src={imgLogo} />
+          <UserInfo>
+            <ProfileImage
+              onClick={ImgClick}
+              src={imageUrl}
+              filename={userId}
+              visible={visible}
+            />
+            <UserName>
+              <div>
+                아이디 : <span>{userId}</span>
+              </div>
+              <div>
+                이름 : <span>{userName}</span>
+              </div>
+              <div>
+                이메일 : <span>{userEmail}</span>
+              </div>
+            </UserName>
+          </UserInfo>
+          <UserNick>
+            <span>{UserNickname}</span> 님 안녕하세요.
+          </UserNick>
           {isIdFound ? (
-            <FoundIdMessage>
-              나의 채팅방 번호 : <span>{roomNum}</span>
-            </FoundIdMessage>
+            <>
+              <FoundIdMessage>
+                나의 채팅방 번호 : <span>{roomNum}</span>
+              </FoundIdMessage>
+              <Exit onClick={exitClick2} src={exit} />
+            </>
           ) : (
-            <ButtonContainer>
-              <Link to="/askme/mypage/confirm">
-                <Btn>정보 수정</Btn>
-              </Link>
-              <Btn onClick={handleButtonClick}>나의 채팅방</Btn>
-              <Link to="/askme/userdel">
-                <Btn>회원 탈퇴</Btn>
-              </Link>
-            </ButtonContainer>
+            <>
+              <ButtonContainer>
+                <Link to="/askme/mypage/confirm">
+                  <Btn>정보 수정</Btn>
+                </Link>
+                <Btn onClick={handleButtonClick}>나의 채팅방</Btn>
+                <Link to="/askme/userdel">
+                  <Btn>회원 탈퇴</Btn>
+                </Link>
+              </ButtonContainer>
+              <Exit onClick={exitClick} src={exit} />
+            </>
           )}
-          <Exit onClick={exitClick} src={exit} />
         </Body>
       </Container>
       <Footer />

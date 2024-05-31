@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import imgLogo from "../images/Logotest.gif";
 import { Link, useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import exit from "../images/exit.png";
-import AxiosApi from "../api/AxiosApi";
 import Footer from "../customComponent/Footer";
 import Toggle from "../customComponent/Toggle";
 
@@ -11,6 +10,7 @@ const Logo = styled.img`
   width: 150px;
   height: 150px;
   border-radius: 30px;
+  margin-top: 150px;
   @media (max-width: 390px) {
     width: 100px;
     height: 100px;
@@ -41,6 +41,7 @@ const BtnContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 50px;
   width: 800px;
   @media (max-width: 431px) {
     width: 400px;
@@ -52,6 +53,7 @@ const Btn = styled.div`
   width: 220px;
   height: 60px;
   margin: 10px;
+  margin-top: 20px;
   background-color: #acb3fd;
   color: white;
   border: 3px solid #acb3fd;
@@ -79,6 +81,8 @@ const Exit = styled.img`
   height: 70px;
   cursor: pointer;
   transition: all 0.2s ease-in;
+  margin-top: 30px;
+  margin-bottom: 40px;
   &:hover {
     opacity: 0.5;
     transition: all 0.2s ease-in;

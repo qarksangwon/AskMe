@@ -255,6 +255,8 @@ const Toggle = () => {
                 setUserNickname("");
                 localStorage.setItem("userId", "");
                 localStorage.setItem("userNickname", "");
+                localStorage.setItem("userName", "");
+                localStorage.setItem("userEmail", "");
                 toggleNavigate("/askme/login");
               }}
             >

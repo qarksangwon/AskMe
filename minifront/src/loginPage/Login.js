@@ -11,6 +11,8 @@ function Login() {
   const [isLogin, setIsLogin] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [nickname, setNickname] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
 
   const handleIdChange = (e) => {
     setId(e.target.value);
@@ -50,10 +52,12 @@ function Login() {
     } else if (isLogin) {
       localStorage.setItem("userId", id);
       localStorage.setItem("userNickname", nickname);
+      localStorage.setItem("userName", name);
+      localStorage.setItem("userEmail", email);
       alert("로그인에 성공했습니다");
       navigate("/askme"); // 일반 사용자 페이지로 이동
     }
-  }, [isLogin, isAdmin, navigate, id, nickname]);
+  }, [isLogin, isAdmin, navigate, id, nickname, name, email]);
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -78,6 +82,8 @@ function Login() {
         const rsp = await AxiosApi.LoginMain(id, pw);
         if (rsp.data.success) {
           setNickname(rsp.data.nickname);
+          setName(rsp.data.name);
+          setEmail(rsp.data.email);
           setIsLogin(true);
         } else {
           alert("로그인에 실패했습니다");
