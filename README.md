@@ -171,6 +171,6 @@ __WebSocket 방식으로 실시간 채팅을 구현해보고__, Front와 Back을
 
 ___협업 때 사용했던 Notion 입니다. 프로젝트 진행 과정과 발표 자료가 담겨져 있습니다.___
 
-  <a href="https://www.notion.so/da5eed63839141c584fb3d100e004287">
+  <a href="https://www.notion.so/sangdolstudy/ASKME-0def579f2e314c96a7daf867d7866038">
     <img src="https://img.shields.io/badge/TeamProject-A374DB?style=for-the-badge&logo=notion&logoColor=#ECD53F">
   </a>
